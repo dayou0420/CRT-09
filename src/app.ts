@@ -104,3 +104,7 @@ const downloadedData: DownloadedData = {
     id: 1
 };
 console.log(downloadedData.user?.name?.first);
+/***
+ * 80
+*/
+const userData = downloadedData.user ?? 'no-user';

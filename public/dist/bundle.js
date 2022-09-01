@@ -5,7 +5,7 @@ var __webpack_exports__ = {};
   !*** ./src/app.ts ***!
   \********************/
 
-var _a, _b;
+var _a, _b, _c;
 ;
 const quill = {
     name: 'Quill',
@@ -75,6 +75,10 @@ const downloadedData = {
     id: 1
 };
 console.log((_b = (_a = downloadedData.user) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.first);
+/***
+ * 80
+*/
+const userData = (_c = downloadedData.user) !== null && _c !== void 0 ? _c : 'no-user';
 
 /******/ })()
 ;
