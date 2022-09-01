@@ -88,3 +88,19 @@ const desiner: Desiner = {
     name: 'Quill',
     role: 'web'
 }
+/***
+ * 79
+*/
+interface DownloadedData {
+    id: number;
+    user?: {
+        name?: {
+            first: string;
+            last: string;
+        }
+    }
+}
+const downloadedData: DownloadedData = {
+    id: 1
+};
+console.log(downloadedData.user?.name?.first);
