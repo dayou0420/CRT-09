@@ -108,3 +108,7 @@ console.log(downloadedData.user?.name?.first);
  * 80
 */
 const userData = downloadedData.user ?? 'no-user';
+/***
+ * 81
+*/
+type id = DownloadedData["id" | "user"];
