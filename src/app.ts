@@ -177,3 +177,7 @@ const perter = {
     name: 'Perter',
     age: 38
 } as const;
+/***
+ * 90
+*/
+type PerterType = typeof perter;
