@@ -38,15 +38,26 @@ const upperHello: TmpFunc = function (x: string | number) { return 0 };
 /***
  * 85
 */
+// interface FuncA {
+//     (a: number, b: string): number;
+//     (a: string, b: number): number;
+// }
+// interface FuncB {
+//     (a: string): number;
+// }
+// let intersectionFunc: FuncA & FuncB;
+// intersectionFunc = function(a: number | string, b?: number | string){ return 0 };
+/***
+ * 86
+*/
 interface FuncA {
-    (a: number, b: string): number;
-    (a: string, b: number): number;
+    (a: number): number;
 }
 interface FuncB {
-    (a: string): number;
+    (a: string): string;
 }
-let intersectionFunc: FuncA & FuncB;
-intersectionFunc = function(a: number | string, b?: number | string){ return 0 };
+let unionFunc: FuncA | FuncB;
+unionFunc = function (a: string) { return 'hi' };
 // const upperHello = toUpperCase('hello');
 // const upperHello = toUpperCase;
 // upperHello('hi');
