@@ -20,7 +20,7 @@ type NumberBoolean = number | boolean;
 type StringNumber = string | number;
 type Mix = NumberBoolean & StringNumber;
 /***
- * 73, 78
+ * 73, 78, 84
 */
 function toUpperCase(x: string): string;
 function toUpperCase(x: number): number;
@@ -30,7 +30,17 @@ function toUpperCase(x: string | number) {
     }
     return x;
 }
-const upperHello = toUpperCase('hello');
+interface TmpFunc {
+    (x: string): number;
+    (x: number): number;
+}
+const upperHello: TmpFunc = function (x: string | number) {
+    return 0;
+}
+// const upperHello = toUpperCase('hello');
+// const upperHello = toUpperCase;
+// upperHello('hi');
+//  upperHello(32);
 type NomadWorker = Engineer | Blogger;
 function describeProfile(nomadWorker: NomadWorker) {
     console.log(nomadWorker.name);
