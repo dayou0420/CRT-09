@@ -18,7 +18,9 @@ function toUpperCase(x) {
     }
     return x;
 }
-const upperHello = toUpperCase('hello');
+const upperHello = function (x) { return 0; };
+let unionFunc;
+unionFunc = function (a) { return 'hi'; };
 function describeProfile(nomadWorker) {
     console.log(nomadWorker.name);
     if ('role' in nomadWorker) {
@@ -65,8 +67,6 @@ havePet(new Bird());
  * 75, 76
 */
 const input = document.getElementById('input');
-// const input = document.getElementById('input')!;
-input.value = 'initial input value';
 const desiner = {
     name: 'Quill',
     role: 'web'
@@ -101,7 +101,23 @@ class AdvancedCar {
 }
 let target = new AdvancedPerson();
 let source = new AdvancedCar();
-target = source;
+// target = source;
+/***
+ * 87, 88
+*/
+function advancedFn(...args) {
+}
+advancedFn(0, 1);
+/***
+ * 89
+*/
+const milk = 'milk';
+let drink = milk;
+const array = [10, 20];
+const perter = {
+    name: 'Perter',
+    age: 38
+};
 
 /******/ })()
 ;

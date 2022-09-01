@@ -20,7 +20,7 @@ type NumberBoolean = number | boolean;
 type StringNumber = string | number;
 type Mix = NumberBoolean & StringNumber;
 /***
- * 73, 78
+ * 73, 78, 84
 */
 function toUpperCase(x: string): string;
 function toUpperCase(x: number): number;
@@ -30,7 +30,38 @@ function toUpperCase(x: string | number) {
     }
     return x;
 }
-const upperHello = toUpperCase('hello');
+interface TmpFunc {
+    (x: string): number;
+    (x: number): number;
+}
+const upperHello: TmpFunc = function (x: string | number) { return 0 };
+/***
+ * 85
+*/
+// interface FuncA {
+//     (a: number, b: string): number;
+//     (a: string, b: number): number;
+// }
+// interface FuncB {
+//     (a: string): number;
+// }
+// let intersectionFunc: FuncA & FuncB;
+// intersectionFunc = function(a: number | string, b?: number | string){ return 0 };
+/***
+ * 86
+*/
+interface FuncA {
+    (a: number): number;
+}
+interface FuncB {
+    (a: string): string;
+}
+let unionFunc: FuncA | FuncB;
+unionFunc = function (a: string) { return 'hi' };
+// const upperHello = toUpperCase('hello');
+// const upperHello = toUpperCase;
+// upperHello('hi');
+//  upperHello(32);
 type NomadWorker = Engineer | Blogger;
 function describeProfile(nomadWorker: NomadWorker) {
     console.log(nomadWorker.name);
@@ -76,7 +107,7 @@ havePet(new Bird());
 */
 const input = document.getElementById('input') as HTMLInputElement;
 // const input = document.getElementById('input')!;
-input.value = 'initial input value';
+// input.value = 'initial input value';
 /***
  * 77
 */
@@ -129,4 +160,24 @@ class AdvancedCar {
 }
 let target = new AdvancedPerson();
 let source = new AdvancedCar();
-target = source;
+// target = source;
+/***
+ * 87, 88
+*/
+function advancedFn(...args: readonly number[]) {
+}
+advancedFn(0, 1);
+/***
+ * 89
+*/
+const milk = 'milk' as const;
+let drink = milk;
+const array = [10, 20] as const;
+const perter = {
+    name: 'Perter',
+    age: 38
+} as const;
+/***
+ * 90
+*/
+type PerterType = typeof perter;
