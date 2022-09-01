@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap");
+body {
+  font-family: "Sora", sans-serif;
+}
+
+body .container {
+  display: flex;
+  justify-content: center;
+}
+
+body .title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #333;
+  font-size: 4em;
+}
