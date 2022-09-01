@@ -167,3 +167,13 @@ let source = new AdvancedCar();
 function advancedFn(...args: readonly number[]) {
 }
 advancedFn(0, 1);
+/***
+ * 89
+*/
+const milk = 'milk' as const;
+let drink = milk;
+const array = [10, 20] as const;
+const perter = {
+    name: 'Perter',
+    age: 38
+} as const;

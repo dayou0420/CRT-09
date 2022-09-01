@@ -108,6 +108,16 @@ let source = new AdvancedCar();
 function advancedFn(...args) {
 }
 advancedFn(0, 1);
+/***
+ * 89
+*/
+const milk = 'milk';
+let drink = milk;
+const array = [10, 20];
+const perter = {
+    name: 'Perter',
+    age: 38
+};
 
 /******/ })()
 ;
