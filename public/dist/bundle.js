@@ -68,6 +68,10 @@ havePet(new Bird());
 const input = document.getElementById('input');
 // const input = document.getElementById('input')!;
 input.value = 'initial input value';
+const desiner = {
+    name: 'Quill',
+    role: 'web'
+};
 
 /******/ })()
 ;

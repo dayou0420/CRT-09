@@ -74,3 +74,14 @@ havePet(new Bird());
 const input = document.getElementById('input') as HTMLInputElement;
 // const input = document.getElementById('input')!;
 input.value = 'initial input value';
+/***
+ * 77
+*/
+interface Desiner {
+    name: string;
+    [index: string]: string;
+}
+const desiner: Desiner = {
+    name: 'Quill',
+    role: 'web'
+}
