@@ -181,3 +181,10 @@ const perter = {
  * 90
 */
 type PerterType = typeof perter;
+/***
+ * 93
+*/
+function copy<T>(value: T): T {
+    return value;
+}
+console.log(copy({ name: 'Quill' }));

@@ -118,6 +118,13 @@ const perter = {
     name: 'Perter',
     age: 38
 };
+/***
+ * 93
+*/
+function copy(value) {
+    return value;
+}
+console.log(copy({ name: 'Quill' }));
 
 /******/ })()
 ;
