@@ -69,7 +69,8 @@ function havePet(pet: Pet) {
 }
 havePet(new Bird());
 /***
- * 75
+ * 75, 76
 */
 const input = document.getElementById('input') as HTMLInputElement;
+// const input = document.getElementById('input')!;
 input.value = 'initial input value';
