@@ -112,3 +112,21 @@ const userData = downloadedData.user ?? 'no-user';
  * 81
 */
 type id = DownloadedData["id" | "user"];
+/***
+ * 82
+*/
+enum Color {
+    RED,
+    BLUE
+}
+class AdvancedPerson {
+    name: string = 'Peter';
+    age: number = 35;
+}
+class AdvancedCar {
+    name: string = 'Prius';
+    age: number = 5;
+}
+let target = new AdvancedPerson();
+let source = new AdvancedCar();
+target = source;
