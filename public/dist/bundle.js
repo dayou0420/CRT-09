@@ -104,6 +104,12 @@ class AdvancedCar {
 let target = new AdvancedPerson();
 let source = new AdvancedCar();
 target = source;
+/***
+ * 87
+*/
+function advancedFn(...args) {
+}
+advancedFn(0, 'hi', true, 3, 3, 3, 3);
 
 /******/ })()
 ;

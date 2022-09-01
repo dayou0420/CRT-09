@@ -161,3 +161,9 @@ class AdvancedCar {
 let target = new AdvancedPerson();
 let source = new AdvancedCar();
 target = source;
+/***
+ * 87
+*/
+function advancedFn(...args: [number, string, boolean?, ...number[]]) {
+}
+advancedFn(0, 'hi', true, 3, 3, 3, 3);
