@@ -67,8 +67,6 @@ havePet(new Bird());
  * 75, 76
 */
 const input = document.getElementById('input');
-// const input = document.getElementById('input')!;
-input.value = 'initial input value';
 const desiner = {
     name: 'Quill',
     role: 'web'
@@ -103,13 +101,13 @@ class AdvancedCar {
 }
 let target = new AdvancedPerson();
 let source = new AdvancedCar();
-target = source;
+// target = source;
 /***
- * 87
+ * 87, 88
 */
 function advancedFn(...args) {
 }
-advancedFn(0, 'hi', true, 3, 3, 3, 3);
+advancedFn(0, 1);
 
 /******/ })()
 ;

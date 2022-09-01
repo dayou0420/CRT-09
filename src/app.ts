@@ -107,7 +107,7 @@ havePet(new Bird());
 */
 const input = document.getElementById('input') as HTMLInputElement;
 // const input = document.getElementById('input')!;
-input.value = 'initial input value';
+// input.value = 'initial input value';
 /***
  * 77
 */
@@ -160,10 +160,10 @@ class AdvancedCar {
 }
 let target = new AdvancedPerson();
 let source = new AdvancedCar();
-target = source;
+// target = source;
 /***
- * 87
+ * 87, 88
 */
-function advancedFn(...args: [number, string, boolean?, ...number[]]) {
+function advancedFn(...args: readonly number[]) {
 }
-advancedFn(0, 'hi', true, 3, 3, 3, 3);
+advancedFn(0, 1);
