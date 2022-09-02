@@ -119,12 +119,13 @@ const perter = {
     age: 38
 };
 /***
- * 93, 94
+ * 93, 94, 95
 */
-function copy(value) {
+function copy(value, key) {
+    value[key];
     return value;
 }
-console.log(copy({ name: 'Quill' }));
+console.log(copy({ name: 'Quill', age: 38 }, 'name'));
 // https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
 // number型
 /*

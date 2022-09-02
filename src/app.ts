@@ -182,12 +182,13 @@ const perter = {
 */
 type PerterType = typeof perter;
 /***
- * 93, 94
+ * 93, 94, 95
 */
-function copy<T extends { name: string }>(value: T): T {
+function copy<T extends { name: string }, U extends keyof T>(value: T, key: U): T {
+    value[key];
     return value;
 }
-console.log(copy({ name: 'Quill' }));
+console.log(copy({ name: 'Quill', age: 38 }, 'name'));
 // https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
 // number型
 /*
