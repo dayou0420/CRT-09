@@ -205,6 +205,10 @@ stringLightDatabase.add('Banana');
 stringLightDatabase.add('Grape');
 stringLightDatabase.remove('Banana');
 console.log(stringLightDatabase.get());
+const tmpDatebase = {
+    id: 3,
+    data: [32]
+};
 
 /******/ })()
 ;

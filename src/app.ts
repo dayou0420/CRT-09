@@ -266,3 +266,14 @@ stringLightDatabase.add('Banana');
 stringLightDatabase.add('Grape');
 stringLightDatabase.remove('Banana');
 console.log(stringLightDatabase.get());
+/***
+ * 97
+*/
+interface TmpDatabase<T> {
+    id: number;
+    data: T[]
+}
+const tmpDatebase: TmpDatabase<number> = {
+    id: 3,
+    data: [32]
+}
