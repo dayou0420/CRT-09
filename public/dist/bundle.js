@@ -235,42 +235,52 @@ let tmp5;
  * 104, 105, 107
 */
 function Logging(message) {
-    // console.log('Logging Factory');
     return function (constructor) {
         console.log(message);
         console.log(constructor);
     };
 }
 /***
- * 106, 107
+ * 106, 107, 108
 */
 function Component(template, selector) {
-    // console.log('Component Factory');
     return function (constructor) {
         const mountedElement = document.querySelector(selector);
-        // console.log('Componet');
         const instance = new constructor();
         if (mountedElement) {
             mountedElement.innerHTML = template;
             mountedElement.querySelector('h1').textContent = instance.name;
         }
+        return class extends constructor {
+            constructor(...args) {
+                super(...args);
+                console.log('Component');
+                const mountedElement = document.querySelector(selector);
+                const instance = new constructor();
+                if (mountedElement) {
+                    mountedElement.innerHTML = template;
+                    mountedElement.querySelector('h1').textContent = instance.name;
+                }
+            }
+        };
     };
 }
 let User = 
 // @Logging('Logging User')
 class User {
-    constructor() {
+    constructor(age) {
+        this.age = age;
         this.name = 'Quill';
-        // console.log('User was created!');
+        console.log('User was created!');
     }
 };
 User = __decorate([
     Component('<h1>{{ name }}</h1>', '#app')
     // @Logging('Logging User')
 ], User);
-// const user1 = new User();
-// const user2 = new User();
-// const user3 = new User();
+const user1 = new User(32);
+const user2 = new User(32);
+const user3 = new User(32);
 
 
 /***/ })

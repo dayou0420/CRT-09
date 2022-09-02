@@ -326,24 +326,33 @@ let tmp5: NonNullable<string | null>;
  * 104, 105, 107
 */
 function Logging(message: string) {
-    // console.log('Logging Factory');
     return function (constructor: Function) {
         console.log(message);
         console.log(constructor);
     }
 }
 /***
- * 106, 107
+ * 106, 107, 108
 */
 function Component(template: string, selector: string) {
-    // console.log('Component Factory');
-    return function(constructor: { new(...args: any[]): { name: string } }) {
+    return function<T extends { new(...args: any[]): { name: string }}>(constructor: T) {
         const mountedElement = document.querySelector(selector);
-        // console.log('Componet');
         const instance = new constructor();
         if (mountedElement) {
             mountedElement.innerHTML = template;
             mountedElement.querySelector('h1')!.textContent = instance.name;
+        }
+        return class extends constructor {
+            constructor(...args: any[]) {
+                super(...args);
+                console.log('Component');
+                const mountedElement = document.querySelector(selector);
+                const instance = new constructor();
+                if (mountedElement) {
+                    mountedElement.innerHTML = template;
+                    mountedElement.querySelector('h1')!.textContent = instance.name;
+                }
+            }
         }
     }
 }
@@ -351,10 +360,10 @@ function Component(template: string, selector: string) {
 // @Logging('Logging User')
 class User {
     name = 'Quill';
-    constructor() {
-        // console.log('User was created!');
+    constructor(public age: number) {
+        console.log('User was created!');
     }
 }
-// const user1 = new User();
-// const user2 = new User();
-// const user3 = new User();
+const user1 = new User(32);
+const user2 = new User(32);
+const user3 = new User(32);
