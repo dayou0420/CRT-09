@@ -273,6 +273,15 @@ function PropertyLogging(target, propertyKey) {
     console.log(target);
     console.log(propertyKey);
 }
+/***
+ * 110
+*/
+function MethodLogging(target, propertyKey, descriptor) {
+    console.log('methodLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
 let User = 
 // @Logging('Logging User')
 class User {
@@ -281,11 +290,13 @@ class User {
         this.name = 'Quill';
         // console.log('User was created!');
     }
+    // @MethodLogging
+    greeting() {
+        console.log('Hello!');
+    }
 };
+// @PropertyLogging
 User.name2 = 'Quill';
-__decorate([
-    PropertyLogging
-], User, "name2", void 0);
 User = __decorate([
     Component('<h1>{{ name }}</h1>', '#app')
     // @Logging('Logging User')

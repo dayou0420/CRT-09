@@ -364,14 +364,27 @@ function PropertyLogging(target: any, propertyKey: string) {
     console.log(target);
     console.log(propertyKey);
 }
+/***
+ * 110
+*/
+function MethodLogging(target: any, propertyKey: string, descriptor: PropertyDecorator) {
+    console.log('methodLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
 @Component('<h1>{{ name }}</h1>', '#app')
 // @Logging('Logging User')
 class User {
-    @PropertyLogging
+    // @PropertyLogging
     static name2 = 'Quill';
     name = 'Quill';
     constructor(public age: number) {
         // console.log('User was created!');
+    }
+    // @MethodLogging
+    greeting() {
+        console.log('Hello!');
     }
 }
 // const user1 = new User(32);
