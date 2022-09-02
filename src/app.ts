@@ -182,12 +182,12 @@ const perter = {
 */
 type PerterType = typeof perter;
 /***
- * 93
+ * 93, 94
 */
-function copy<T>(value: T): T {
+function copy<T extends { name: string }>(value: T): T {
     return value;
 }
-// console.log(copy({ name: 'Quill' }));
+console.log(copy({ name: 'Quill' }));
 // https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
 // number型
 /*
@@ -238,10 +238,12 @@ interface KeyValue<T, U> {
 let obj: KeyValue<string, number> = { key: "文字列", value: 2 }
 console.log(obj);
 */
+/*
 interface argTypes {
     name: string;
 }
 function getName<T extends argTypes>(arg: T): string {
     return arg.name;
 }
-// console.log({ name: "鈴木一郎" });
+console.log({ name: "鈴木一郎" });
+*/
