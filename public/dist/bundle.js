@@ -283,6 +283,16 @@ function MethodLogging(target, propertyKey, descriptor) {
     console.log(descriptor);
 }
 /***
+ * 112
+*/
+function enumerable(isEnumerable) {
+    return function (target, propertyKey, descriptor) {
+        return {
+            enumerable: isEnumerable
+        };
+    };
+}
+/***
  * 111
 */
 function AccessorLogging(target, propertyKey, descriptor) {
@@ -313,6 +323,10 @@ class User {
 };
 // @PropertyLogging
 User.name2 = 'Quill';
+__decorate([
+    enumerable(false)
+    // @MethodLogging
+], User.prototype, "greeting", null);
 User = __decorate([
     Component('<h1>{{ name }}</h1>', '#app')
     // @Logging('Logging User')
