@@ -322,3 +322,20 @@ type ConditionalTypeInfer = { tomato: string } extends { tomato: infer R } ? R :
 type DistributiveConditionalTypes<T> = T extends 'tomato' ? number : boolean;
 let tmp4: DistributiveConditionalTypes<'tomato' | 'pumpkin'>;
 let tmp5: NonNullable<string | null>;
+/***
+ * 104
+*/
+function Logging(constructor: Function) {
+    console.log('Logging...');
+    console.log(constructor);
+}
+@Logging
+class User {
+    name = 'Quill';
+    constructor() {
+        console.log('User was created!');
+    }
+}
+const user1 = new User();
+const user2 = new User();
+const user3 = new User();

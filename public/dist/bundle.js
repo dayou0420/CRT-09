@@ -1,10 +1,20 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-var __webpack_exports__ = {};
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/app.ts":
 /*!********************!*\
   !*** ./src/app.ts ***!
   \********************/
+/***/ (function() {
 
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var _a;
 ;
 const quill = {
@@ -221,7 +231,38 @@ let tmp2;
 let tmp3;
 let tmp4;
 let tmp5;
+/***
+ * 104
+*/
+function Logging(constructor) {
+    console.log('Logging...');
+    console.log(constructor);
+}
+let User = class User {
+    constructor() {
+        this.name = 'Quill';
+        console.log('User was created!');
+    }
+};
+User = __decorate([
+    Logging
+], User);
+const user1 = new User();
+const user2 = new User();
+const user3 = new User();
 
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./src/app.ts"]();
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=bundle.js.map
