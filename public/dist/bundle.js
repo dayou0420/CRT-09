@@ -1,10 +1,20 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-var __webpack_exports__ = {};
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/app.ts":
 /*!********************!*\
   !*** ./src/app.ts ***!
   \********************/
+/***/ (function() {
 
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var _a;
 ;
 const quill = {
@@ -221,7 +231,128 @@ let tmp2;
 let tmp3;
 let tmp4;
 let tmp5;
+/***
+ * 104, 105, 107
+*/
+function Logging(message) {
+    return function (constructor) {
+        console.log(message);
+        console.log(constructor);
+    };
+}
+/***
+ * 106, 107, 108
+*/
+function Component(template, selector) {
+    return function (constructor) {
+        const mountedElement = document.querySelector(selector);
+        const instance = new constructor();
+        if (mountedElement) {
+            mountedElement.innerHTML = template;
+            mountedElement.querySelector('h1').textContent = instance.name;
+        }
+        return class extends constructor {
+            constructor(...args) {
+                super(...args);
+                // console.log('Component');
+                const mountedElement = document.querySelector(selector);
+                const instance = new constructor();
+                if (mountedElement) {
+                    mountedElement.innerHTML = template;
+                    mountedElement.querySelector('h1').textContent = instance.name;
+                }
+            }
+        };
+    };
+}
+/***
+ * 109
+*/
+function PropertyLogging(target, propertyKey) {
+    console.log('PropertyLogging');
+    console.log(target);
+    console.log(propertyKey);
+}
+/***
+ * 110
+*/
+function MethodLogging(target, propertyKey, descriptor) {
+    console.log('MethodLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
+/***
+ * 112
+*/
+function enumerable(isEnumerable) {
+    return function (target, propertyKey, descriptor) {
+        return {
+            enumerable: isEnumerable
+        };
+    };
+}
+/***
+ * 111
+*/
+function AccessorLogging(target, propertyKey, descriptor) {
+    console.log('AccessorLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
+/***
+ * 113
+*/
+function ParameterLogging(target, propertyKey, parameterIndex) {
+    console.log('ParameterLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(parameterIndex);
+}
+let User = 
+// @Logging('Logging User')
+class User {
+    constructor(_age) {
+        this._age = _age;
+        this.name = 'Quill';
+        // console.log('User was created!');
+    }
+    // @AccessorLogging
+    get age() {
+        return this._age;
+    }
+    set age(value) {
+        this._age = value;
+    }
+    // @enumerable(false)
+    // @MethodLogging
+    greeting(message) {
+        console.log(message);
+    }
+};
+// @PropertyLogging
+User.name2 = 'Quill';
+User = __decorate([
+    Component('<h1>{{ name }}</h1>', '#app')
+    // @Logging('Logging User')
+], User);
+// const user1 = new User(32);
+// const user2 = new User(32);
+// const user3 = new User(32);
 
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./src/app.ts"]();
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=bundle.js.map

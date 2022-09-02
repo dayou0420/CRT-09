@@ -322,3 +322,107 @@ type ConditionalTypeInfer = { tomato: string } extends { tomato: infer R } ? R :
 type DistributiveConditionalTypes<T> = T extends 'tomato' ? number : boolean;
 let tmp4: DistributiveConditionalTypes<'tomato' | 'pumpkin'>;
 let tmp5: NonNullable<string | null>;
+/***
+ * 104, 105, 107
+*/
+function Logging(message: string) {
+    return function (constructor: Function) {
+        console.log(message);
+        console.log(constructor);
+    }
+}
+/***
+ * 106, 107, 108
+*/
+function Component(template: string, selector: string) {
+    return function<T extends { new(...args: any[]): { name: string }}>(constructor: T) {
+        const mountedElement = document.querySelector(selector);
+        const instance = new constructor();
+        if (mountedElement) {
+            mountedElement.innerHTML = template;
+            mountedElement.querySelector('h1')!.textContent = instance.name;
+        }
+        return class extends constructor {
+            constructor(...args: any[]) {
+                super(...args);
+                // console.log('Component');
+                const mountedElement = document.querySelector(selector);
+                const instance = new constructor();
+                if (mountedElement) {
+                    mountedElement.innerHTML = template;
+                    mountedElement.querySelector('h1')!.textContent = instance.name;
+                }
+            }
+        }
+    }
+}
+/***
+ * 109
+*/
+function PropertyLogging(target: any, propertyKey: string) {
+    console.log('PropertyLogging');
+    console.log(target);
+    console.log(propertyKey);
+}
+/***
+ * 110
+*/
+function MethodLogging(target: any, propertyKey: string, descriptor: PropertyDecorator) {
+    console.log('MethodLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
+/***
+ * 112
+*/
+function enumerable(isEnumerable: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        return {
+            enumerable: isEnumerable
+        }
+    }
+}
+/***
+ * 111
+*/
+function AccessorLogging(target: any, propertyKey: string, descriptor: PropertyDecorator) {
+    console.log('AccessorLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
+/***
+ * 113
+*/
+function ParameterLogging(target: any, propertyKey: string, parameterIndex: number) {
+    console.log('ParameterLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(parameterIndex);
+}
+@Component('<h1>{{ name }}</h1>', '#app')
+// @Logging('Logging User')
+class User {
+    // @PropertyLogging
+    static name2 = 'Quill';
+    name = 'Quill';
+    constructor(private _age: number) {
+        // console.log('User was created!');
+    }
+    // @AccessorLogging
+    get age() {
+        return this._age;
+    }
+    set age(value) {
+        this._age = value;
+    }
+    // @enumerable(false)
+    // @MethodLogging
+    greeting(message: string) {
+        console.log(message);
+    }
+}
+// const user1 = new User(32);
+// const user2 = new User(32);
+// const user3 = new User(32);
