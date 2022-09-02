@@ -302,4 +302,15 @@ interface ResponseDate<T extends { message: string } = any> {
     data: T;
     status: number;
 }
-let tmp: ResponseDate;
+let tmp2: ResponseDate;
+/***
+ * 100
+*/
+interface Vegetables {
+    readonly tomato: string;
+    pumpkin?: string;
+}
+let tmp3: keyof Vegetables;
+type MappedTyped = {
+    -readonly [P in keyof Vegetables]-?: string;
+}
