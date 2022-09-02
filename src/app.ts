@@ -392,6 +392,15 @@ function AccessorLogging(target: any, propertyKey: string, descriptor: PropertyD
     console.log(propertyKey);
     console.log(descriptor);
 }
+/***
+ * 113
+*/
+function ParameterLogging(target: any, propertyKey: string, parameterIndex: number) {
+    console.log('ParameterLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(parameterIndex);
+}
 @Component('<h1>{{ name }}</h1>', '#app')
 // @Logging('Logging User')
 class User {
@@ -408,10 +417,10 @@ class User {
     set age(value) {
         this._age = value;
     }
-    @enumerable(false)
+    // @enumerable(false)
     // @MethodLogging
-    greeting() {
-        console.log('Hello!');
+    greeting(message: string) {
+        console.log(message);
     }
 }
 // const user1 = new User(32);
