@@ -125,7 +125,7 @@ function copy(value, key) {
     value[key];
     return value;
 }
-console.log(copy({ name: 'Quill', age: 38 }, 'name'));
+// console.log(copy({ name: 'Quill', age: 38 }, 'name'));
 // https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
 // number型
 /*
@@ -185,6 +185,26 @@ function getName<T extends argTypes>(arg: T): string {
 }
 console.log({ name: "鈴木一郎" });
 */
+class LightDatabase {
+    constructor() {
+        this.data = [];
+    }
+    add(item) {
+        this.data.push(item);
+    }
+    remove(item) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    get() {
+        return this.data;
+    }
+}
+const stringLightDatabase = new LightDatabase();
+stringLightDatabase.add('Apple');
+stringLightDatabase.add('Banana');
+stringLightDatabase.add('Grape');
+stringLightDatabase.remove('Banana');
+console.log(stringLightDatabase.get());
 
 /******/ })()
 ;

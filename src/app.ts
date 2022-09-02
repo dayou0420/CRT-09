@@ -188,7 +188,7 @@ function copy<T extends { name: string }, U extends keyof T>(value: T, key: U): 
     value[key];
     return value;
 }
-console.log(copy({ name: 'Quill', age: 38 }, 'name'));
+// console.log(copy({ name: 'Quill', age: 38 }, 'name'));
 // https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
 // number型
 /*
@@ -248,3 +248,21 @@ function getName<T extends argTypes>(arg: T): string {
 }
 console.log({ name: "鈴木一郎" });
 */
+class LightDatabase<T extends string | number | boolean> {
+    private data: T[] = [];
+    add(item: T) {
+        this.data.push(item);
+    }
+    remove(item: T) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    get() {
+        return this.data;
+    }
+}
+const stringLightDatabase = new LightDatabase<string>();
+stringLightDatabase.add('Apple');
+stringLightDatabase.add('Banana');
+stringLightDatabase.add('Grape');
+stringLightDatabase.remove('Banana');
+console.log(stringLightDatabase.get());
