@@ -345,7 +345,7 @@ function Component(template: string, selector: string) {
         return class extends constructor {
             constructor(...args: any[]) {
                 super(...args);
-                console.log('Component');
+                // console.log('Component');
                 const mountedElement = document.querySelector(selector);
                 const instance = new constructor();
                 if (mountedElement) {
@@ -356,14 +356,24 @@ function Component(template: string, selector: string) {
         }
     }
 }
+/***
+ * 109
+*/
+function PropertyLogging(target: any, propertyKey: string) {
+    console.log('propertyLogging');
+    console.log(target);
+    console.log(propertyKey);
+}
 @Component('<h1>{{ name }}</h1>', '#app')
 // @Logging('Logging User')
 class User {
+    @PropertyLogging
+    static name2 = 'Quill';
     name = 'Quill';
     constructor(public age: number) {
-        console.log('User was created!');
+        // console.log('User was created!');
     }
 }
-const user1 = new User(32);
-const user2 = new User(32);
-const user3 = new User(32);
+// const user1 = new User(32);
+// const user2 = new User(32);
+// const user3 = new User(32);
