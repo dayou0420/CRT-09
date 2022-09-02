@@ -5,7 +5,7 @@ var __webpack_exports__ = {};
   !*** ./src/app.ts ***!
   \********************/
 
-var _a, _b, _c;
+var _a;
 ;
 const quill = {
     name: 'Quill',
@@ -46,10 +46,10 @@ class Bird {
         this.kind = 'bird';
     }
     speak() {
-        console.log('tweet-tweet');
+        return 'tweet-tweet';
     }
     fly() {
-        console.log('flutter');
+        return 'flutter';
     }
 }
 function havePet(pet) {
@@ -74,11 +74,11 @@ const desiner = {
 const downloadedData = {
     id: 1
 };
-console.log((_b = (_a = downloadedData.user) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.first);
+// console.log(downloadedData.user?.name?.first);
 /***
  * 80
 */
-const userData = (_c = downloadedData.user) !== null && _c !== void 0 ? _c : 'no-user';
+const userData = (_a = downloadedData.user) !== null && _a !== void 0 ? _a : 'no-user';
 /***
  * 82
 */
@@ -124,7 +124,10 @@ const perter = {
 function copy(value) {
     return value;
 }
-console.log(copy({ name: 'Quill' }));
+function getName(arg) {
+    return arg.name;
+}
+// console.log({ name: "鈴木一郎" });
 
 /******/ })()
 ;
