@@ -352,7 +352,6 @@ class Foods {
     }
 }
 const foods = new Foods();
-console.log('hello');
 
 
 /***/ })
