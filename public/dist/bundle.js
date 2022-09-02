@@ -5,7 +5,7 @@ var __webpack_exports__ = {};
   !*** ./src/app.ts ***!
   \********************/
 
-var _a, _b, _c;
+var _a;
 ;
 const quill = {
     name: 'Quill',
@@ -46,10 +46,10 @@ class Bird {
         this.kind = 'bird';
     }
     speak() {
-        console.log('tweet-tweet');
+        return 'tweet-tweet';
     }
     fly() {
-        console.log('flutter');
+        return 'flutter';
     }
 }
 function havePet(pet) {
@@ -74,11 +74,11 @@ const desiner = {
 const downloadedData = {
     id: 1
 };
-console.log((_b = (_a = downloadedData.user) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.first);
+// console.log(downloadedData.user?.name?.first);
 /***
  * 80
 */
-const userData = (_c = downloadedData.user) !== null && _c !== void 0 ? _c : 'no-user';
+const userData = (_a = downloadedData.user) !== null && _a !== void 0 ? _a : 'no-user';
 /***
  * 82
 */
@@ -118,6 +118,109 @@ const perter = {
     name: 'Perter',
     age: 38
 };
+/***
+ * 93, 94, 95
+*/
+function copy(value, key) {
+    value[key];
+    return value;
+}
+// console.log(copy({ name: 'Quill', age: 38 }, 'name'));
+// https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
+// number型
+/*
+function test(arg: number): number {
+    return arg;
+}
+// string型
+function test2(arg: string): string {
+    return arg;
+}
+console.log(test(1));
+console.log(test2("文字列"));
+*/
+/*
+function test<T>(arg: T): T {
+    return arg;
+}
+console.log(test<number>(1));
+console.log(test<string>("文字列"));
+console.log(test("文字列2"));
+*/
+/*
+function test<T, U, P>(arg1: T, arg2: U, args3: P): P {
+    return args3;
+}
+console.log(test("文字列", true, 4));
+*/
+/*
+class Klass<T> {
+    item: T;
+    constructor(item: T) {
+        this.item = item;
+    }
+    getItem(): T {
+        return this.item;
+    }
+}
+let strObj = new Klass<string>("文字列1");
+console.log(strObj.getItem());
+let numObj = new Klass<number>(5);
+console.log(numObj.getItem());
+*/
+/*
+interface KeyValue<T, U> {
+    key: T;
+    value: U;
+}
+let obj: KeyValue<string, number> = { key: "文字列", value: 2 }
+console.log(obj);
+*/
+/*
+interface argTypes {
+    name: string;
+}
+function getName<T extends argTypes>(arg: T): string {
+    return arg.name;
+}
+console.log({ name: "鈴木一郎" });
+*/
+class LightDatabase {
+    constructor() {
+        this.data = [];
+    }
+    add(item) {
+        this.data.push(item);
+    }
+    remove(item) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    get() {
+        return this.data;
+    }
+}
+const stringLightDatabase = new LightDatabase();
+stringLightDatabase.add('Apple');
+stringLightDatabase.add('Banana');
+stringLightDatabase.add('Grape');
+stringLightDatabase.remove('Banana');
+const tmpDatebase = {
+    id: 3,
+    data: [32]
+};
+const featchData = new Promise(resolve => {
+    setTimeout(() => {
+        resolve('hello');
+    }, 3000);
+});
+featchData.then(data => {
+    data.toUpperCase();
+});
+const vegetables = ['Tomato', 'Broccoli', 'Asparagus'];
+let tmp2;
+let tmp3;
+let tmp4;
+let tmp5;
 
 /******/ })()
 ;

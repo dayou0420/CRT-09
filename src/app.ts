@@ -84,10 +84,10 @@ class Dog {
 class Bird {
     kind: 'bird' = 'bird';
     speak() {
-        console.log('tweet-tweet');
+        return 'tweet-tweet';
     }
     fly() {
-        console.log('flutter');
+        return 'flutter';
     }
 }
 type Pet = Dog | Bird;
@@ -134,7 +134,7 @@ interface DownloadedData {
 const downloadedData: DownloadedData = {
     id: 1
 };
-console.log(downloadedData.user?.name?.first);
+// console.log(downloadedData.user?.name?.first);
 /***
  * 80
 */
@@ -181,3 +181,145 @@ const perter = {
  * 90
 */
 type PerterType = typeof perter;
+/***
+ * 93, 94, 95
+*/
+function copy<T extends { name: string }, U extends keyof T>(value: T, key: U): T {
+    value[key];
+    return value;
+}
+// console.log(copy({ name: 'Quill', age: 38 }, 'name'));
+// https://qiita.com/k-penguin-sato/items/9baa959e8919157afcd4
+// number型
+/*
+function test(arg: number): number {
+    return arg;
+}
+// string型
+function test2(arg: string): string {
+    return arg;
+}
+console.log(test(1));
+console.log(test2("文字列"));
+*/
+/*
+function test<T>(arg: T): T {
+    return arg;
+}
+console.log(test<number>(1));
+console.log(test<string>("文字列"));
+console.log(test("文字列2"));
+*/
+/*
+function test<T, U, P>(arg1: T, arg2: U, args3: P): P {
+    return args3;
+}
+console.log(test("文字列", true, 4));
+*/
+/*
+class Klass<T> {
+    item: T;
+    constructor(item: T) {
+        this.item = item;
+    }
+    getItem(): T {
+        return this.item;
+    }
+}
+let strObj = new Klass<string>("文字列1");
+console.log(strObj.getItem());
+let numObj = new Klass<number>(5);
+console.log(numObj.getItem());
+*/
+/*
+interface KeyValue<T, U> {
+    key: T;
+    value: U;
+}
+let obj: KeyValue<string, number> = { key: "文字列", value: 2 }
+console.log(obj);
+*/
+/*
+interface argTypes {
+    name: string;
+}
+function getName<T extends argTypes>(arg: T): string {
+    return arg.name;
+}
+console.log({ name: "鈴木一郎" });
+*/
+class LightDatabase<T extends string | number | boolean> {
+    private data: T[] = [];
+    add(item: T) {
+        this.data.push(item);
+    }
+    remove(item: T) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    get() {
+        return this.data;
+    }
+}
+const stringLightDatabase = new LightDatabase<string>();
+stringLightDatabase.add('Apple');
+stringLightDatabase.add('Banana');
+stringLightDatabase.add('Grape');
+stringLightDatabase.remove('Banana');
+// console.log(stringLightDatabase.get());
+/***
+ * 97
+*/
+interface TmpDatabase<T> {
+    id: number;
+    data: T[]
+}
+const tmpDatebase: TmpDatabase<number> = {
+    id: 3,
+    data: [32]
+}
+/***
+ * 98
+*/
+interface Todo {
+    title: string;
+    text: string;
+}
+type Todoable = Partial<Todo>
+type ReadTodo = Readonly<Todo>
+const featchData: Promise<string> = new Promise(resolve => {
+    setTimeout(() => {
+        resolve('hello');
+    }, 3000);
+});
+featchData.then(data => {
+    data.toUpperCase();
+});
+const vegetables: Array<string> = ['Tomato', 'Broccoli', 'Asparagus'];
+/***
+ * 99
+*/
+interface ResponseDate<T extends { message: string } = any> {
+    data: T;
+    status: number;
+}
+let tmp2: ResponseDate;
+/***
+ * 100
+*/
+interface Vegetables {
+    readonly tomato: string;
+    pumpkin?: string;
+}
+let tmp3: keyof Vegetables;
+type MappedTyped = {
+    -readonly [P in keyof Vegetables]-?: string;
+}
+/***
+ * 101
+*/
+type ConditionalType = 'tomato' extends string ? number : boolean;
+type ConditionalTypeInfer = { tomato: string } extends { tomato: infer R } ? R : boolean;
+type DistributiveConditionalTypes<T> = T extends 'tomato' ? number : boolean;
+let tmp4: DistributiveConditionalTypes<'tomato' | 'pumpkin'>;
+let tmp5: NonNullable<string | null>;
+
