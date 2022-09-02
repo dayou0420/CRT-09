@@ -322,4 +322,3 @@ type ConditionalTypeInfer = { tomato: string } extends { tomato: infer R } ? R :
 type DistributiveConditionalTypes<T> = T extends 'tomato' ? number : boolean;
 let tmp4: DistributiveConditionalTypes<'tomato' | 'pumpkin'>;
 let tmp5: NonNullable<string | null>;
-
