@@ -16,3 +16,12 @@ body .title {
   color: #333;
   font-size: 3em;
 }
+
+body #app {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #333;
+  font-size: 1em;
+}

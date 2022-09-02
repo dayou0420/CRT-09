@@ -232,12 +232,25 @@ let tmp3;
 let tmp4;
 let tmp5;
 /***
- * 104
+ * 104, 105
 */
 function Logging(message) {
     return function (constructor) {
         console.log(message);
         console.log(constructor);
+    };
+}
+/***
+ * 106
+*/
+function Component(template, selector) {
+    return function (constructor) {
+        const mountedElement = document.querySelector(selector);
+        const instance = new constructor();
+        if (mountedElement) {
+            mountedElement.innerHTML = template;
+            mountedElement.querySelector('h1').textContent = instance.name;
+        }
     };
 }
 let User = class User {
@@ -247,6 +260,7 @@ let User = class User {
     }
 };
 User = __decorate([
+    Component('<h1>{{ name }}</h1>', '#app'),
     Logging('Logging User')
 ], User);
 const user1 = new User();
