@@ -219,6 +219,8 @@ featchData.then(data => {
 const vegetables = ['Tomato', 'Broccoli', 'Asparagus'];
 let tmp2;
 let tmp3;
+let tmp4;
+let tmp5;
 
 /******/ })()
 ;
