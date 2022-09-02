@@ -265,7 +265,7 @@ stringLightDatabase.add('Apple');
 stringLightDatabase.add('Banana');
 stringLightDatabase.add('Grape');
 stringLightDatabase.remove('Banana');
-console.log(stringLightDatabase.get());
+// console.log(stringLightDatabase.get());
 /***
  * 97
 */
@@ -277,3 +277,21 @@ const tmpDatebase: TmpDatabase<number> = {
     id: 3,
     data: [32]
 }
+/***
+ * 98
+*/
+interface Todo {
+    title: string;
+    text: string;
+}
+type Todoable = Partial<Todo>
+type ReadTodo = Readonly<Todo>
+const featchData: Promise<string> = new Promise(resolve => {
+    setTimeout(() => {
+        resolve('hello');
+    }, 3000);
+});
+featchData.then(data => {
+    data.toUpperCase();
+});
+const vegetables: Array<string> = ['Tomato', 'Broccoli', 'Asparagus'];

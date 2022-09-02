@@ -204,11 +204,19 @@ stringLightDatabase.add('Apple');
 stringLightDatabase.add('Banana');
 stringLightDatabase.add('Grape');
 stringLightDatabase.remove('Banana');
-console.log(stringLightDatabase.get());
 const tmpDatebase = {
     id: 3,
     data: [32]
 };
+const featchData = new Promise(resolve => {
+    setTimeout(() => {
+        resolve('hello');
+    }, 3000);
+});
+featchData.then(data => {
+    data.toUpperCase();
+});
+const vegetables = ['Tomato', 'Broccoli', 'Asparagus'];
 
 /******/ })()
 ;
