@@ -295,3 +295,11 @@ featchData.then(data => {
     data.toUpperCase();
 });
 const vegetables: Array<string> = ['Tomato', 'Broccoli', 'Asparagus'];
+/***
+ * 99
+*/
+interface ResponseDate<T extends { message: string } = any> {
+    data: T;
+    status: number;
+}
+let tmp: ResponseDate;
