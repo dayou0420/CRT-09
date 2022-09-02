@@ -234,9 +234,11 @@ let tmp5;
 /***
  * 104
 */
-function Logging(constructor) {
-    console.log('Logging...');
-    console.log(constructor);
+function Logging(message) {
+    return function (constructor) {
+        console.log(message);
+        console.log(constructor);
+    };
 }
 let User = class User {
     constructor() {
@@ -245,7 +247,7 @@ let User = class User {
     }
 };
 User = __decorate([
-    Logging
+    Logging('Logging User')
 ], User);
 const user1 = new User();
 const user2 = new User();
