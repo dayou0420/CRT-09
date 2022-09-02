@@ -360,7 +360,7 @@ function Component(template: string, selector: string) {
  * 109
 */
 function PropertyLogging(target: any, propertyKey: string) {
-    console.log('propertyLogging');
+    console.log('PropertyLogging');
     console.log(target);
     console.log(propertyKey);
 }
@@ -368,7 +368,16 @@ function PropertyLogging(target: any, propertyKey: string) {
  * 110
 */
 function MethodLogging(target: any, propertyKey: string, descriptor: PropertyDecorator) {
-    console.log('methodLogging');
+    console.log('MethodLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
+/***
+ * 111
+*/
+function AccessorLogging(target: any, propertyKey: string, descriptor: PropertyDecorator) {
+    console.log('AccessorLogging');
     console.log(target);
     console.log(propertyKey);
     console.log(descriptor);
@@ -379,8 +388,15 @@ class User {
     // @PropertyLogging
     static name2 = 'Quill';
     name = 'Quill';
-    constructor(public age: number) {
+    constructor(private _age: number) {
         // console.log('User was created!');
+    }
+    // @AccessorLogging
+    get age() {
+        return this._age;
+    }
+    set age(value) {
+        this._age = value;
     }
     // @MethodLogging
     greeting() {

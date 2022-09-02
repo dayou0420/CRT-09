@@ -269,7 +269,7 @@ function Component(template, selector) {
  * 109
 */
 function PropertyLogging(target, propertyKey) {
-    console.log('propertyLogging');
+    console.log('PropertyLogging');
     console.log(target);
     console.log(propertyKey);
 }
@@ -277,7 +277,16 @@ function PropertyLogging(target, propertyKey) {
  * 110
 */
 function MethodLogging(target, propertyKey, descriptor) {
-    console.log('methodLogging');
+    console.log('MethodLogging');
+    console.log(target);
+    console.log(propertyKey);
+    console.log(descriptor);
+}
+/***
+ * 111
+*/
+function AccessorLogging(target, propertyKey, descriptor) {
+    console.log('AccessorLogging');
     console.log(target);
     console.log(propertyKey);
     console.log(descriptor);
@@ -285,10 +294,17 @@ function MethodLogging(target, propertyKey, descriptor) {
 let User = 
 // @Logging('Logging User')
 class User {
-    constructor(age) {
-        this.age = age;
+    constructor(_age) {
+        this._age = _age;
         this.name = 'Quill';
         // console.log('User was created!');
+    }
+    // @AccessorLogging
+    get age() {
+        return this._age;
+    }
+    set age(value) {
+        this._age = value;
     }
     // @MethodLogging
     greeting() {
