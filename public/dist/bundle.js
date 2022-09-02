@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/app.ts":
-/*!********************!*\
-  !*** ./src/app.ts ***!
-  \********************/
+/***/ "./src/food-app.ts":
+/*!*************************!*\
+  !*** ./src/food-app.ts ***!
+  \*************************/
 /***/ (function() {
 
 
@@ -340,6 +340,19 @@ User = __decorate([
 // const user1 = new User(32);
 // const user2 = new User(32);
 // const user3 = new User(32);
+class Score {
+}
+class Food {
+}
+class Foods {
+    constructor() {
+        this.elements = document.querySelectorAll('.food');
+        this.elements.forEach(element => {
+        });
+    }
+}
+const foods = new Foods();
+console.log('hello');
 
 
 /***/ })
@@ -351,7 +364,7 @@ User = __decorate([
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/app.ts"]();
+/******/ 	__webpack_modules__["./src/food-app.ts"]();
 /******/ 	
 /******/ })()
 ;
