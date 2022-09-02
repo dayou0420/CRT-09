@@ -232,20 +232,23 @@ let tmp3;
 let tmp4;
 let tmp5;
 /***
- * 104, 105
+ * 104, 105, 107
 */
 function Logging(message) {
+    // console.log('Logging Factory');
     return function (constructor) {
         console.log(message);
         console.log(constructor);
     };
 }
 /***
- * 106
+ * 106, 107
 */
 function Component(template, selector) {
+    // console.log('Component Factory');
     return function (constructor) {
         const mountedElement = document.querySelector(selector);
+        // console.log('Componet');
         const instance = new constructor();
         if (mountedElement) {
             mountedElement.innerHTML = template;
@@ -253,19 +256,21 @@ function Component(template, selector) {
         }
     };
 }
-let User = class User {
+let User = 
+// @Logging('Logging User')
+class User {
     constructor() {
         this.name = 'Quill';
-        console.log('User was created!');
+        // console.log('User was created!');
     }
 };
 User = __decorate([
-    Component('<h1>{{ name }}</h1>', '#app'),
-    Logging('Logging User')
+    Component('<h1>{{ name }}</h1>', '#app')
+    // @Logging('Logging User')
 ], User);
-const user1 = new User();
-const user2 = new User();
-const user3 = new User();
+// const user1 = new User();
+// const user2 = new User();
+// const user3 = new User();
 
 
 /***/ })

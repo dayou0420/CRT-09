@@ -323,20 +323,23 @@ type DistributiveConditionalTypes<T> = T extends 'tomato' ? number : boolean;
 let tmp4: DistributiveConditionalTypes<'tomato' | 'pumpkin'>;
 let tmp5: NonNullable<string | null>;
 /***
- * 104, 105
+ * 104, 105, 107
 */
 function Logging(message: string) {
+    // console.log('Logging Factory');
     return function (constructor: Function) {
         console.log(message);
         console.log(constructor);
     }
 }
 /***
- * 106
+ * 106, 107
 */
 function Component(template: string, selector: string) {
+    // console.log('Component Factory');
     return function(constructor: { new(...args: any[]): { name: string } }) {
         const mountedElement = document.querySelector(selector);
+        // console.log('Componet');
         const instance = new constructor();
         if (mountedElement) {
             mountedElement.innerHTML = template;
@@ -345,13 +348,13 @@ function Component(template: string, selector: string) {
     }
 }
 @Component('<h1>{{ name }}</h1>', '#app')
-@Logging('Logging User')
+// @Logging('Logging User')
 class User {
     name = 'Quill';
     constructor() {
-        console.log('User was created!');
+        // console.log('User was created!');
     }
 }
-const user1 = new User();
-const user2 = new User();
-const user3 = new User();
+// const user1 = new User();
+// const user2 = new User();
+// const user3 = new User();
