@@ -1,7 +1,6 @@
 module.exports = {
     entry: {
-        // bundle: "./src/app.ts"
-        bundle: "./src/food-app.ts"
+        bundle: "./src/app.ts"
     },
     output: {
         path: `${__dirname}/public/dist`,
