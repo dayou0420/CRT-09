@@ -6,9 +6,12 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 10
+ * 10, 11
 */
 function add(n1, n2) {
+    // if (typeof n1 !== 'number' || typeof n2 !== 'number') {
+    //     throw new Error('入力値が正しくありません');
+    // }
     return n1 + n2;
 }
 const number1 = 5;
