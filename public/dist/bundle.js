@@ -341,6 +341,10 @@ User = __decorate([
 // const user2 = new User(32);
 // const user3 = new User(32);
 class Score {
+    get totalScore() {
+        const foods = new Foods();
+        return foods.activeElementsScore.reduce((total, score) => total + score, 0);
+    }
 }
 class Food {
     constructor(element) {
