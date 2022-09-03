@@ -6,18 +6,25 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 10, 11
+ * 10, 11, 12, 13
 */
-function add(n1, n2) {
+function add(n1, n2, showResult, phrase) {
     // if (typeof n1 !== 'number' || typeof n2 !== 'number') {
     //     throw new Error('入力値が正しくありません');
     // }
-    return n1 + n2;
+    const result = n1 + n2;
+    if (showResult) {
+        console.log(phrase + result);
+    }
+    else {
+        return result;
+    }
 }
 const number1 = 5;
 const number2 = 2.8;
-const result = add(number1, number2);
-console.log(result);
+const printResult = true;
+const resultPhrase = 'Result: ';
+add(number1, number2, printResult, resultPhrase);
 
 /******/ })()
 ;
