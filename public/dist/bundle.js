@@ -6,6 +6,14 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
+ * 15
+*/
+const person = {
+    name: 'yota',
+    age: 30,
+};
+console.log(person);
+/***
  * 10, 11, 12, 13, 14
 */
 function add(n1, n2, showResult, phrase) {
@@ -14,7 +22,7 @@ function add(n1, n2, showResult, phrase) {
     // }
     const result = n1 + n2;
     if (showResult) {
-        console.log(phrase + result);
+        return phrase + result;
     }
     else {
         return result;

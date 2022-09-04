@@ -1,4 +1,12 @@
 /***
+ * 15
+*/
+const person = {
+    name: 'yota',
+    age: 30,
+};
+console.log(person);
+/***
  * 10, 11, 12, 13, 14
 */
 function add(n1: number, n2: number, showResult: boolean, phrase: string) {
@@ -7,7 +15,7 @@ function add(n1: number, n2: number, showResult: boolean, phrase: string) {
     // }
     const result = n1 + n2;
     if (showResult) {
-        console.log(phrase + result);
+        return phrase + result;
     } else {
         return result;
     }
