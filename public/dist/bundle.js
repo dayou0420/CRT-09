@@ -6,7 +6,7 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 10, 11, 12, 13
+ * 10, 11, 12, 13, 14
 */
 function add(n1, n2, showResult, phrase) {
     // if (typeof n1 !== 'number' || typeof n2 !== 'number') {
@@ -20,7 +20,8 @@ function add(n1, n2, showResult, phrase) {
         return result;
     }
 }
-const number1 = 5;
+let number1;
+number1 = 5;
 const number2 = 2.8;
 const printResult = true;
 const resultPhrase = 'Result: ';
