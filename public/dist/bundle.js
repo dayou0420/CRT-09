@@ -6,13 +6,19 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 15
+ * 15, 17
 */
 const person = {
     name: 'yota',
     age: 30,
+    hobbies: ['Sports', 'Cooking']
 };
-console.log(person);
+// console.log(person);
+let favoriteActivities;
+favoriteActivities = ['Sports'];
+for (const hobbies of person.hobbies) {
+    console.log(hobbies.toUpperCase());
+}
 /***
  * 10, 11, 12, 13, 14
 */
