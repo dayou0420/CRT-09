@@ -6,6 +6,23 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
+ * 21
+*/
+function combine(input1, input2) {
+    let result;
+    if (typeof input1 === 'number' && typeof input2 === 'number') {
+        result = input1 + input2;
+    }
+    else {
+        result = input1.toString() + input2.toString();
+    }
+    return result;
+}
+const combinedAges = combine(30, 26);
+console.log(combinedAges);
+const combinedNames = combine('Max', 'Anna');
+console.log(combinedNames);
+/***
  * 19
 */
 // const ADMIN = 0;
@@ -24,10 +41,10 @@ const person = {
     role: Role.ADMIN
 };
 if (person.role === Role.ADMIN) {
-    console.log('管理者ユーザ');
+    // console.log('管理者ユーザ');
 }
 /***
- * 15, 17, 18
+ * 15, 17, 18, 20
 */
 // const person: {
 //     name: string;
