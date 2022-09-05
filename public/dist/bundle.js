@@ -6,26 +6,36 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
+ * 28
+*/
+let userInput;
+let userName;
+userInput = 5;
+userInput = 'Max';
+if (typeof userInput === 'string') {
+    userName = userInput;
+}
+/***
  * 25, 26
 */
 function add(n1, n2) {
     return n1 + n2;
 }
 function printResult(num) {
-    console.log('Result: ' + num);
+    // console.log('Result: ' + num);
 }
 let combineValues;
 combineValues = add;
 // combineValues = 5;
 // combineValues = printResult;
-console.log(combineValues(8, 8));
+// console.log(combineValues(8, 8));
 printResult(add(5, 12));
 function addAndHandle(n1, n2, cb) {
     const result = n1 + n2;
     cb(result);
 }
 addAndHandle(10, 20, result => {
-    console.log(result);
+    // console.log(result);
 });
 /***
  * 21, 22
