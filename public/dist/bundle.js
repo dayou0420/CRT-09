@@ -6,13 +6,17 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 15, 17
+ * 15, 17, 18
 */
 const person = {
     name: 'yota',
     age: 30,
-    hobbies: ['Sports', 'Cooking']
+    hobbies: ['Sports', 'Cooking'],
+    role: [2, 'author']
 };
+// person.role.push('admin');
+// person.role[1] = 10;
+// person.role = [0, 'admin', 'user'];
 // console.log(person);
 let favoriteActivities;
 favoriteActivities = ['Sports'];
