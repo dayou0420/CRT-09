@@ -1,17 +1,37 @@
 /***
- * 15, 17, 18
+ * 19
 */
-const person: {
-    name: string;
-    age: number;
-    hobbies: string[];
-    role: [number, string]
-} = {
+// const ADMIN = 0;
+// const READ_ONLY = 1;
+// const AUTHOR = 2;
+enum Role {
+    ADMIN,
+    READ_ONLY,
+    AUTHOR
+}
+const person = {
     name: 'yota',
     age: 30,
     hobbies: ['Sports', 'Cooking'],
-    role: [2, 'author']
+    role: Role.ADMIN
 };
+if (person.role === Role.ADMIN) {
+    console.log('管理者ユーザ');
+}
+/***
+ * 15, 17, 18
+*/
+// const person: {
+//     name: string;
+//     age: number;
+//     hobbies: string[];
+//     role: [number, string]
+// } = {
+//     name: 'yota',
+//     age: 30,
+//     hobbies: ['Sports', 'Cooking'],
+//     role: [2, 'author']
+// };
 // person.role.push('admin');
 // person.role[1] = 10;
 // person.role = [0, 'admin', 'user'];
@@ -19,7 +39,7 @@ const person: {
 let favoriteActivities: string[];
 favoriteActivities = ['Sports'];
 for (const hobbies of person.hobbies) {
-    console.log(hobbies.toUpperCase());
+    // console.log(hobbies.toUpperCase());
 }
 /***
  * 10, 11, 12, 13, 14
