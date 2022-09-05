@@ -6,7 +6,7 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 21
+ * 21, 22
 */
 function combine(input1, input2, resultConversion) {
     let result;
