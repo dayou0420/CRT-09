@@ -6,7 +6,7 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 25
+ * 25, 26
 */
 function add(n1, n2) {
     return n1 + n2;
@@ -14,6 +14,11 @@ function add(n1, n2) {
 function printResult(num) {
     console.log('Result: ' + num);
 }
+let combineValues;
+combineValues = add;
+// combineValues = 5;
+// combineValues = printResult;
+console.log(combineValues(8, 8));
 printResult(add(5, 12));
 /***
  * 21, 22
