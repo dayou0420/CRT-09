@@ -1,4 +1,14 @@
 /***
+ * 25
+*/
+function add(n1: number, n2: number): number {
+    return n1 + n2;
+}
+function printResult(num: number): void {
+    console.log('Result: ' + num);
+}
+printResult(add(5, 12));
+/***
  * 23
 */
 type Combinable = number | string;
@@ -27,11 +37,11 @@ function combine(
     // }
 }
 const combinedAges = combine(30, 26, 'as-number');
-console.log(combinedAges);
+// console.log(combinedAges);
 const combinedStringAges = combine('30', '26', 'as-number');
-console.log(combinedStringAges);
+// console.log(combinedStringAges);
 const combinedNames = combine('Max', 'Anna', 'as-text');
-console.log(combinedNames);
+// console.log(combinedNames);
 /***
  * 19
 */
@@ -78,20 +88,20 @@ for (const hobbies of person.hobbies) {
 /***
  * 10, 11, 12, 13, 14
 */
-function add(n1: number, n2: number, showResult: boolean, phrase: string) {
-    // if (typeof n1 !== 'number' || typeof n2 !== 'number') {
-    //     throw new Error('入力値が正しくありません');
-    // }
-    const result = n1 + n2;
-    if (showResult) {
-        return phrase + result;
-    } else {
-        return result;
-    }
-}
+// function add(n1: number, n2: number, showResult: boolean, phrase: string) {
+//     // if (typeof n1 !== 'number' || typeof n2 !== 'number') {
+//     //     throw new Error('入力値が正しくありません');
+//     // }
+//     const result = n1 + n2;
+//     if (showResult) {
+//         return phrase + result;
+//     } else {
+//         return result;
+//     }
+// }
 let number1;
 number1 = 5;
 const number2 = 2.8;
-const printResult = true;
-const resultPhrase = 'Result: ';
-add(number1, number2, printResult, resultPhrase);
+// const printResult = true;
+// const resultPhrase = 'Result: ';
+// add(number1, number2, printResult, resultPhrase);
