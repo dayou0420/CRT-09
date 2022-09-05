@@ -1,27 +1,43 @@
 /***
+ * 49
+*/
+const userName = 'Max';
+let age = 30;
+age = 29;
+function add(a: number, b: number) {
+    let result;
+    result = a + b;
+    return result;
+}
+// console.log(result);
+if (age >= 20) {
+    let isAdult = true;
+}
+// console.log(isAdult);
+/***
  * 29
 */
 function generateError(message: string, code: number): never {
     throw { message: message, errorCode: code };
 }
-const result = generateError('エラーが発生しました', 500);
-console.log(result);
+// const result = generateError('エラーが発生しました', 500);
+// console.log(result);
 /***
  * 28
 */
 let userInput: unknown;
-let userName: string;
+// let userName: string;
 userInput = 5;
 userInput = 'Max';
 if (typeof userInput === 'string') {
-    userName = userInput;
+    // userName = userInput;
 }
 /***
  * 25, 26
 */
-function add(n1: number, n2: number): number {
-    return n1 + n2;
-}
+// function add(n1: number, n2: number): number {
+//     return n1 + n2;
+// }
 function printResult(num: number): void {
     // console.log('Result: ' + num);
 }
@@ -30,7 +46,7 @@ combineValues = add;
 // combineValues = 5;
 // combineValues = printResult;
 // console.log(combineValues(8, 8));
-printResult(add(5, 12));
+// printResult(add(5, 12));
 function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
     const result = n1 + n2;
     cb(result);
