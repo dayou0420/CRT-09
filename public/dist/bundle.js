@@ -6,16 +6,30 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
+ * 50
+*/
+const add = (a, b) => a + b;
+const printOutput = output => {
+    console.log(output);
+};
+printOutput(add(2, 5));
+const button = document.querySelector('button');
+if (button) {
+    button.addEventListener('click', event => {
+        console.log(event);
+    });
+}
+/***
  * 49
 */
 const userName = 'Max';
 let age = 30;
 age = 29;
-function add(a, b) {
-    let result;
-    result = a + b;
-    return result;
-}
+// function add(a: number, b: number) {
+//     let result;
+//     result = a + b;
+//     return result;
+// }
 // console.log(result);
 if (age >= 20) {
     let isAdult = true;
@@ -49,7 +63,7 @@ function printResult(num) {
     // console.log('Result: ' + num);
 }
 let combineValues;
-combineValues = add;
+// combineValues = add;
 // combineValues = 5;
 // combineValues = printResult;
 // console.log(combineValues(8, 8));

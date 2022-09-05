@@ -1,14 +1,28 @@
 /***
+ * 50
+*/
+const add = (a: number, b: number) => a + b;
+const printOutput: (output: string | number) => void = output => {
+    console.log(output);
+};
+printOutput(add(2, 5));
+const button = document.querySelector('button');
+if (button) {
+    button.addEventListener('click', event => {
+        console.log(event);
+    });
+}
+/***
  * 49
 */
 const userName = 'Max';
 let age = 30;
 age = 29;
-function add(a: number, b: number) {
-    let result;
-    result = a + b;
-    return result;
-}
+// function add(a: number, b: number) {
+//     let result;
+//     result = a + b;
+//     return result;
+// }
 // console.log(result);
 if (age >= 20) {
     let isAdult = true;
@@ -42,7 +56,7 @@ function printResult(num: number): void {
     // console.log('Result: ' + num);
 }
 let combineValues: (a: number, b: number) => number;
-combineValues = add;
+// combineValues = add;
 // combineValues = 5;
 // combineValues = printResult;
 // console.log(combineValues(8, 8));
