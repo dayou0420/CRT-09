@@ -12,6 +12,16 @@ if (button) {
         console.log(event);
     });
 }
+const hobbies = ['Sports', 'Cooking'];
+const activeHobbies = ['Hiking', ...hobbies];
+activeHobbies.push(...hobbies);
+const person = {
+    name: 'Max',
+    age: 30
+};
+const copiedPerson = {
+    ...person
+};
 /***
  * 49
 */
@@ -66,7 +76,7 @@ function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
     cb(result);
 }
 addAndHandle(10, 20, result => {
-    // console.log(result);
+    console.log(result);
 });
 /***
  * 23
@@ -108,20 +118,20 @@ const combinedNames = combine('Max', 'Anna', 'as-text');
 // const ADMIN = 0;
 // const READ_ONLY = 1;
 // const AUTHOR = 2;
-enum Role {
-    ADMIN,
-    READ_ONLY,
-    AUTHOR
-}
-const person = {
-    name: 'yota',
-    age: 30,
-    hobbies: ['Sports', 'Cooking'],
-    role: Role.ADMIN
-};
-if (person.role === Role.ADMIN) {
-    // console.log('管理者ユーザ');
-}
+// enum Role {
+//     ADMIN,
+//     READ_ONLY,
+//     AUTHOR
+// }
+// const person = {
+//     name: 'yota',
+//     age: 30,
+//     hobbies: ['Sports', 'Cooking'],
+//     role: Role.ADMIN
+// };
+// if (person.role === Role.ADMIN) {
+//     console.log('管理者ユーザ');
+// }
 /***
  * 15, 17, 18, 20
 */
@@ -140,11 +150,11 @@ if (person.role === Role.ADMIN) {
 // person.role[1] = 10;
 // person.role = [0, 'admin', 'user'];
 // console.log(person);
-let favoriteActivities: string[];
-favoriteActivities = ['Sports'];
-for (const hobbies of person.hobbies) {
-    // console.log(hobbies.toUpperCase());
-}
+// let favoriteActivities: string[];
+// favoriteActivities = ['Sports'];
+// for (const hobbies of person.hobbies) {
+//     console.log(hobbies.toUpperCase());
+// }
 /***
  * 10, 11, 12, 13, 14
 */
@@ -159,9 +169,9 @@ for (const hobbies of person.hobbies) {
 //         return result;
 //     }
 // }
-let number1;
-number1 = 5;
-const number2 = 2.8;
+// let number1;
+// number1 = 5;
+// const number2 = 2.8;
 // const printResult = true;
 // const resultPhrase = 'Result: ';
 // add(number1, number2, printResult, resultPhrase);
