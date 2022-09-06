@@ -22,10 +22,17 @@ const hobbies = ['Sports', 'Cooking'];
 const activeHobbies = ['Hiking', ...hobbies];
 activeHobbies.push(...hobbies);
 const person = {
-    name: 'Max',
+    firstName: 'Max',
     age: 30
 };
 const copiedPerson = Object.assign({}, person);
+/***
+ * 54
+*/
+const [hobby1, hobby2, ...remainingHobbies] = hobbies;
+console.log(hobbies, hobby1, hobby2);
+const { firstName: userName, age } = person;
+console.log(userName, age, person);
 /***
  * 50、51
 */
@@ -43,18 +50,18 @@ if (button) {
 /***
  * 49
 */
-const userName = 'Max';
-let age = 30;
-age = 29;
+// const userName = 'Max';
+// let age = 30;
+// age = 29;
 // function add(a: number, b: number) {
 //     let result;
 //     result = a + b;
 //     return result;
 // }
 // console.log(result);
-if (age >= 20) {
-    let isAdult = true;
-}
+// if (age >= 20) {
+//     let isAdult = true;
+// }
 // console.log(isAdult);
 /***
  * 29
