@@ -6,20 +6,32 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 59
+ * 59, 60, 62
 */
 class Department {
     constructor(n) {
+        this.employee = [];
         this.name = n;
     }
     describe() {
         console.log('Department: ' + this.name);
     }
+    addEmployee(employee) {
+        this.employee.push(employee);
+    }
+    printEmployeeInformation() {
+        console.log(this.employee.length);
+        console.log(this.employee);
+    }
 }
 const accounting = new Department('Accounting');
+accounting.addEmployee('Max');
+accounting.addEmployee('Manu');
+// accounting.employee[2] = 'Anna';
 accounting.describe();
-const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
-accountingCopy.describe();
+accounting.printEmployeeInformation();
+// const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
+// accountingCopy.describe();
 /***
  * 53
 */

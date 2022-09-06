@@ -1,19 +1,31 @@
 /***
- * 59
+ * 59, 60, 62
 */
 class Department {
     name: string;
+    private employee: string[] = [];
     constructor(n: string) {
         this.name = n;
     }
     describe(this: Department) {
         console.log('Department: ' + this.name);
     }
+    addEmployee(employee: string) {
+        this.employee.push(employee);
+    }
+    printEmployeeInformation() {
+        console.log(this.employee.length);
+        console.log(this.employee);
+    }
 }
 const accounting = new Department('Accounting');
+accounting.addEmployee('Max');
+accounting.addEmployee('Manu');
+// accounting.employee[2] = 'Anna';
 accounting.describe();
-const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
-accountingCopy.describe();
+accounting.printEmployeeInformation();
+// const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
+// accountingCopy.describe();
 /***
  * 53
 */
