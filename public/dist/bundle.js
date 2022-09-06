@@ -6,19 +6,18 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 50、51
+ * 53
 */
-const add = (a, b = 1) => a + b;
-const printOutput = output => {
-    console.log(output);
+const add = (...numbers) => {
+    return numbers.reduce((curResult, curValue) => {
+        return curResult + curValue;
+    }, 0);
 };
-printOutput(add(2));
-const button = document.querySelector('button');
-if (button) {
-    button.addEventListener('click', event => {
-        console.log(event);
-    });
-}
+const addedNumbers = add(5, 10, 2, 3.7);
+console.log(addedNumbers);
+/***
+ * 52
+*/
 const hobbies = ['Sports', 'Cooking'];
 const activeHobbies = ['Hiking', ...hobbies];
 activeHobbies.push(...hobbies);
@@ -27,6 +26,20 @@ const person = {
     age: 30
 };
 const copiedPerson = Object.assign({}, person);
+/***
+ * 50、51
+*/
+// const add = (a: number, b: number = 1) => a + b;
+const printOutput = output => {
+    console.log(output);
+};
+// printOutput(add(2));
+const button = document.querySelector('button');
+if (button) {
+    button.addEventListener('click', event => {
+        console.log(event);
+    });
+}
 /***
  * 49
 */
@@ -46,67 +59,76 @@ if (age >= 20) {
 /***
  * 29
 */
-function generateError(message, code) {
-    throw { message: message, errorCode: code };
-}
+// function generateError(message: string, code: number): never {
+//     throw { message: message, errorCode: code };
+// }
 // const result = generateError('エラーが発生しました', 500);
 // console.log(result);
 /***
  * 28
 */
-let userInput;
+// let userInput: unknown;
 // let userName: string;
-userInput = 5;
-userInput = 'Max';
-if (typeof userInput === 'string') {
-    // userName = userInput;
-}
+// userInput = 5;
+// userInput = 'Max';
+// if (typeof userInput === 'string') {
+//     userName = userInput;
+// }
 /***
  * 25, 26
 */
 // function add(n1: number, n2: number): number {
 //     return n1 + n2;
 // }
-function printResult(num) {
-    // console.log('Result: ' + num);
-}
-let combineValues;
+// function printResult(num: number): void {
+//     console.log('Result: ' + num);
+// }
+// let combineValues: (a: number, b: number) => number;
 // combineValues = add;
 // combineValues = 5;
 // combineValues = printResult;
 // console.log(combineValues(8, 8));
 // printResult(add(5, 12));
-function addAndHandle(n1, n2, cb) {
-    const result = n1 + n2;
-    cb(result);
-}
-addAndHandle(10, 20, result => {
-    console.log(result);
-});
+// function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+//     const result = n1 + n2;
+//     cb(result);
+// }
+// addAndHandle(10, 20, result => {
+//     console.log(result);
+// });
+/***
+ * 23
+*/
+// type Combinable = number | string;
+// type ConversionDescriptor = 'as-number' | 'as-text';
 /***
  * 21, 22
 */
-function combine(input1, input2, resultConversion) {
-    let result;
-    if (typeof input1 === 'number' && typeof input2 === 'number' ||
-        resultConversion === 'as-number') {
-        result = +input1 + +input2;
-    }
-    else {
-        result = input1.toString() + input2.toString();
-    }
-    return result;
-    // if (resultConversion === 'as-number') {
-    //     return +result;
-    // } else {
-    //     return result.toString();
-    // }
-}
-const combinedAges = combine(30, 26, 'as-number');
+// function combine(
+//     input1: Combinable,
+//     input2: Combinable,
+//     resultConversion: ConversionDescriptor
+// ) {
+//     let result;
+//     if (typeof input1 === 'number' && typeof input2 === 'number' ||
+//         resultConversion === 'as-number'
+//     ) {
+//         result = +input1 + +input2;
+//     } else {
+//         result = input1.toString() + input2.toString();
+//     }
+//     return result;
+//     // if (resultConversion === 'as-number') {
+//     //     return +result;
+//     // } else {
+//     //     return result.toString();
+//     // }
+// }
+// const combinedAges = combine(30, 26, 'as-number');
 // console.log(combinedAges);
-const combinedStringAges = combine('30', '26', 'as-number');
+// const combinedStringAges = combine('30', '26', 'as-number');
 // console.log(combinedStringAges);
-const combinedNames = combine('Max', 'Anna', 'as-text');
+// const combinedNames = combine('Max', 'Anna', 'as-text');
 // console.log(combinedNames);
 /***
  * 19
