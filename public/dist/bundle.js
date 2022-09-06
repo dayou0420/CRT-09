@@ -6,47 +6,59 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
+ * 59
+*/
+class Department {
+    constructor(n) {
+        this.name = n;
+    }
+}
+const accounting = new Department('Accounting');
+console.log(accounting);
+/***
  * 53
 */
-const add = (...numbers) => {
-    return numbers.reduce((curResult, curValue) => {
-        return curResult + curValue;
-    }, 0);
-};
-const addedNumbers = add(5, 10, 2, 3.7);
-console.log(addedNumbers);
+// const add = (...numbers: number[]) => {
+//     return numbers.reduce((curResult, curValue) => {
+//         return curResult + curValue;
+//     }, 0);
+// };
+// const addedNumbers = add(5, 10, 2, 3.7);
+// console.log(addedNumbers);
 /***
  * 52
 */
-const hobbies = ['Sports', 'Cooking'];
-const activeHobbies = ['Hiking', ...hobbies];
-activeHobbies.push(...hobbies);
-const person = {
-    firstName: 'Max',
-    age: 30
-};
-const copiedPerson = Object.assign({}, person);
+// const hobbies = ['Sports', 'Cooking'];
+// const activeHobbies = ['Hiking', ...hobbies];
+// activeHobbies.push(...hobbies);
+// const person = {
+//     firstName: 'Max',
+//     age: 30
+// };
+// const copiedPerson = {
+//     ...person
+// };
 /***
  * 54
 */
-const [hobby1, hobby2, ...remainingHobbies] = hobbies;
-console.log(hobbies, hobby1, hobby2);
-const { firstName: userName, age } = person;
-console.log(userName, age, person);
+// const [hobby1, hobby2, ...remainingHobbies] = hobbies;
+// console.log(hobbies, hobby1, hobby2);
+// const { firstName: userName, age } = person;
+// console.log(userName, age, person);
 /***
  * 50、51
 */
 // const add = (a: number, b: number = 1) => a + b;
-const printOutput = output => {
-    console.log(output);
-};
-// printOutput(add(2));
-const button = document.querySelector('button');
-if (button) {
-    button.addEventListener('click', event => {
-        console.log(event);
-    });
-}
+// const printOutput: (output: string | number) => void = output => {
+//     console.log(output);
+// };
+// // printOutput(add(2));
+// const button = document.querySelector('button');
+// if (button) {
+//     button.addEventListener('click', event => {
+//         console.log(event);
+//     });
+// }
 /***
  * 49
 */
