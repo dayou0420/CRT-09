@@ -1,14 +1,16 @@
 /***
- * 59, 60, 62
+ * 59, 60, 62, 63
 */
 class Department {
-    name: string;
+    // private id: string;
+    // name: string;
     private employee: string[] = [];
-    constructor(n: string) {
-        this.name = n;
+    constructor(private id: string, public name: string) {
+        // this.id = id;
+        // this.name = n;
     }
     describe(this: Department) {
-        console.log('Department: ' + this.name);
+        console.log(`Department: (${this.id}): ${this.name}`);
     }
     addEmployee(employee: string) {
         this.employee.push(employee);
@@ -18,10 +20,11 @@ class Department {
         console.log(this.employee);
     }
 }
-const accounting = new Department('Accounting');
+const accounting = new Department('d1', 'Accounting');
 accounting.addEmployee('Max');
 accounting.addEmployee('Manu');
 // accounting.employee[2] = 'Anna';
+accounting.name = 'NEW NAME';
 accounting.describe();
 accounting.printEmployeeInformation();
 // const accountingCopy = { name: 'DUMMY', describe: accounting.describe };

@@ -6,15 +6,20 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 59, 60, 62
+ * 59, 60, 62, 63
 */
 class Department {
-    constructor(n) {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+        // private id: string;
+        // name: string;
         this.employee = [];
-        this.name = n;
+        // this.id = id;
+        // this.name = n;
     }
     describe() {
-        console.log('Department: ' + this.name);
+        console.log(`Department: (${this.id}): ${this.name}`);
     }
     addEmployee(employee) {
         this.employee.push(employee);
@@ -24,10 +29,11 @@ class Department {
         console.log(this.employee);
     }
 }
-const accounting = new Department('Accounting');
+const accounting = new Department('d1', 'Accounting');
 accounting.addEmployee('Max');
 accounting.addEmployee('Manu');
 // accounting.employee[2] = 'Anna';
+accounting.name = 'NEW NAME';
 accounting.describe();
 accounting.printEmployeeInformation();
 // const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
