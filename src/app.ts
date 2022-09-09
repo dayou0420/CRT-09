@@ -1,10 +1,10 @@
 /***
- * 59, 60, 62, 63, 64
+ * 59, 60, 62, 63, 64, 65, 66
 */
 class Department {
     // private id: string;
     // name: string;
-    private employee: string[] = [];
+    protected employee: string[] = [];
     constructor(private readonly id: string, public name: string) {
         // this.id = id;
         // this.name = n;
@@ -37,18 +37,27 @@ class AccountingDepartment extends Department {
     printReports() {
         console.log(this.reports);
     }
+    addEmployee(name: string) {
+        if (name === 'Max') {
+            return;
+        }
+        this.employee.push(name);
+    }
 }
-const it = new ITDepartment('d1', ['Max']);
-it.addEmployee('Max');
-it.addEmployee('Manu');
+// const it = new ITDepartment('d1', ['Max']);
+// it.addEmployee('Max');
+// it.addEmployee('Manu');
 const accounting = new AccountingDepartment('d2', []);
 accounting.addReport('Something');
 accounting.printReports();
+accounting.addEmployee('Max');
+accounting.addEmployee('Manu');
+accounting.printEmployeeInformation();
 // accounting.employee[2] = 'Anna';
 // accounting.name = 'NEW NAME';
-it.describe();
-it.printEmployeeInformation();
-console.log(it);
+// it.describe();
+// it.printEmployeeInformation();
+// console.log(it);
 // const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
 // accountingCopy.describe();
 /***
