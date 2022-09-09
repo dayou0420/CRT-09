@@ -1,5 +1,5 @@
 /***
- * 59, 60, 62, 63, 64, 65, 66
+ * 59, 60, 62, 63, 64, 65, 66, 67
 */
 class Department {
     // private id: string;
@@ -28,11 +28,26 @@ class ITDepartment extends Department {
     }
 }
 class AccountingDepartment extends Department {
+    private lastReport: string;
+    get mostRecentReport() {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+        throw new Error('レポートが見つかりません。');
+    }
+    set mostRecentReport(value: string) {
+        if (!value) {
+            throw new Error('正しい値を設定してください。');
+        }
+        this.addReport(value);
+    }
     constructor(id: string, private reports: string[]) {
         super(id, 'Accounting');
+        this.lastReport = reports[0];
     }
     addReport(text: string) {
         this.reports.push(text);
+        this.lastReport = text;
     }
     printReports() {
         console.log(this.reports);
@@ -48,7 +63,9 @@ class AccountingDepartment extends Department {
 // it.addEmployee('Max');
 // it.addEmployee('Manu');
 const accounting = new AccountingDepartment('d2', []);
+accounting.mostRecentReport = '通期会計レポート';
 accounting.addReport('Something');
+console.log(accounting.mostRecentReport);
 accounting.printReports();
 accounting.addEmployee('Max');
 accounting.addEmployee('Manu');
