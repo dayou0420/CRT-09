@@ -6,7 +6,7 @@ var __webpack_exports__ = {};
   \********************/
 
 /***
- * 59, 60, 62, 63, 64, 65, 66, 67
+ * 59, 60, 62, 63, 64, 65, 66, 67, 68
 */
 class Department {
     constructor(id, name) {
@@ -17,6 +17,9 @@ class Department {
         this.employee = [];
         // this.id = id;
         // this.name = n;
+    }
+    static createEmployee(name) {
+        return { name: name };
     }
     describe() {
         console.log(`Department: (${this.id}): ${this.name}`);
@@ -29,6 +32,7 @@ class Department {
         console.log(this.employee);
     }
 }
+Department.fiscalYear = 2020;
 class ITDepartment extends Department {
     constructor(id, admins) {
         super(id, 'IT');
@@ -67,6 +71,8 @@ class AccountingDepartment extends Department {
         this.employee.push(name);
     }
 }
+const employee1 = Department.createEmployee('Max');
+console.log(employee1, Department.fiscalYear);
 // const it = new ITDepartment('d1', ['Max']);
 // it.addEmployee('Max');
 // it.addEmployee('Manu');

@@ -1,10 +1,14 @@
 /***
- * 59, 60, 62, 63, 64, 65, 66, 67
+ * 59, 60, 62, 63, 64, 65, 66, 67, 68
 */
 class Department {
+    static fiscalYear = 2020;
     // private id: string;
     // name: string;
     protected employee: string[] = [];
+    static createEmployee(name: string) {
+        return { name: name };
+    }
     constructor(private readonly id: string, public name: string) {
         // this.id = id;
         // this.name = n;
@@ -59,6 +63,8 @@ class AccountingDepartment extends Department {
         this.employee.push(name);
     }
 }
+const employee1 = Department.createEmployee('Max');
+console.log(employee1, Department.fiscalYear);
 // const it = new ITDepartment('d1', ['Max']);
 // it.addEmployee('Max');
 // it.addEmployee('Manu');
