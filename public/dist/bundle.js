@@ -5,6 +5,10 @@ var __webpack_exports__ = {};
   !*** ./src/app.ts ***!
   \********************/
 
+let add;
+add = (n1, n2) => {
+    return n1 + n2;
+};
 class Person {
     constructor(n) {
         this.age = 30;
