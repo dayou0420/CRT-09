@@ -1,5 +1,5 @@
 /***
- * 72, 73, 76, 77
+ * 72, 73, 76, 77, 78
 */
 interface AddFn {
     (a: number, b: number): number;
@@ -9,19 +9,26 @@ add = (n1: number, n2: number) => {
     return n1 + n2;
 }
 interface Named {
-    readonly name: string;
+    readonly name?: string;
+    outputName?: string;
 }
 interface Greetable extends Named {
     greet(phrase: string): void;
 }
 class Person implements Greetable {
-    name: string;
+    name?: string;
     age = 30;
-    constructor(n: string) {
-        this.name = n;
+    constructor(n?: string) {
+        if (n) {
+            this.name = n;
+        }
     }
     greet(phrase: string) {
-        console.log(phrase + ' ' + this.name);
+        if (this.name) {
+            console.log(phrase + ' ' + this.name);
+        } else {
+            console.log('Hi!');
+        }
     }
 }
 let user1: Greetable;
