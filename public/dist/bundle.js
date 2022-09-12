@@ -16,6 +16,7 @@ class Person {
 }
 let user1;
 user1 = new Person('Max');
+user1.name = 'Manu';
 user1.greet('Hello I am');
 console.log(user1);
 
