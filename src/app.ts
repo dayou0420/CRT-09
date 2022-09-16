@@ -27,26 +27,26 @@ function add(a: Combinable, b: Combinable) {
 }
 type UnknowEmployee = Employee | Admin;
 function printEmployeeInformation(emp: UnknowEmployee) {
-    console.log(emp.name);
+    // console.log(emp.name);
     if ('privileges' in emp) {
-        console.log('Privileges: ' + emp.privileges);
+        // console.log('Privileges: ' + emp.privileges);
     }
     if ('startDate' in emp) {
-        console.log('StartDate: ' + emp.startDate);
+        // console.log('StartDate: ' + emp.startDate);
     }
 }
 printEmployeeInformation({ name: 'Manu', startDate: new Date() });
 class Car {
     drive() {
-        console.log('運転中...');
+        // console.log('運転中...');
     }
 }
 class Truck {
     drive() {
-        console.log('トラックを運転中...');
+        // console.log('トラックを運転中...');
     }
     loadCargo(amount: number) {
-        console.log('荷物を載せています ...' + amount)
+        // console.log('荷物を載せています ...' + amount)
     }
 }
 type Vehicle = Car | Truck;
@@ -81,6 +81,14 @@ function moveAnimal(animal: Animal) {
         case 'horse':
             speed = animal.runningSpeed;
     }
-    console.log('移動速度: ' + speed);
+    // console.log('移動速度: ' + speed);
 }
 moveAnimal({ type: 'bird', flyingSpeed: 10 })
+/***
+ * 86
+*/
+// const userInputElement = <HTMLInputElement>document.getElementById("user-input")!;
+const userInputElement = document.getElementById("user-input");
+if (userInputElement) {
+    (userInputElement as HTMLInputElement).value = 'こんにちは';
+}
