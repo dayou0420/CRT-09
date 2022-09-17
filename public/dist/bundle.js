@@ -5,6 +5,7 @@ var __webpack_exports__ = {};
   !*** ./src/app.ts ***!
   \********************/
 
+var _a;
 const e1 = {
     name: 'Max',
     privileges: ['create-server'],
@@ -78,6 +79,18 @@ const errorBag = {
     email: '正しいメールアドレスではありません',
     username: 'ユーザ名に記号を含めることはできません'
 };
+/***
+ * 89
+*/
+const fetchedUserData = {
+    id: 'u1',
+    name: 'user1',
+    job: {
+        title: 'Developer',
+        description: 'TypeScript'
+    }
+};
+console.log((_a = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _a === void 0 ? void 0 : _a.title);
 
 /******/ })()
 ;
