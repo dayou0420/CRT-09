@@ -16,6 +16,11 @@ function add(a, b) {
     }
     return a + b;
 }
+/***
+ * 88
+*/
+const result = add('Hello', 'TypeScript');
+result.split(' ');
 function printEmployeeInformation(emp) {
     // console.log(emp.name);
     if ('privileges' in emp) {
