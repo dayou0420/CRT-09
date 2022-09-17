@@ -123,3 +123,9 @@ const fetchedUserData = {
     }
 };
 console.log(fetchedUserData?.job?.title);
+/***
+ * 90
+*/
+const userInput = '';
+const storedData = userInput ?? 'DEFAULT';
+console.log(storedData);
