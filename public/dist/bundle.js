@@ -19,14 +19,13 @@ promise.then(data => {
     data.split(' ');
 });
 /***
- * 95
+ * 95, 96
 */
 function merge(objA, objB) {
-    return Object.assign(Object.assign({}, objA), objB);
-    // return Object.assign(objA, objB);
+    return Object.assign(objA, objB);
 }
-const mergedObj = merge({ name: 'Max' }, { age: 30 });
-mergedObj.age;
+const mergedObj = merge({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
+console.log(mergedObj.age);
 
 /******/ })()
 ;
