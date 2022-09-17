@@ -9,7 +9,7 @@ var __webpack_exports__ = {};
  * 94
 */
 const names = []; // string[]
-names[0].split(' ');
+// names[0].split(' ');
 const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
         resolve('終わりました！');
@@ -18,6 +18,14 @@ const promise = new Promise((resolve, reject) => {
 promise.then(data => {
     data.split(' ');
 });
+/***
+ * 95
+*/
+function merge(objA, objB) {
+    return Object.assign(objA, objB);
+}
+const mergedObj = merge({ name: 'Max' }, { age: 30 });
+mergedObj.age;
 
 /******/ })()
 ;
