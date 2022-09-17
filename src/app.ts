@@ -15,7 +15,8 @@ promise.then(data => {
  * 95
 */
 function merge<T, U>(objA: T, objB: U) {
-    return Object.assign(objA, objB);
+    return { ...objA, ...objB };
+    // return Object.assign(objA, objB);
 }
 const mergedObj = merge({ name: 'Max' }, { age: 30 });
 mergedObj.age;
