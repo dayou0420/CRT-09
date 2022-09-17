@@ -5,98 +5,35 @@ var __webpack_exports__ = {};
   !*** ./src/app.ts ***!
   \********************/
 
-var _a;
-const e1 = {
-    name: 'Max',
-    privileges: ['create-server'],
-    startDate: new Date()
-};
-function add(a, b) {
-    if (typeof a === 'string' || typeof b === 'string') {
-        return a.toString() + b.toString();
-    }
-    return a + b;
-}
 /***
- * 88
+ * 94
 */
-const result = add('Hello', 'TypeScript');
-result.split(' ');
-function printEmployeeInformation(emp) {
-    // console.log(emp.name);
-    if ('privileges' in emp) {
-        // console.log('Privileges: ' + emp.privileges);
-    }
-    if ('startDate' in emp) {
-        // console.log('StartDate: ' + emp.startDate);
-    }
-}
-printEmployeeInformation({ name: 'Manu', startDate: new Date() });
-class Car {
-    drive() {
-        // console.log('運転中...');
-    }
-}
-class Truck {
-    drive() {
-        // console.log('トラックを運転中...');
-    }
-    loadCargo(amount) {
-        // console.log('荷物を載せています ...' + amount)
-    }
-}
-const v1 = new Car();
-const v2 = new Truck();
-function useVehicle(vehicle) {
-    vehicle.drive();
-    if (vehicle instanceof Truck) {
-        vehicle.loadCargo(1000);
-    }
-}
-useVehicle(v1);
-useVehicle(v2);
-function moveAnimal(animal) {
-    let speed;
-    switch (animal.type) {
-        case 'bird':
-            speed = animal.flyingSpeed;
-            break;
-        case 'horse':
-            speed = animal.runningSpeed;
-    }
-    // console.log('移動速度: ' + speed);
-}
-moveAnimal({ type: 'bird', flyingSpeed: 10 });
+const names = []; // string[]
+// names[0].split(' ');
+const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('終わりました！');
+    }, 2000);
+});
+promise.then(data => {
+    data.split(' ');
+});
 /***
- * 86
+ * 95, 96
 */
-// const userInputElement = <HTMLInputElement>document.getElementById("user-input")!;
-const userInputElement = document.getElementById("user-input");
-if (userInputElement) {
-    userInputElement.value = 'こんにちは';
+function merge(objA, objB) {
+    return Object.assign(objA, objB);
 }
-const errorBag = {
-    email: '正しいメールアドレスではありません',
-    username: 'ユーザ名に記号を含めることはできません'
-};
-/***
- * 89
-*/
-const fetchedUserData = {
-    id: 'u1',
-    name: 'user1',
-    job: {
-        title: 'Developer',
-        description: 'TypeScript'
+const mergedObj = merge({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
+console.log(mergedObj);
+function countAndDescribe(element) {
+    let descriptionText = '値がありません。';
+    if (element.length > 0) {
+        descriptionText = '値は' + element.length + '個です。';
     }
-};
-console.log((_a = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _a === void 0 ? void 0 : _a.title);
-/***
- * 90
-*/
-const userInput = '';
-const storedData = userInput !== null && userInput !== void 0 ? userInput : 'DEFAULT';
-console.log(storedData);
+    return [element, descriptionText];
+}
+console.log(countAndDescribe(['Sports', 'Cooking']));
 
 /******/ })()
 ;
