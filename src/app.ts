@@ -41,7 +41,7 @@ function extractAndConvert<T extends Object, U extends keyof T>(obj: T, key: U) 
 }
 extractAndConvert({ name: 'Max' }, 'name');
 /***
- * 99
+ * 99, 102
 */
 class DataStorage<T extends string | number | boolean> {
     private data: T[] = [];

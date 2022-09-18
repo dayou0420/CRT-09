@@ -41,7 +41,7 @@ function extractAndConvert(obj, key) {
 }
 extractAndConvert({ name: 'Max' }, 'name');
 /***
- * 99
+ * 99, 102
 */
 class DataStorage {
     constructor() {
