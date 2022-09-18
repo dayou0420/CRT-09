@@ -1,7 +1,7 @@
 /***
  * 94
 */
-const names: Array<string> = []; // string[]
+// const names: Array<string> = []; // string[]
 // names[0].split(' ');
 const promise = new Promise<string>((resolve, reject) => {
     setTimeout(() => {
@@ -70,3 +70,23 @@ const numberStorage = new DataStorage<number>();
 // objStorage.addItem({ name: 'Manu' });
 // objStorage.removeItem(obj);
 // console.log(objStorage.getItems());
+/***
+ * 101
+*/
+interface CourceGoal {
+    title: string;
+    description: string;
+    completeUntil: Date;
+}
+function createCourceGoal(
+    title: string, description: string, date: Date
+): CourceGoal {
+    let courceGoal: Partial<CourceGoal> = {};
+    courceGoal.title = title;
+    courceGoal.description = description;
+    courceGoal.completeUntil = date;
+    return courceGoal as CourceGoal;
+}
+const names: Readonly<string[]> = ['Max', 'Annna'];
+// names.push('Manu');
+// names.pop();

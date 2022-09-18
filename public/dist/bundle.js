@@ -8,7 +8,7 @@ var __webpack_exports__ = {};
 /***
  * 94
 */
-const names = []; // string[]
+// const names: Array<string> = []; // string[]
 // names[0].split(' ');
 const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -66,12 +66,16 @@ textStorage.addItem('Data2');
 textStorage.removeItem('Data1');
 console.log(textStorage.getItems());
 const numberStorage = new DataStorage();
-// const objStorage = new DataStorage<object>();
-// const obj = { name: 'Max' };
-// objStorage.addItem(obj);
-// objStorage.addItem({ name: 'Manu' });
-// objStorage.removeItem(obj);
-// console.log(objStorage.getItems());
+function createCourceGoal(title, description, date) {
+    let courceGoal = {};
+    courceGoal.title = title;
+    courceGoal.description = description;
+    courceGoal.completeUntil = date;
+    return courceGoal;
+}
+const names = ['Max', 'Annna'];
+// names.push('Manu');
+// names.pop();
 
 /******/ })()
 ;
