@@ -25,7 +25,6 @@ function merge(objA, objB) {
     return Object.assign(objA, objB);
 }
 const mergedObj = merge({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
-console.log(mergedObj);
 function countAndDescribe(element) {
     let descriptionText = '値がありません。';
     if (element.length > 0) {
@@ -33,7 +32,7 @@ function countAndDescribe(element) {
     }
     return [element, descriptionText];
 }
-console.log(countAndDescribe(['Sports', 'Cooking']));
+// console.log(countAndDescribe(['Sports', 'Cooking']));
 /***
  * 98
 */
@@ -41,6 +40,38 @@ function extractAndConvert(obj, key) {
     return 'Value: ' + obj[key];
 }
 extractAndConvert({ name: 'Max' }, 'name');
+/***
+ * 99
+*/
+class DataStorage {
+    constructor() {
+        this.data = [];
+    }
+    addItem(item) {
+        this.data.push(item);
+    }
+    removeItem(item) {
+        if (this.data.indexOf(item) === -1) {
+            return;
+        }
+        this.data.splice(this.data.indexOf(item), 1); // -1
+    }
+    getItems() {
+        return [...this.data];
+    }
+}
+const textStorage = new DataStorage();
+textStorage.addItem('Data1');
+textStorage.addItem('Data2');
+textStorage.removeItem('Data1');
+console.log(textStorage.getItems());
+const numberStorage = new DataStorage();
+// const objStorage = new DataStorage<object>();
+// const obj = { name: 'Max' };
+// objStorage.addItem(obj);
+// objStorage.addItem({ name: 'Manu' });
+// objStorage.removeItem(obj);
+// console.log(objStorage.getItems());
 
 /******/ })()
 ;
