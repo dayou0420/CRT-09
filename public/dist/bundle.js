@@ -24,6 +24,20 @@ function Logger(logString) {
         console.log(constructor);
     };
 }
+/***
+ * 107
+*/
+function withTemplate(template, hookId) {
+    return function (constructor) {
+        const hookEl = document.getElementById(hookId);
+        const p = new constructor();
+        if (hookEl) {
+            hookEl.innerHTML = template;
+            hookEl.querySelector('h1').textContent = p.name;
+        }
+    };
+}
+// @Logger('ログ出力中 - PERSON')
 let Person = class Person {
     constructor() {
         this.name = 'Max';
@@ -31,7 +45,7 @@ let Person = class Person {
     }
 };
 Person = __decorate([
-    Logger('ログ出力中 - PERSON')
+    withTemplate('<h1>Personオブジェクト</h1>', 'app')
 ], Person);
 const pers = new Person();
 console.log(pers);
