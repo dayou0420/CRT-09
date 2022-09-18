@@ -1,11 +1,13 @@
 /***
- * 105
+ * 105, 106
 */
-function Logger(constructor: Function) {
-    console.log('ログ出力中...');
-    console.log(constructor);
+function Logger(logString: string) {
+    return function(constructor: Function) {
+        console.log(logString);
+        console.log(constructor);
+    }
 }
-@Logger
+@Logger('ログ出力中 - PERSON')
 class Person {
     name = 'Max';
     constructor() {
