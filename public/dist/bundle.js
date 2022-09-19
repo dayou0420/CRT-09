@@ -19,6 +19,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  * 105, 106
 */
 function Logger(logString) {
+    console.log('LOGGER ファクトリ');
     return function (constructor) {
         console.log(logString);
         console.log(constructor);
@@ -28,7 +29,9 @@ function Logger(logString) {
  * 107
 */
 function withTemplate(template, hookId) {
+    console.log('TEMPLATE ファクトリ');
     return function (constructor) {
+        console.log('テンプレートを表示');
         const hookEl = document.getElementById(hookId);
         const p = new constructor();
         if (hookEl) {
@@ -37,6 +40,9 @@ function withTemplate(template, hookId) {
         }
     };
 }
+/***
+ * 108
+*/
 // @Logger('ログ出力中 - PERSON')
 let Person = class Person {
     constructor() {
@@ -45,6 +51,7 @@ let Person = class Person {
     }
 };
 Person = __decorate([
+    Logger('ログ出力中'),
     withTemplate('<h1>Personオブジェクト</h1>', 'app')
 ], Person);
 const pers = new Person();
