@@ -44,10 +44,32 @@ function Log(target: any, propertyName: string | Symbol) {
     console.log('Property デコレータ');
     console.log(target, propertyName);
 }
+/***
+ * 110
+*/
+function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
+    console.log('Accessor デコレータ');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+function Log3(target: any, name: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Method デコレータ');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+function Log4(target: any, name: string | Symbol, position: number) {
+    console.log('Parameter デコレータ');
+    console.log(target);
+    console.log(name);
+    console.log(position);
+}
 class Product {
-    @Log
+    // @Log
     title: string;
     private _price: number;
+    // @Log2
     set price(val: number) {
         if (val > 0) {
             this._price = val;
@@ -59,7 +81,8 @@ class Product {
         this.title = t;
         this._price = p;
     }
-    getPriceWithTax(tax: number) {
+    // @Log3
+    getPriceWithTax(@Log4 tax: number) {
         return this._price * (1 + tax);
     }
 }
