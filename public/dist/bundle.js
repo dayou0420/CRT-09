@@ -19,19 +19,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  * 105, 106
 */
 function Logger(logString) {
-    console.log('LOGGER ファクトリ');
+    // console.log('LOGGER ファクトリ');
     return function (constructor) {
-        console.log(logString);
-        console.log(constructor);
+        // console.log(logString);
+        // console.log(constructor);
     };
 }
 /***
  * 107
 */
 function withTemplate(template, hookId) {
-    console.log('TEMPLATE ファクトリ');
+    // console.log('TEMPLATE ファクトリ');
     return function (constructor) {
-        console.log('テンプレートを表示');
+        // console.log('テンプレートを表示');
         const hookEl = document.getElementById(hookId);
         const p = new constructor();
         if (hookEl) {
@@ -47,7 +47,7 @@ function withTemplate(template, hookId) {
 let Person = class Person {
     constructor() {
         this.name = 'Max';
-        console.log('Personオブジェクトを作成中...');
+        // console.log('Personオブジェクトを作成中...');
     }
 };
 Person = __decorate([
@@ -55,7 +55,34 @@ Person = __decorate([
     withTemplate('<h1>Personオブジェクト</h1>', 'app')
 ], Person);
 const pers = new Person();
-console.log(pers);
+// console.log(pers);
+/***
+ * 109
+*/
+function Log(target, propertyName) {
+    console.log('Property デコレータ');
+    console.log(target, propertyName);
+}
+class Product {
+    constructor(t, p) {
+        this.title = t;
+        this._price = p;
+    }
+    set price(val) {
+        if (val > 0) {
+            this._price = val;
+        }
+        else {
+            throw new Error('不正な価格です - 0以下は設定できません');
+        }
+    }
+    getPriceWithTax(tax) {
+        return this._price * (1 + tax);
+    }
+}
+__decorate([
+    Log
+], Product.prototype, "title", void 0);
 
 
 /***/ })
