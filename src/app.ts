@@ -31,8 +31,8 @@ function withTemplate(template: string, hookId: string) {
  * 108
 */
 // @Logger('ログ出力中 - PERSON')
-@Logger('ログ出力中')
-@withTemplate('<h1>Personオブジェクト</h1>', 'app')
+// @Logger('ログ出力中')
+// @withTemplate('<h1>Personオブジェクト</h1>', 'app')
 class Person {
     name = 'Max';
     constructor() {
@@ -73,10 +73,10 @@ function Log4(target: any, name: string | Symbol, position: number) {
  * 111
 */
 class Product {
-    @Log
+    // @Log
     title: string;
     private _price: number;
-    @Log2
+    // @Log2
     set price(val: number) {
         if (val > 0) {
             this._price = val;
@@ -88,10 +88,35 @@ class Product {
         this.title = t;
         this._price = p;
     }
-    @Log3
-    getPriceWithTax(@Log4 tax: number) {
+    // @Log3
+    getPriceWithTax(tax: number) {
         return this._price * (1 + tax);
     }
 }
 const p1 = new Product('Book', 100);
 const p2 = new Product('Book', 200);
+/***
+ * 114
+*/
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const adjDescriptor: PropertyDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFn = originalMethod.bind(this);
+            return boundFn;
+        },
+    };
+    return adjDescriptor;
+}
+class Printer {
+    message = 'クリックしました！';
+    @Autobind
+    showMessage() {
+        console.log(this.message);
+    }
+}
+const p = new Printer();
+const button = document.querySelector("button")!;
+button.addEventListener('click', p.showMessage);
