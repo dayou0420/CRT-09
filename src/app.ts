@@ -9,17 +9,21 @@ function Logger(logString: string) {
     }
 }
 /***
- * 107
+ * 107、108, 112
 */
 function withTemplate(template: string, hookId: string) {
     // console.log('TEMPLATE ファクトリ');
-    return function(constructor: any) {
-        // console.log('テンプレートを表示');
-        const hookEl = document.getElementById(hookId);
-        const p = new constructor();
-        if (hookEl) {
-            hookEl.innerHTML = template;
-            hookEl.querySelector('h1')!.textContent = p.name;
+    return function<T extends {new(...args: any[]): {name: string}}>(originalConstructor: T) {
+        return class extends originalConstructor {
+            constructor(..._: any[]) {
+                super();
+                // console.log('テンプレートを表示');
+                const hookEl = document.getElementById(hookId);
+                if (hookEl) {
+                    hookEl.innerHTML = template;
+                    hookEl.querySelector('h1')!.textContent = this.name;
+                }
+            }
         }
     }
 }
@@ -65,11 +69,14 @@ function Log4(target: any, name: string | Symbol, position: number) {
     console.log(name);
     console.log(position);
 }
+/***
+ * 111
+*/
 class Product {
-    // @Log
+    @Log
     title: string;
     private _price: number;
-    // @Log2
+    @Log2
     set price(val: number) {
         if (val > 0) {
             this._price = val;
@@ -81,8 +88,10 @@ class Product {
         this.title = t;
         this._price = p;
     }
-    // @Log3
+    @Log3
     getPriceWithTax(@Log4 tax: number) {
         return this._price * (1 + tax);
     }
 }
+const p1 = new Product('Book', 100);
+const p2 = new Product('Book', 200);

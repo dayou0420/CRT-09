@@ -29,18 +29,22 @@ function Logger(logString) {
     };
 }
 /***
- * 107
+ * 107、108, 112
 */
 function withTemplate(template, hookId) {
     // console.log('TEMPLATE ファクトリ');
-    return function (constructor) {
-        // console.log('テンプレートを表示');
-        const hookEl = document.getElementById(hookId);
-        const p = new constructor();
-        if (hookEl) {
-            hookEl.innerHTML = template;
-            hookEl.querySelector('h1').textContent = p.name;
-        }
+    return function (originalConstructor) {
+        return class extends originalConstructor {
+            constructor(..._) {
+                super();
+                // console.log('テンプレートを表示');
+                const hookEl = document.getElementById(hookId);
+                if (hookEl) {
+                    hookEl.innerHTML = template;
+                    hookEl.querySelector('h1').textContent = this.name;
+                }
+            }
+        };
     };
 }
 /***
@@ -87,12 +91,14 @@ function Log4(target, name, position) {
     console.log(name);
     console.log(position);
 }
+/***
+ * 111
+*/
 class Product {
     constructor(t, p) {
         this.title = t;
         this._price = p;
     }
-    // @Log2
     set price(val) {
         if (val > 0) {
             this._price = val;
@@ -101,14 +107,22 @@ class Product {
             throw new Error('不正な価格です - 0以下は設定できません');
         }
     }
-    // @Log3
     getPriceWithTax(tax) {
         return this._price * (1 + tax);
     }
 }
 __decorate([
+    Log
+], Product.prototype, "title", void 0);
+__decorate([
+    Log2
+], Product.prototype, "price", null);
+__decorate([
+    Log3,
     __param(0, Log4)
 ], Product.prototype, "getPriceWithTax", null);
+const p1 = new Product('Book', 100);
+const p2 = new Product('Book', 200);
 
 
 /***/ })
