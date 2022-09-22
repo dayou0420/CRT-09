@@ -131,9 +131,6 @@ __decorate([
     autobind
 ], ProjectInput.prototype, "submitHandler", null);
 const prjInput = new ProjectInput();
-/***
- * OpenWeatherMap
-*/
 class WeatherClient {
     constructor(apiKey) {
         this.apiKey = apiKey;
@@ -142,18 +139,17 @@ class WeatherClient {
         this.getWeatherData();
     }
     getWeather(latitude, longitude) {
-        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`);
             const data = yield body.json();
             return {
-                city: data === null || data === void 0 ? void 0 : data.name,
-                weather: (_a = data === null || data === void 0 ? void 0 : data.weather[0]) === null || _a === void 0 ? void 0 : _a.main,
-                temp: (_b = data === null || data === void 0 ? void 0 : data.main) === null || _b === void 0 ? void 0 : _b.temp,
-                feels_like: (_c = data === null || data === void 0 ? void 0 : data.main) === null || _c === void 0 ? void 0 : _c.feels_like,
-                humidity: (_d = data === null || data === void 0 ? void 0 : data.main) === null || _d === void 0 ? void 0 : _d.humidity,
-                temp_max: (_e = data === null || data === void 0 ? void 0 : data.main) === null || _e === void 0 ? void 0 : _e.temp_max,
-                temp_min: (_f = data === null || data === void 0 ? void 0 : data.main) === null || _f === void 0 ? void 0 : _f.temp_min,
+                city: data.name,
+                weather: data.weather[0].main,
+                temp: data.main.temp,
+                feels_like: data.main.feels_like,
+                humidity: data.main.humidity,
+                temp_max: data.main.temp_max,
+                temp_min: data.main.temp_min,
             };
         });
     }

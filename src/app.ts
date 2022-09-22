@@ -148,6 +148,19 @@ const prjInput = new ProjectInput();
 /***
  * OpenWeatherMap
 */
+interface WeatherDataType {
+    name: string,
+    weather: [{
+        main: string
+    }],
+    main: {
+        temp: number,
+        feels_like: number,
+        humidity: number,
+        temp_max: number,
+        temp_min: number,
+    }
+}
 class WeatherClient {
     private latitude = 34.6937;
     private longitude = 135.5023;
@@ -160,15 +173,15 @@ class WeatherClient {
                 this.apiKey
             }`
         );
-        const data = await body.json();
+        const data: WeatherDataType = await body.json();
         return {
-            city: data?.name,
-            weather: data?.weather[0]?.main,
-            temp: data?.main?.temp,
-            feels_like: data?.main?.feels_like,
-            humidity: data?.main?.humidity,
-            temp_max: data?.main?.temp_max,
-            temp_min: data?.main?.temp_min,
+            city: data.name,
+            weather: data.weather[0].main,
+            temp: data.main.temp,
+            feels_like: data.main.feels_like,
+            humidity: data.main.humidity,
+            temp_max: data.main.temp_max,
+            temp_min: data.main.temp_min,
         }
     }
     private getWeatherData() {
@@ -178,7 +191,7 @@ class WeatherClient {
         })
         .catch(err => {
             console.log(err.message);
-        })
+        });
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
