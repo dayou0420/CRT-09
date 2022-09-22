@@ -145,3 +145,41 @@ class ProjectInput {
     }
 }
 const prjInput = new ProjectInput();
+/***
+ * OpenWeatherMap
+*/
+class WeatherClient {
+    private latitude = 34.6937;
+    private longitude = 135.5023;
+    constructor(private apiKey: string) {
+        this.getWeatherData();
+    }
+    private async getWeather(latitude: number, longitude: number) {
+        const body = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${
+                this.apiKey
+            }`
+        );
+        const data = await body.json();
+        return {
+            city: data?.name,
+            weather: data?.weather[0]?.main,
+            temp: data?.main?.temp,
+            feels_like: data?.main?.feels_like,
+            humidity: data?.main?.humidity,
+            temp_max: data?.main?.temp_max,
+            temp_min: data?.main?.temp_min,
+        }
+    }
+    private getWeatherData() {
+        this.getWeather(this.latitude, this.longitude)
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+    }
+}
+const API_KEY = '219228b2383f8240a93b11492d102a52';
+const wc = new WeatherClient(API_KEY);
