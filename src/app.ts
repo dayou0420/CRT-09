@@ -1,7 +1,19 @@
 /***
- * 122, 123, 124, 125
+ * 122, 123, 124, 125, 126
 */
-function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+function autobind(
+    _: any,
+    _2: string,
+    descriptor: PropertyDescriptor
+) {
     const originalMethod = descriptor.value;
     const adjDescriptor: PropertyDescriptor = {
         configurable: true,
@@ -13,6 +25,42 @@ function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
     };
     return adjDescriptor;
 }
+function validate(validatableInput: Validatable) {
+    let isValid = true;
+    if (validatableInput.required) {
+        isValid =
+            isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (
+        validatableInput.minLength != null &&
+        typeof validatableInput.value === 'string'
+    ) {
+        isValid =
+            isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    if (
+        validatableInput.maxLength != null &&
+        typeof validatableInput.value === 'string'
+    ) {
+        isValid =
+            isValid && validatableInput.value.length <= validatableInput.maxLength;
+    }
+    if (
+        validatableInput.min != null &&
+        typeof validatableInput.value === 'number'
+    ) {
+        isValid =
+            isValid && validatableInput.value >= validatableInput.min;
+    }
+    if (
+        validatableInput.max != null &&
+        typeof validatableInput.value === 'number'
+    ) {
+        isValid =
+            isValid && validatableInput.value <= validatableInput.max;
+    }
+    return isValid;
+}
 class ProjectInput {
     templateElement: HTMLTemplateElement;
     hostElement: HTMLDivElement;
@@ -21,14 +69,26 @@ class ProjectInput {
     descriptionInputElement: HTMLInputElement;
     mandayInputElement: HTMLInputElement;
     constructor() {
-        this.templateElement = document.getElementById('project-input')! as HTMLTemplateElement;
-        this.hostElement = document.getElementById('app')! as HTMLDivElement;
-        const importedNode = document.importNode(this.templateElement.content, true);
+        this.templateElement = document.getElementById(
+            'project-input'
+        )! as HTMLTemplateElement;
+        this.hostElement = document.getElementById(
+            'app'
+        )! as HTMLDivElement;
+        const importedNode = document.importNode(
+            this.templateElement.content, true
+        );
         this.element = importedNode.firstElementChild as HTMLFormElement;
         this.element.id = 'user-input';
-        this.titleInputElement = this.element.querySelector('#title') as HTMLInputElement;
-        this.descriptionInputElement = this.element.querySelector('#description') as HTMLInputElement;
-        this.mandayInputElement = this.element.querySelector('#manday') as HTMLInputElement;
+        this.titleInputElement = this.element.querySelector(
+            '#title'
+        ) as HTMLInputElement;
+        this.descriptionInputElement = this.element.querySelector(
+            '#description'
+        ) as HTMLInputElement;
+        this.mandayInputElement = this.element.querySelector(
+            '#manday'
+        ) as HTMLInputElement;
         this.configure();
         this.attach();
     }
@@ -36,10 +96,25 @@ class ProjectInput {
         const enteredTitle = this.titleInputElement.value;
         const enteredDescription = this.descriptionInputElement.value;
         const enteredManday = this.mandayInputElement.value;
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        };
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5
+        };
+        const mandayValidatable: Validatable = {
+            value: +enteredManday,
+            required: true,
+            min: 1,
+            max: 1000
+        };
         if (
-            enteredTitle.trim().length === 0 ||
-            enteredDescription.trim().length === 0 ||
-            enteredManday.trim().length === 0
+            !validate(titleValidatable) ||
+            !validate(descriptionValidatable) ||
+            !validate(mandayValidatable)
         ) {
             alert('入力値が正しくありません。再度お試しください。');
             return;
