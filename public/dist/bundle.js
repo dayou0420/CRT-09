@@ -158,13 +158,21 @@ const prjInput = new ProjectInput();
 const activePrjList = new ProjectList('active');
 const finishedPrjList = new ProjectList('finished');
 class WeatherClient {
-    constructor(apiKey) {
+    constructor(apiKey, cityName) {
         this.apiKey = apiKey;
-        this.latitude = 34.6937;
-        this.longitude = 135.5023;
-        this.cityName = 'Osaka';
-        this.getWeatherData();
-        this.getGeocodingData();
+        this.cityName = cityName;
+        this.getGeocoding(this.cityName);
+        this.getData();
+    }
+    getGeocoding(city) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const body = yield fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${this.apiKey}`);
+            const data = yield body.json();
+            return {
+                lat: data[0].lat,
+                lon: data[0].lon
+            };
+        });
     }
     getWeather(latitude, longitude) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -181,38 +189,35 @@ class WeatherClient {
             };
         });
     }
-    getWeatherData() {
-        this.getWeather(this.latitude, this.longitude)
-            .then(data => {
-            console.log(data);
-        })
-            .catch(err => {
-            console.log(err.message);
-        });
-    }
-    getGeocoding(city) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const body = yield fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${this.apiKey}`);
-            const data = yield body.json();
-            return {
-                lat: data[0].lat,
-                lon: data[0].lon
-            };
-        });
-    }
-    getGeocodingData() {
+    getData() {
         this.getGeocoding(this.cityName)
             .then(data => {
-            console.log(data);
+            this.getWeather(data.lat, data.lon)
+                .then(d => {
+                console.log(d);
+            })
+                .catch(e => {
+                throw new Error(e.message);
+            });
         })
             .catch(err => {
-            console.log(err.message);
             throw new Error(err.message);
         });
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY);
+const wc = new WeatherClient(API_KEY, 'Tokyo');
+const inputCity = document.getElementById('input-city');
+inputCity.addEventListener('change', updateValue);
+function updateValue(e) {
+    inputCity.textContent = e.target.value;
+    if (inputCity.textContent === null) {
+        throw new Error('Opps');
+    }
+    else {
+        new WeatherClient(API_KEY, inputCity.textContent);
+    }
+}
 
 
 /***/ })

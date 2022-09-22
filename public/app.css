@@ -104,20 +104,20 @@ button:active {
 }
 
 .projects li h3 {
-color: #575757;
-font-size: 1rem;
+    color: #575757;
+    font-size: 1rem;
 }
 
 .project li p {
-margin: 0;
+    margin: 0;
 }
 
 .droppable {
-background: #ffe3ee;
+    background: #ffe3ee;
 }
 
 #finished-projects .droppable {
-background: #d6e1ff;
+    background: #d6e1ff;
 }
 
 #user-input {
@@ -125,4 +125,8 @@ background: #d6e1ff;
     padding: 1rem;
     border: 1px solid #ff0062;
     background: #f7f7f7;
+}
+#input-city {
+    margin: auto;
+    text-align: center;
 }

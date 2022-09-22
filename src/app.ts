@@ -200,14 +200,23 @@ type GeocodingDataType = [
         lat: number,
         lon: number
     }
-]
+];
 class WeatherClient {
-    private latitude = 34.6937;
-    private longitude = 135.5023;
-    private cityName = 'Osaka';
-    constructor(private apiKey: string) {
-        this.getWeatherData();
-        this.getGeocodingData();
+    constructor(private apiKey: string, private cityName: string) {
+        this.getGeocoding(this.cityName);
+        this.getData();
+    }
+    private async getGeocoding(city: string) {
+        const body = await fetch(
+            `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
+                this.apiKey
+            }`
+        );
+        const data: GeocodingDataType = await body.json();
+        return {
+            lat: data[0].lat,
+            lon: data[0].lon
+        }
     }
     private async getWeather(latitude: number, longitude: number) {
         const body = await fetch(
@@ -226,37 +235,31 @@ class WeatherClient {
             temp_min: data.main.temp_min
         }
     }
-    private getWeatherData() {
-        this.getWeather(this.latitude, this.longitude)
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => {
-            console.log(err.message);
-        });
-    }
-    private async getGeocoding(city: string) {
-        const body = await fetch(
-            `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
-                this.apiKey
-            }`
-        );
-        const data: GeocodingDataType = await body.json();
-        return {
-            lat: data[0].lat,
-            lon: data[0].lon
-        }
-    }
-    private getGeocodingData() {
+    private getData() {
         this.getGeocoding(this.cityName)
         .then(data => {
-            console.log(data);
+            this.getWeather(data.lat, data.lon)
+            .then(d => {
+                console.log(d);
+            })
+            .catch(e => {
+                throw new Error(e.message);
+            })
         })
         .catch(err => {
-            console.log(err.message);
             throw new Error(err.message);
         });
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY);
+const wc = new WeatherClient(API_KEY, 'Tokyo');
+const inputCity = document.getElementById('input-city')! as HTMLInputElement;
+inputCity.addEventListener('change', updateValue);
+function updateValue(e: any) {
+    inputCity.textContent = e.target.value;
+    if (inputCity.textContent === null) {
+        throw new Error('Opps');
+    } else {
+        new WeatherClient(API_KEY, inputCity.textContent);
+    }
+}
