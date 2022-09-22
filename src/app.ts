@@ -161,11 +161,19 @@ interface WeatherDataType {
         temp_min: number,
     }
 }
+type GeocodingDataType = [
+    data: {
+        lat: number,
+        lon: number
+    }
+]
 class WeatherClient {
     private latitude = 34.6937;
     private longitude = 135.5023;
+    private cityName = 'Osaka';
     constructor(private apiKey: string) {
         this.getWeatherData();
+        this.getGeocodingData();
     }
     private async getWeather(latitude: number, longitude: number) {
         const body = await fetch(
@@ -181,7 +189,7 @@ class WeatherClient {
             feels_like: data.main.feels_like,
             humidity: data.main.humidity,
             temp_max: data.main.temp_max,
-            temp_min: data.main.temp_min,
+            temp_min: data.main.temp_min
         }
     }
     private getWeatherData() {
@@ -191,6 +199,28 @@ class WeatherClient {
         })
         .catch(err => {
             console.log(err.message);
+        });
+    }
+    private async getGeocoding(city: string) {
+        const body = await fetch(
+            `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
+                this.apiKey
+            }`
+        );
+        const data: GeocodingDataType = await body.json();
+        return {
+            lat: data[0].lat,
+            lon: data[0].lon
+        }
+    }
+    private getGeocodingData() {
+        this.getGeocoding(this.cityName)
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => {
+            console.log(err.message);
+            throw new Error(err.message);
         });
     }
 }

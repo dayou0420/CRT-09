@@ -136,7 +136,9 @@ class WeatherClient {
         this.apiKey = apiKey;
         this.latitude = 34.6937;
         this.longitude = 135.5023;
+        this.cityName = 'Osaka';
         this.getWeatherData();
+        this.getGeocodingData();
     }
     getWeather(latitude, longitude) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -149,7 +151,7 @@ class WeatherClient {
                 feels_like: data.main.feels_like,
                 humidity: data.main.humidity,
                 temp_max: data.main.temp_max,
-                temp_min: data.main.temp_min,
+                temp_min: data.main.temp_min
             };
         });
     }
@@ -160,6 +162,26 @@ class WeatherClient {
         })
             .catch(err => {
             console.log(err.message);
+        });
+    }
+    getGeocoding(city) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const body = yield fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${this.apiKey}`);
+            const data = yield body.json();
+            return {
+                lat: data[0].lat,
+                lon: data[0].lon
+            };
+        });
+    }
+    getGeocodingData() {
+        this.getGeocoding(this.cityName)
+            .then(data => {
+            console.log(data);
+        })
+            .catch(err => {
+            console.log(err.message);
+            throw new Error(err.message);
         });
     }
 }
