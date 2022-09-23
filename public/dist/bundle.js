@@ -180,9 +180,11 @@ class WeatherClient {
             const data = yield body.json();
             return {
                 city: data.name,
-                weather: data.weather[0].main,
+                main: data.weather[0].main,
+                description: data.weather[0].description,
                 temp: data.main.temp,
-                humidity: data.main.humidity
+                humidity: data.main.humidity,
+                speed: data.wind.speed
             };
         });
     }
@@ -196,6 +198,9 @@ class WeatherClient {
             const temp_min = data.list.map((m) => m.main.temp_min);
             const feels_like = data.list.map((m) => m.main.feels_like);
             const humidity = data.list.map((m) => m.main.humidity);
+            const deg = data.list.map((m) => m.wind.deg);
+            const gust = data.list.map((m) => m.wind.gust);
+            const speed = data.list.map((m) => m.wind.speed);
             const daily = {
                 labels: time,
                 datasets: [
@@ -235,6 +240,33 @@ class WeatherClient {
                 type: 'line',
                 data: daily
             });
+            const wind = {
+                labels: time,
+                datasets: [
+                    {
+                        label: 'Deg',
+                        data: deg,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Gust',
+                        data: gust,
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Speed',
+                        data: speed,
+                        borderColor: 'rgb(54, 162, 235)',
+                        tension: 0.2
+                    },
+                ]
+            };
+            new Chart(document.getElementById('wind'), {
+                type: 'line',
+                data: wind
+            });
         });
     }
     getData() {
@@ -242,14 +274,19 @@ class WeatherClient {
             .then(data => {
             this.getWeather(data.lat, data.lon)
                 .then(d => {
+                console.log(d);
                 const city = document.getElementById('city');
-                const weather = document.getElementById('weather');
+                const main = document.getElementById('main');
+                const des = document.getElementById('des');
                 const temp = document.getElementById('temp');
                 const humidity = document.getElementById('humidity');
+                const speed = document.getElementById('speed');
                 city.innerText = d.city;
-                weather.innerText = d.weather;
+                main.innerText = d.main;
+                des.innerText = d.description;
                 temp.innerText = String(d.temp);
                 humidity.innerText = String(d.humidity);
+                speed.innerText = String(d.speed);
             })
                 .catch(e => {
                 throw new Error(e.message);
@@ -262,7 +299,7 @@ class WeatherClient {
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY, 'Osaka');
+const wc = new WeatherClient(API_KEY, 'Shinagawa');
 
 
 /***/ })

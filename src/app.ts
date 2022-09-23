@@ -186,7 +186,8 @@ declare var Chart: any;
 interface WeatherDataType {
     name: string,
     weather: [{
-        main: string
+        main: string,
+        description: string
     }],
     main: {
         temp: number,
@@ -194,6 +195,9 @@ interface WeatherDataType {
         humidity: number,
         temp_max: number,
         temp_min: number,
+    },
+    wind: {
+        speed: number
     }
 }
 type GeocodingDataType = [
@@ -228,9 +232,11 @@ class WeatherClient {
         const data: WeatherDataType = await body.json();
         return {
             city: data.name,
-            weather: data.weather[0].main,
+            main: data.weather[0].main,
+            description: data.weather[0].description,
             temp: data.main.temp,
-            humidity: data.main.humidity
+            humidity: data.main.humidity,
+            speed: data.wind.speed
         }
     }
     private async getWeatherForecast(latitude: number, longitude: number) {
@@ -240,12 +246,15 @@ class WeatherClient {
             }`
         );
         const data = await body.json();
-        const time = data.list.map((m: any) => m.dt_txt);
-        const temp = data.list.map((m: any) => m.main.temp);
-        const temp_max = data.list.map((m: any) => m.main.temp_max);
-        const temp_min = data.list.map((m: any) => m.main.temp_min);
-        const feels_like = data.list.map((m: any) => m.main.feels_like);
-        const humidity = data.list.map((m: any) => m.main.humidity);
+        const time: string[] = data.list.map((m: any) => m.dt_txt);
+        const temp: number[] = data.list.map((m: any) => m.main.temp);
+        const temp_max: number[] = data.list.map((m: any) => m.main.temp_max);
+        const temp_min: number[] = data.list.map((m: any) => m.main.temp_min);
+        const feels_like: number[] = data.list.map((m: any) => m.main.feels_like);
+        const humidity: number[] = data.list.map((m: any) => m.main.humidity);
+        const deg: number[] = data.list.map((m: any) => m.wind.deg);
+        const gust: number[] = data.list.map((m: any) => m.wind.gust);
+        const speed: number[] = data.list.map((m: any) => m.wind.speed);
         const daily = {
             labels: time,
             datasets:
@@ -286,20 +295,53 @@ class WeatherClient {
             type: 'line',
             data: daily
         });
+        const wind = {
+            labels: time,
+            datasets:
+            [
+                {
+                    label: 'Deg',
+                    data: deg,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Gust',
+                    data: gust,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Speed',
+                    data: speed,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.2
+                },
+            ]
+        };
+        new Chart(document.getElementById('wind'), {
+            type: 'line',
+            data: wind
+        });
     }
     private getData() {
         this.getGeocoding(this.cityName)
         .then(data => {
             this.getWeather(data.lat, data.lon)
             .then(d => {
+                console.log(d);
                 const city = <HTMLElement>document.getElementById('city')!;
-                const weather = <HTMLElement>document.getElementById('weather')!;
+                const main = <HTMLElement>document.getElementById('main')!;
+                const des = <HTMLElement>document.getElementById('des')!;
                 const temp = <HTMLElement>document.getElementById('temp')!;
                 const humidity = <HTMLElement>document.getElementById('humidity')!;
+                const speed = <HTMLElement>document.getElementById('speed')!;
                 city.innerText = d.city;
-                weather.innerText = d.weather;
+                main.innerText = d.main;
+                des.innerText = d.description;
                 temp.innerText = String(d.temp);
                 humidity.innerText = String(d.humidity);
+                speed.innerText = String(d.speed);
             })
             .catch(e => {
                 throw new Error(e.message);
@@ -312,4 +354,4 @@ class WeatherClient {
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY, 'Osaka');
+const wc = new WeatherClient(API_KEY, 'Shinagawa');
