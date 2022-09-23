@@ -192,6 +192,10 @@ class WeatherClient {
             const data = yield body.json();
             const time = data.list.map((m) => m.dt_txt);
             const temp = data.list.map((m) => m.main.temp);
+            const temp_max = data.list.map((m) => m.main.temp_max);
+            const temp_min = data.list.map((m) => m.main.temp_min);
+            const feels_like = data.list.map((m) => m.main.feels_like);
+            const humidity = data.list.map((m) => m.main.humidity);
             const daily = {
                 labels: time,
                 datasets: [
@@ -199,6 +203,30 @@ class WeatherClient {
                         label: 'Temperature',
                         data: temp,
                         borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Temp Max',
+                        data: temp_max,
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Temp Min',
+                        data: temp_min,
+                        borderColor: 'rgb(54, 162, 235)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Feels Like',
+                        data: feels_like,
+                        borderColor: 'rgb(255, 159, 64)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Humidity',
+                        data: humidity,
+                        borderColor: 'rgb(153, 102, 255)',
                         tension: 0.2
                     }
                 ]
@@ -234,7 +262,7 @@ class WeatherClient {
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY, '大阪');
+const wc = new WeatherClient(API_KEY, 'Osaka');
 
 
 /***/ })

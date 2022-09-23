@@ -128,11 +128,14 @@ button:active {
 }
 th,td {
     border: solid 1.5px #ccc;
-    padding: 1rem;
+    padding: 10px;
 }
- 
 table {
     border-collapse: collapse;
     margin: auto;
     text-align: center;
+    margin-bottom: 10px;
+}
+#daily {
+    padding: 15px;
 }
