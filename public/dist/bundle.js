@@ -182,11 +182,31 @@ class WeatherClient {
                 city: data.name,
                 weather: data.weather[0].main,
                 temp: data.main.temp,
-                feels_like: data.main.feels_like,
-                humidity: data.main.humidity,
-                temp_max: data.main.temp_max,
-                temp_min: data.main.temp_min
+                humidity: data.main.humidity
             };
+        });
+    }
+    getWeatherForecast(latitude, longitude) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const body = yield fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`);
+            const data = yield body.json();
+            const time = data.list.map((m) => m.dt_txt);
+            const temp = data.list.map((m) => m.main.temp);
+            const daily = {
+                labels: time,
+                datasets: [
+                    {
+                        label: 'Temperature',
+                        data: temp,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.2
+                    }
+                ]
+            };
+            new Chart(document.getElementById('daily'), {
+                type: 'line',
+                data: daily
+            });
         });
     }
     getData() {
@@ -194,11 +214,19 @@ class WeatherClient {
             .then(data => {
             this.getWeather(data.lat, data.lon)
                 .then(d => {
-                console.log(d);
+                const city = document.getElementById('city');
+                const weather = document.getElementById('weather');
+                const temp = document.getElementById('temp');
+                const humidity = document.getElementById('humidity');
+                city.innerText = d.city;
+                weather.innerText = d.weather;
+                temp.innerText = String(d.temp);
+                humidity.innerText = String(d.humidity);
             })
                 .catch(e => {
                 throw new Error(e.message);
             });
+            this.getWeatherForecast(data.lat, data.lon);
         })
             .catch(err => {
             throw new Error(err.message);
@@ -206,18 +234,7 @@ class WeatherClient {
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY, 'Tokyo');
-const inputCity = document.getElementById('input-city');
-inputCity.addEventListener('change', updateValue);
-function updateValue(e) {
-    inputCity.textContent = e.target.value;
-    if (inputCity.textContent === null) {
-        throw new Error('Opps');
-    }
-    else {
-        new WeatherClient(API_KEY, inputCity.textContent);
-    }
-}
+const wc = new WeatherClient(API_KEY, '大阪');
 
 
 /***/ })

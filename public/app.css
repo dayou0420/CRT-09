@@ -126,7 +126,13 @@ button:active {
     border: 1px solid #ff0062;
     background: #f7f7f7;
 }
-#input-city {
+th,td {
+    border: solid 1.5px #ccc;
+    padding: 1rem;
+}
+ 
+table {
+    border-collapse: collapse;
     margin: auto;
     text-align: center;
 }

@@ -182,6 +182,7 @@ const finishedPrjList = new ProjectList('finished');
 /***
  * OpenWeatherMap
 */
+declare var Chart: any;
 interface WeatherDataType {
     name: string,
     weather: [{
@@ -229,22 +230,53 @@ class WeatherClient {
             city: data.name,
             weather: data.weather[0].main,
             temp: data.main.temp,
-            feels_like: data.main.feels_like,
-            humidity: data.main.humidity,
-            temp_max: data.main.temp_max,
-            temp_min: data.main.temp_min
+            humidity: data.main.humidity
         }
+    }
+    private async getWeatherForecast(latitude: number, longitude: number) {
+        const body = await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${
+                this.apiKey
+            }`
+        );
+        const data = await body.json();
+        const time = data.list.map((m: any) => m.dt_txt);
+        const temp = data.list.map((m: any) => m.main.temp);
+        const daily = {
+            labels: time,
+            datasets:
+            [
+                {
+                    label: 'Temperature',
+                    data: temp,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                }
+            ]
+        };
+        new Chart(document.getElementById('daily'), {
+            type: 'line',
+            data: daily
+        });
     }
     private getData() {
         this.getGeocoding(this.cityName)
         .then(data => {
             this.getWeather(data.lat, data.lon)
             .then(d => {
-                console.log(d);
+                const city = <HTMLElement>document.getElementById('city')!;
+                const weather = <HTMLElement>document.getElementById('weather')!;
+                const temp = <HTMLElement>document.getElementById('temp')!;
+                const humidity = <HTMLElement>document.getElementById('humidity')!;
+                city.innerText = d.city;
+                weather.innerText = d.weather;
+                temp.innerText = String(d.temp);
+                humidity.innerText = String(d.humidity);
             })
             .catch(e => {
                 throw new Error(e.message);
-            })
+            });
+            this.getWeatherForecast(data.lat, data.lon);
         })
         .catch(err => {
             throw new Error(err.message);
@@ -252,14 +284,4 @@ class WeatherClient {
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY, 'Tokyo');
-const inputCity = document.getElementById('input-city')! as HTMLInputElement;
-inputCity.addEventListener('change', updateValue);
-function updateValue(e: any) {
-    inputCity.textContent = e.target.value;
-    if (inputCity.textContent === null) {
-        throw new Error('Opps');
-    } else {
-        new WeatherClient(API_KEY, inputCity.textContent);
-    }
-}
+const wc = new WeatherClient(API_KEY, '大阪');
