@@ -24,6 +24,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+/***
+ * 122, 123, 124, 125, 126
+*/
+/***
+ * 127, 128
+*/
+class ProjectState {
+    constructor() {
+        this.listeners = [];
+        this.projects = [];
+    }
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new ProjectState();
+        return this.instance;
+    }
+    addListener(listenerFn) {
+        this.listeners.push(listenerFn);
+    }
+    addProject(title, description, manday) {
+        const newProject = {
+            id: Math.random().toString(),
+            title: title,
+            description: description,
+            manday: manday
+        };
+        this.projects.push(newProject);
+        for (const listenerFn of this.listeners) {
+            listenerFn(this.projects.slice());
+        }
+    }
+}
+const projectState = ProjectState.getInstance();
 function autobind(_, _2, descriptor) {
     const originalMethod = descriptor.value;
     const adjDescriptor = {
@@ -74,9 +109,22 @@ class ProjectList {
         this.hostElement = document.getElementById('app');
         const importedNode = document.importNode(this.templateElement.content, true);
         this.element = importedNode.firstElementChild;
+        this.assignedProjects = [];
         this.element.id = `${this.type}-projects`;
+        projectState.addListener((projects) => {
+            this.assignedProjects = projects;
+            this.renderProjects();
+        });
         this.attach();
         this.renderContent();
+    }
+    renderProjects() {
+        const listEl = document.getElementById(`${this.type}-projects-list`);
+        for (const prjItem of this.assignedProjects) {
+            const listItem = document.createElement('li');
+            listItem.textContent = prjItem.title;
+            listEl.appendChild(listItem);
+        }
     }
     renderContent() {
         const listId = `${this.type}-projects-list`;
@@ -140,6 +188,7 @@ class ProjectInput {
         const userInput = this.gatherUserInput();
         if (Array.isArray(userInput)) {
             const [title, desc, manday] = userInput;
+            projectState.addProject(title, desc, manday);
             console.log(title, desc, manday);
             this.clearInputs();
         }
@@ -299,7 +348,7 @@ class WeatherClient {
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
-const wc = new WeatherClient(API_KEY, 'Shinagawa');
+new WeatherClient(API_KEY, 'Shinagawa');
 
 
 /***/ })
