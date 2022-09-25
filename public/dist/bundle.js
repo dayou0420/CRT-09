@@ -24,9 +24,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-/***
- * 122, 123, 124, 125, 126, 127, 128, 129, 130
-*/
 var ProjectStatus;
 (function (ProjectStatus) {
     ProjectStatus[ProjectStatus["Active"] = 0] = "Active";
@@ -129,7 +126,7 @@ class Component {
     }
 }
 /***
- * 132, 133
+ * 132, 133, 134
 */
 class ProjectItem extends Component {
     constructor(hostId, project) {
@@ -146,7 +143,15 @@ class ProjectItem extends Component {
             return (this.project.manday / 20).toString() + '人月';
         }
     }
+    dragStartHandler(event) {
+        console.log(event);
+    }
+    dragEndHandler(_) {
+        console.log('Drag終了');
+    }
     configure() {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
     }
     renderContent() {
         this.element.querySelector('h2').textContent = this.project.title;
@@ -154,6 +159,9 @@ class ProjectItem extends Component {
         this.element.querySelector('p').textContent = this.project.description;
     }
 }
+__decorate([
+    autobind
+], ProjectItem.prototype, "dragStartHandler", null);
 class ProjectList extends Component {
     constructor(type) {
         super('project-list', 'app', false, `${type}-projects`);
