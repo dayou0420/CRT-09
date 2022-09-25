@@ -273,7 +273,7 @@ class WeatherClient {
             lon: data[0].lon
         }
     }
-    private async getWeather(latitude: number, longitude: number) {
+    private async getDailyWeather(latitude: number, longitude: number) {
         const body = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${
                 this.apiKey
@@ -377,9 +377,8 @@ class WeatherClient {
     private getData() {
         this.getGeocoding(this.cityName)
         .then(data => {
-            this.getWeather(data.lat, data.lon)
+            this.getDailyWeather(data.lat, data.lon)
             .then(d => {
-                console.log(d);
                 const city = <HTMLElement>document.getElementById('city')!;
                 const main = <HTMLElement>document.getElementById('main')!;
                 const des = <HTMLElement>document.getElementById('des')!;

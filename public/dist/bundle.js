@@ -223,7 +223,7 @@ class WeatherClient {
             };
         });
     }
-    getWeather(latitude, longitude) {
+    getDailyWeather(latitude, longitude) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`);
             const data = yield body.json();
@@ -321,9 +321,8 @@ class WeatherClient {
     getData() {
         this.getGeocoding(this.cityName)
             .then(data => {
-            this.getWeather(data.lat, data.lon)
+            this.getDailyWeather(data.lat, data.lon)
                 .then(d => {
-                console.log(d);
                 const city = document.getElementById('city');
                 const main = document.getElementById('main');
                 const des = document.getElementById('des');
