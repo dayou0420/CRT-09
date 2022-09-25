@@ -1,104 +1,88 @@
 /***
- * 105, 106
+ * 122, 123, 124, 125, 126, 127, 128, 129, 130, 134
 */
-function Logger(logString: string) {
-    // console.log('LOGGER ファクトリ');
-    return function(constructor: Function) {
-        // console.log(logString);
-        // console.log(constructor);
+interface Draggable {
+    dragStartHandler(event: DragEvent): void;
+    dragEndHandler(event: DragEvent): void;
+}
+interface DragTarget {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dragLeaveHandler(event: DragEvent): void;
+}
+enum ProjectStatus {
+    Active, Finished
+}
+class Project {
+    constructor(
+        public id: string,
+        public title: string,
+        public description: string,
+        public manday: number,
+        public status: ProjectStatus
+    ) {}
+}
+type Listner<T> = (items: T[]) => void;
+class State<T> {
+    protected listeners: Listner<T>[] = [];
+    addListener(listenerFn: Listner<T>) {
+        this.listeners.push(listenerFn);
     }
 }
 /***
- * 107、108, 112
+ * 137
 */
-function withTemplate(template: string, hookId: string) {
-    // console.log('TEMPLATE ファクトリ');
-    return function<T extends {new(...args: any[]): {name: string}}>(originalConstructor: T) {
-        return class extends originalConstructor {
-            constructor(..._: any[]) {
-                super();
-                // console.log('テンプレートを表示');
-                const hookEl = document.getElementById(hookId);
-                if (hookEl) {
-                    hookEl.innerHTML = template;
-                    hookEl.querySelector('h1')!.textContent = this.name;
-                }
-            }
+class ProjectState extends State<Project> {
+    private projects: Project[] = [];
+    private static instance: ProjectState;
+    private constructor() {
+        super();
+    }
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new ProjectState();
+        return this.instance;
+    }
+    addProject(title: string, description: string, manday: number) {
+        const newProject = new Project(
+            Math.random().toString(),
+            title,
+            description,
+            manday,
+            ProjectStatus.Active
+        );
+        this.projects.push(newProject);
+        this.updateListeners();
+    }
+    moveProject(projectId: string, newStatus: ProjectStatus) {
+        const project = this.projects.find(prj => prj.id === projectId);
+        if (project && project.status !== newStatus) {
+            project.status = newStatus;
+            this.updateListeners();
+        }
+    }
+    private updateListeners() {
+        for (const listenerFn of this.listeners) {
+            listenerFn(this.projects.slice());
         }
     }
 }
-/***
- * 108
-*/
-// @Logger('ログ出力中 - PERSON')
-// @Logger('ログ出力中')
-// @withTemplate('<h1>Personオブジェクト</h1>', 'app')
-class Person {
-    name = 'Max';
-    constructor() {
-        // console.log('Personオブジェクトを作成中...');
-    }
+const projectState = ProjectState.getInstance();
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
 }
-const pers = new Person();
-// console.log(pers);
-/***
- * 109
-*/
-function Log(target: any, propertyName: string | Symbol) {
-    console.log('Property デコレータ');
-    console.log(target, propertyName);
-}
-/***
- * 110
-*/
-function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
-    console.log('Accessor デコレータ');
-    console.log(target);
-    console.log(name);
-    console.log(descriptor);
-}
-function Log3(target: any, name: string | Symbol, descriptor: PropertyDescriptor) {
-    console.log('Method デコレータ');
-    console.log(target);
-    console.log(name);
-    console.log(descriptor);
-}
-function Log4(target: any, name: string | Symbol, position: number) {
-    console.log('Parameter デコレータ');
-    console.log(target);
-    console.log(name);
-    console.log(position);
-}
-/***
- * 111
-*/
-class Product {
-    // @Log
-    title: string;
-    private _price: number;
-    // @Log2
-    set price(val: number) {
-        if (val > 0) {
-            this._price = val;
-        } else {
-            throw new Error('不正な価格です - 0以下は設定できません');
-        }
-    }
-    constructor(t:string, p:number) {
-        this.title = t;
-        this._price = p;
-    }
-    // @Log3
-    getPriceWithTax(tax: number) {
-        return this._price * (1 + tax);
-    }
-}
-const p1 = new Product('Book', 100);
-const p2 = new Product('Book', 200);
-/***
- * 114
-*/
-function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+function autobind(
+    _: any,
+    _2: string,
+    descriptor: PropertyDescriptor
+) {
     const originalMethod = descriptor.value;
     const adjDescriptor: PropertyDescriptor = {
         configurable: true,
@@ -110,77 +94,423 @@ function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
     };
     return adjDescriptor;
 }
-class Printer {
-    message = 'クリックしました！';
-    // @Autobind
-    showMessage() {
-        console.log(this.message);
-    }
-}
-// const p = new Printer();
-// const button = document.querySelector("button")!;
-// button.addEventListener('click', p.showMessage);
-/***
- * 115, 116, 117
-*/
-interface ValidatorCOnfig {
-    [prop: string]: {
-        [validatableProp: string]: string[] // ['required', 'positive']
-    }
-}
-const registeredValidators: ValidatorCOnfig = {};
-function Required(target: any, propName: string) {
-    registeredValidators[target.constructor.name] = {
-        ...registeredValidators[target.constructor.name],
-        [propName]: ['required'],
-    }
-}
-function PositiveNumber(target: any, propName: string) {
-    registeredValidators[target.constructor.name] = {
-        ...registeredValidators[target.constructor.name],
-        [propName]: ['positive'],
-    }
-}
-function validate(obj: any) {
-    const objValidatorConfig = registeredValidators[obj.constructor.name];
-    if (!objValidatorConfig) {
-        return true;
-    }
+function validate(validatableInput: Validatable) {
     let isValid = true;
-    for (const prop in objValidatorConfig) {
-        for (const validator of objValidatorConfig[prop]) {
-            switch (validator) {
-                case 'required':
-                    isValid = isValid && !!obj[prop];
-                    break;
-                case 'positive':
-                    isValid = isValid && obj[prop] > 0;
-                    break;
-            }
-        }
+    if (validatableInput.required) {
+        isValid =
+            isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (
+        validatableInput.minLength != null &&
+        typeof validatableInput.value === 'string'
+    ) {
+        isValid =
+            isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    if (
+        validatableInput.maxLength != null &&
+        typeof validatableInput.value === 'string'
+    ) {
+        isValid =
+            isValid && validatableInput.value.length <= validatableInput.maxLength;
+    }
+    if (
+        validatableInput.min != null &&
+        typeof validatableInput.value === 'number'
+    ) {
+        isValid =
+            isValid && validatableInput.value >= validatableInput.min;
+    }
+    if (
+        validatableInput.max != null &&
+        typeof validatableInput.value === 'number'
+    ) {
+        isValid =
+            isValid && validatableInput.value <= validatableInput.max;
     }
     return isValid;
 }
-class Course {
-    @Required
-    title: string;
-    @PositiveNumber
-    price: number;
-    constructor(t: string, p: number) {
-        this.title = t;
-        this.price = p;
+/***
+ * 127, 131
+*/
+abstract class Component<T extends HTMLElement, U extends HTMLElement> {
+    templateElement: HTMLTemplateElement;
+    hostElement: T;
+    element: U;
+    constructor(
+        templatedId: string,
+        hostElementId: string,
+        insertAtStart: boolean,
+        newElementId?: string
+    ) {
+        this.templateElement = document.getElementById(
+            templatedId
+        )! as HTMLTemplateElement;
+        this.hostElement = document.getElementById(
+            hostElementId
+        )! as T;
+        const importedNode = document.importNode(
+            this.templateElement.content, true
+        );
+        this.element = importedNode.firstElementChild as U;
+        if (newElementId) {
+            this.element.id = newElementId;
+        }
+        this.attach(insertAtStart);
+    }
+    abstract configure(): void;
+    abstract renderContent(): void;
+    private attach(insertAtBeginning: boolean) {
+        this.hostElement.insertAdjacentElement(
+            insertAtBeginning ? 'afterbegin' : 'beforeend',
+            this.element
+        );
     }
 }
-const courseForm = document.querySelector('form')!;
-courseForm.addEventListener('submit', event => {
-    event.preventDefault();
-    const titleEl = document.getElementById('title') as HTMLInputElement;
-    const priceEl = document.getElementById('price') as HTMLInputElement;
-    const title = titleEl.value;
-    const price = +priceEl.value;
-    const createCourse = new Course(title, price);
-    if (!validate(createCourse)) {
-        alert('正しく入力してください！');
+/***
+ * 132, 133, 134, 136
+*/
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement>
+    implements Draggable {
+    private project: Project;
+    get manday() {
+        if (this.project.manday < 20) {
+            return this.project.manday.toString() + '人日';
+        } else {
+            return (this.project.manday / 20).toString() + '人月';
+        }
     }
-    console.log(createCourse);
-});
+    constructor(hostId: string, project: Project) {
+        super('single-project', hostId, false, project.id);
+        this.project = project;
+        this.configure();
+        this.renderContent();
+    }
+    @autobind
+    dragStartHandler(event: DragEvent) {
+        event.dataTransfer!.setData('text/plain', this.project.id);
+        event.dataTransfer!.effectAllowed = 'move';
+    }
+    dragEndHandler(_: DragEvent) {
+        console.log('Drag終了');
+    }
+    configure() {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
+    }
+    renderContent() {
+        this.element.querySelector('h2')!.textContent = this.project.title;
+        this.element.querySelector('h3')!.textContent = this.manday;
+        this.element.querySelector('p')!.textContent = this.project.description;
+    }
+}
+/***
+ * 135, 136, 137
+*/
+class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
+    assignedProjects: Project[];
+    constructor(private type: 'active' | 'finished') {
+        super('project-list', 'app', false, `${type}-projects`);
+        this.assignedProjects = [];
+        this.configure();
+        this.renderContent();
+    }
+    @autobind
+    dragOverHandler(event: DragEvent) {
+        if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault();
+            const listEl = this.element.querySelector('ul')!;
+            listEl.classList.add('droppable');
+        }
+    }
+    @autobind
+    dropHandler(event: DragEvent) {
+        const prjId = event.dataTransfer!.getData('text/plain');
+        projectState.moveProject(
+            prjId,
+            this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished
+        );
+    }
+    @autobind
+    dragLeaveHandler(_: DragEvent) {
+        const listEl = this.element.querySelector('ul')!;
+        listEl.classList.remove('droppable');
+    }
+    configure() {
+        this.element.addEventListener('dragover', this.dragOverHandler);
+        this.element.addEventListener('drop', this.dropHandler);
+        this.element.addEventListener('dragleave', this.dragLeaveHandler);
+        projectState.addListener((projects: Project[]) => {
+            const relevantProjects = projects.filter(prj => {
+                if (this.type === 'active') {
+                    return prj.status === ProjectStatus.Active;
+                }
+                return prj.status === ProjectStatus.Finished;
+            });
+            this.assignedProjects = relevantProjects;
+            this.renderProjects();
+        });
+    }
+    renderContent() {
+        const listId = `${this.type}-projects-list`;
+        this.element.querySelector('ul')!.id = listId;
+        this.element.querySelector('h2')!.textContent =
+            this.type === 'active' ? '実行中プロジェクト': '完了プロジェクト';
+    }
+    private renderProjects() {
+        const listEl = document.getElementById(
+            `${this.type}-projects-list`
+        )! as HTMLUListElement;
+        listEl.innerHTML = '';
+        for (const prjItem of this.assignedProjects) {
+            new ProjectItem(listEl.id, prjItem);
+        }
+    }
+}
+class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+    titleInputElement: HTMLInputElement;
+    descriptionInputElement: HTMLInputElement;
+    mandayInputElement: HTMLInputElement;
+    constructor() {
+        super('project-input', 'app', true, 'user-input');
+        this.titleInputElement = this.element.querySelector(
+            '#title'
+        ) as HTMLInputElement;
+        this.descriptionInputElement = this.element.querySelector(
+            '#description'
+        ) as HTMLInputElement;
+        this.mandayInputElement = this.element.querySelector(
+            '#manday'
+        ) as HTMLInputElement;
+        this.configure();
+    }
+    configure() {
+        this.element.addEventListener('submit', this.submitHandler);
+    }
+    renderContent() {
+    }
+    private gatherUserInput(): [string, string, number] | void {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredManday = this.mandayInputElement.value;
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        };
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5
+        };
+        const mandayValidatable: Validatable = {
+            value: +enteredManday,
+            required: true,
+            min: 1,
+            max: 1000
+        };
+        if (
+            !validate(titleValidatable) ||
+            !validate(descriptionValidatable) ||
+            !validate(mandayValidatable)
+        ) {
+            alert('入力値が正しくありません。再度お試しください。');
+            return;
+        } else {
+            return [enteredTitle, enteredDescription, +enteredManday];
+        }
+    }
+    private clearInputs() {
+        this.titleInputElement.value = '';
+        this.descriptionInputElement.value = '';
+        this.mandayInputElement.value = '';
+    }
+    @autobind
+    private submitHandler(event: Event) {
+        event.preventDefault();
+        const userInput = this.gatherUserInput();
+        if (Array.isArray(userInput)) {
+            const [title, desc, manday] = userInput;
+            projectState.addProject(title, desc, manday);
+            console.log(title, desc, manday);
+            this.clearInputs();
+        }
+    }
+}
+const prjInput = new ProjectInput();
+const activePrjList = new ProjectList('active');
+const finishedPrjList = new ProjectList('finished');
+/***
+ * OpenWeatherMap
+*/
+declare var Chart: any;
+interface WeatherDataType {
+    name: string,
+    weather: [{
+        main: string,
+        description: string
+    }],
+    main: {
+        temp: number,
+        feels_like: number,
+        humidity: number,
+        temp_max: number,
+        temp_min: number,
+    },
+    wind: {
+        speed: number
+    }
+}
+type GeocodingDataType = [
+    data: {
+        lat: number,
+        lon: number
+    }
+];
+class WeatherClient {
+    constructor(private apiKey: string, private cityName: string) {
+        this.getGeocoding(this.cityName);
+        this.getData();
+    }
+    private async getGeocoding(city: string) {
+        const body = await fetch(
+            `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
+                this.apiKey
+            }`
+        );
+        const data: GeocodingDataType = await body.json();
+        return {
+            lat: data[0].lat,
+            lon: data[0].lon
+        }
+    }
+    private async getDailyWeather(latitude: number, longitude: number) {
+        const body = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${
+                this.apiKey
+            }`
+        );
+        const data: WeatherDataType = await body.json();
+        return {
+            city: data.name,
+            main: data.weather[0].main,
+            description: data.weather[0].description,
+            temp: data.main.temp,
+            humidity: data.main.humidity,
+            speed: data.wind.speed
+        }
+    }
+    private async getWeatherForecast(latitude: number, longitude: number) {
+        const body = await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${
+                this.apiKey
+            }`
+        );
+        const data = await body.json();
+        const time: string[] = data.list.map((m: any) => m.dt_txt);
+        const temp: number[] = data.list.map((m: any) => m.main.temp);
+        const temp_max: number[] = data.list.map((m: any) => m.main.temp_max);
+        const temp_min: number[] = data.list.map((m: any) => m.main.temp_min);
+        const feels_like: number[] = data.list.map((m: any) => m.main.feels_like);
+        const humidity: number[] = data.list.map((m: any) => m.main.humidity);
+        const deg: number[] = data.list.map((m: any) => m.wind.deg);
+        const gust: number[] = data.list.map((m: any) => m.wind.gust);
+        const speed: number[] = data.list.map((m: any) => m.wind.speed);
+        const daily = {
+            labels: time,
+            datasets:
+            [
+                {
+                    label: 'Temperature',
+                    data: temp,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Temp Max',
+                    data: temp_max,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Temp Min',
+                    data: temp_min,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Feels Like',
+                    data: feels_like,
+                    borderColor: 'rgb(255, 159, 64)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Humidity',
+                    data: humidity,
+                    borderColor: 'rgb(153, 102, 255)',
+                    tension: 0.2
+                }
+            ]
+        };
+        new Chart(document.getElementById('daily'), {
+            type: 'line',
+            data: daily
+        });
+        const wind = {
+            labels: time,
+            datasets:
+            [
+                {
+                    label: 'Deg',
+                    data: deg,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Gust',
+                    data: gust,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Speed',
+                    data: speed,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.2
+                },
+            ]
+        };
+        new Chart(document.getElementById('wind'), {
+            type: 'line',
+            data: wind
+        });
+    }
+    private getData() {
+        this.getGeocoding(this.cityName)
+        .then(data => {
+            this.getDailyWeather(data.lat, data.lon)
+            .then(d => {
+                const city = <HTMLElement>document.getElementById('city')!;
+                const main = <HTMLElement>document.getElementById('main')!;
+                const des = <HTMLElement>document.getElementById('des')!;
+                const temp = <HTMLElement>document.getElementById('temp')!;
+                const humidity = <HTMLElement>document.getElementById('humidity')!;
+                const speed = <HTMLElement>document.getElementById('speed')!;
+                city.innerText = d.city;
+                main.innerText = d.main;
+                des.innerText = d.description;
+                temp.innerText = String(d.temp);
+                humidity.innerText = String(d.humidity);
+                speed.innerText = String(d.speed);
+            })
+            .catch(e => {
+                throw new Error(e.message);
+            });
+            this.getWeatherForecast(data.lat, data.lon);
+        })
+        .catch(err => {
+            throw new Error(err.message);
+        });
+    }
+}
+const API_KEY = '219228b2383f8240a93b11492d102a52';
+new WeatherClient(API_KEY, 'Shinagawa');
