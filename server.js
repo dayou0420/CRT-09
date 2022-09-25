@@ -6,7 +6,7 @@ console.log('Served: http://localhost:' + port);
 app.get('/food', (_, res) => {
     res.sendFile(__dirname + '/public/food/index.html');
 });
-app.get('/weather', (_, res) => {
-    res.sendFile(__dirname + '/public/weather/index.html');
+app.get('/project', (_, res) => {
+    res.sendFile(__dirname + '/public/project/index.html');
 });
 app.listen(port);

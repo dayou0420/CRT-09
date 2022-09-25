@@ -103,18 +103,3 @@ button:active {
     border: 1px solid #ff0062;
     background: #f7f7f7;
 }
-th,td {
-    padding: 10px;
-}
-table {
-    border-collapse: collapse;
-    margin: auto;
-    text-align: center;
-    margin-bottom: 10px;
-}
-#daily {
-    padding: 15px;
-}
-#wind {
-    padding: 15px;
-}

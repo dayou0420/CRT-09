@@ -1,6 +1,3 @@
-/***
- * 122, 123, 124, 125, 126, 127, 128, 129, 130, 134
-*/
 interface Draggable {
     dragStartHandler(event: DragEvent): void;
     dragEndHandler(event: DragEvent): void;
@@ -29,9 +26,6 @@ class State<T> {
         this.listeners.push(listenerFn);
     }
 }
-/***
- * 137
-*/
 class ProjectState extends State<Project> {
     private projects: Project[] = [];
     private static instance: ProjectState;
@@ -130,9 +124,6 @@ function validate(validatableInput: Validatable) {
     }
     return isValid;
 }
-/***
- * 127, 131
-*/
 abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     templateElement: HTMLTemplateElement;
     hostElement: T;
@@ -167,17 +158,14 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
         );
     }
 }
-/***
- * 132, 133, 134, 136
-*/
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement>
     implements Draggable {
     private project: Project;
     get manday() {
         if (this.project.manday < 20) {
-            return this.project.manday.toString() + '人日';
+            return this.project.manday.toString() + 'Man Day';
         } else {
-            return (this.project.manday / 20).toString() + '人月';
+            return (this.project.manday / 20).toString() + 'Man Month';
         }
     }
     constructor(hostId: string, project: Project) {
@@ -192,7 +180,6 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement>
         event.dataTransfer!.effectAllowed = 'move';
     }
     dragEndHandler(_: DragEvent) {
-        console.log('Drag終了');
     }
     configure() {
         this.element.addEventListener('dragstart', this.dragStartHandler);
@@ -204,9 +191,6 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement>
         this.element.querySelector('p')!.textContent = this.project.description;
     }
 }
-/***
- * 135, 136, 137
-*/
 class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
     assignedProjects: Project[];
     constructor(private type: 'active' | 'finished') {
@@ -255,7 +239,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
         const listId = `${this.type}-projects-list`;
         this.element.querySelector('ul')!.id = listId;
         this.element.querySelector('h2')!.textContent =
-            this.type === 'active' ? '実行中プロジェクト': '完了プロジェクト';
+            this.type === 'active' ? 'Active Project': 'Finish Project';
     }
     private renderProjects() {
         const listEl = document.getElementById(
@@ -313,7 +297,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
             !validate(descriptionValidatable) ||
             !validate(mandayValidatable)
         ) {
-            alert('入力値が正しくありません。再度お試しください。');
+            alert('Input is not Valid.Please retry.');
             return;
         } else {
             return [enteredTitle, enteredDescription, +enteredManday];
@@ -331,7 +315,6 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
         if (Array.isArray(userInput)) {
             const [title, desc, manday] = userInput;
             projectState.addProject(title, desc, manday);
-            console.log(title, desc, manday);
             this.clearInputs();
         }
     }
@@ -339,178 +322,3 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 const prjInput = new ProjectInput();
 const activePrjList = new ProjectList('active');
 const finishedPrjList = new ProjectList('finished');
-/***
- * OpenWeatherMap
-*/
-declare var Chart: any;
-interface WeatherDataType {
-    name: string,
-    weather: [{
-        main: string,
-        description: string
-    }],
-    main: {
-        temp: number,
-        feels_like: number,
-        humidity: number,
-        temp_max: number,
-        temp_min: number,
-    },
-    wind: {
-        speed: number
-    }
-}
-type GeocodingDataType = [
-    data: {
-        lat: number,
-        lon: number
-    }
-];
-class WeatherClient {
-    constructor(private apiKey: string, private cityName: string) {
-        this.getGeocoding(this.cityName);
-        this.getData();
-    }
-    private async getGeocoding(city: string) {
-        const body = await fetch(
-            `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
-                this.apiKey
-            }`
-        );
-        const data: GeocodingDataType = await body.json();
-        return {
-            lat: data[0].lat,
-            lon: data[0].lon
-        }
-    }
-    private async getDailyWeather(latitude: number, longitude: number) {
-        const body = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${
-                this.apiKey
-            }`
-        );
-        const data: WeatherDataType = await body.json();
-        return {
-            city: data.name,
-            main: data.weather[0].main,
-            description: data.weather[0].description,
-            temp: data.main.temp,
-            humidity: data.main.humidity,
-            speed: data.wind.speed
-        }
-    }
-    private async getWeatherForecast(latitude: number, longitude: number) {
-        const body = await fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${
-                this.apiKey
-            }`
-        );
-        const data = await body.json();
-        const time: string[] = data.list.map((m: any) => m.dt_txt);
-        const temp: number[] = data.list.map((m: any) => m.main.temp);
-        const temp_max: number[] = data.list.map((m: any) => m.main.temp_max);
-        const temp_min: number[] = data.list.map((m: any) => m.main.temp_min);
-        const feels_like: number[] = data.list.map((m: any) => m.main.feels_like);
-        const humidity: number[] = data.list.map((m: any) => m.main.humidity);
-        const deg: number[] = data.list.map((m: any) => m.wind.deg);
-        const gust: number[] = data.list.map((m: any) => m.wind.gust);
-        const speed: number[] = data.list.map((m: any) => m.wind.speed);
-        const daily = {
-            labels: time,
-            datasets:
-            [
-                {
-                    label: 'Temperature',
-                    data: temp,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.2
-                },
-                {
-                    label: 'Temp Max',
-                    data: temp_max,
-                    borderColor: 'rgb(255, 99, 132)',
-                    tension: 0.2
-                },
-                {
-                    label: 'Temp Min',
-                    data: temp_min,
-                    borderColor: 'rgb(54, 162, 235)',
-                    tension: 0.2
-                },
-                {
-                    label: 'Feels Like',
-                    data: feels_like,
-                    borderColor: 'rgb(255, 159, 64)',
-                    tension: 0.2
-                },
-                {
-                    label: 'Humidity',
-                    data: humidity,
-                    borderColor: 'rgb(153, 102, 255)',
-                    tension: 0.2
-                }
-            ]
-        };
-        new Chart(document.getElementById('daily'), {
-            type: 'line',
-            data: daily
-        });
-        const wind = {
-            labels: time,
-            datasets:
-            [
-                {
-                    label: 'Deg',
-                    data: deg,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.2
-                },
-                {
-                    label: 'Gust',
-                    data: gust,
-                    borderColor: 'rgb(255, 99, 132)',
-                    tension: 0.2
-                },
-                {
-                    label: 'Speed',
-                    data: speed,
-                    borderColor: 'rgb(54, 162, 235)',
-                    tension: 0.2
-                },
-            ]
-        };
-        new Chart(document.getElementById('wind'), {
-            type: 'line',
-            data: wind
-        });
-    }
-    private getData() {
-        this.getGeocoding(this.cityName)
-        .then(data => {
-            this.getDailyWeather(data.lat, data.lon)
-            .then(d => {
-                const city = <HTMLElement>document.getElementById('city')!;
-                const main = <HTMLElement>document.getElementById('main')!;
-                const des = <HTMLElement>document.getElementById('des')!;
-                const temp = <HTMLElement>document.getElementById('temp')!;
-                const humidity = <HTMLElement>document.getElementById('humidity')!;
-                const speed = <HTMLElement>document.getElementById('speed')!;
-                city.innerText = d.city;
-                main.innerText = d.main;
-                des.innerText = d.description;
-                temp.innerText = String(d.temp);
-                humidity.innerText = String(d.humidity);
-                speed.innerText = String(d.speed);
-            })
-            .catch(e => {
-                throw new Error(e.message);
-            });
-            this.getWeatherForecast(data.lat, data.lon);
-        })
-        .catch(err => {
-            throw new Error(err.message);
-        });
-    }
-}
-const API_KEY = '219228b2383f8240a93b11492d102a52';
-new WeatherClient(API_KEY, 'Shinagawa');
