@@ -3,12 +3,10 @@ body {
   font-family: "Sora", sans-serif;
   background-color: rgb(49, 120, 198);
 }
-
 body .container {
   display: flex;
   justify-content: center;
 }
-
 body .title {
   position: absolute;
   top: 50%;
