@@ -1,5 +1,5 @@
 /***
- * 122, 123, 124, 125, 126, 127, 128, 129
+ * 122, 123, 124, 125, 126, 127, 128, 129, 130
 */
 enum ProjectStatus {
     Active, Finished
@@ -127,7 +127,13 @@ class ProjectList {
         this.assignedProjects = [];
         this.element.id = `${this.type}-projects`;
         projectState.addListener((projects: Project[]) => {
-            this.assignedProjects = projects;
+            const relevantProjects = projects.filter(prj => {
+                if (this.type === 'active') {
+                    return prj.status === ProjectStatus.Active;
+                }
+                return prj.status === ProjectStatus.Finished;
+            });
+            this.assignedProjects = relevantProjects;
             this.renderProjects();
         });
         this.attach();
@@ -137,6 +143,7 @@ class ProjectList {
         const listEl = document.getElementById(
             `${this.type}-projects-list`
         )! as HTMLUListElement;
+        listEl.innerHTML = '';
         for (const prjItem of this.assignedProjects) {
             const listItem = document.createElement('li');
             listItem.textContent = prjItem.title;
