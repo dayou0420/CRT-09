@@ -104,7 +104,6 @@ button:active {
     background: #f7f7f7;
 }
 th,td {
-    border: solid 1.5px #ccc;
     padding: 10px;
 }
 table {
