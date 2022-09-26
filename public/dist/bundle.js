@@ -89,6 +89,24 @@ class Component {
         this.hostElement.insertAdjacentElement(insertAtBeginning ? 'afterbegin' : 'beforeend', this.element);
     }
 }
+class GeocodingItem extends Component {
+    constructor(hostId, geocoding) {
+        super('single-geocoding', hostId, false, geocoding.id);
+        this.geocoding = geocoding;
+        this.configure();
+        this.renderContent();
+    }
+    configure() {
+    }
+    renderContent() {
+        this.element.querySelector('#city').textContent = this.geocoding.city;
+        this.element.querySelector('#main').textContent = this.geocoding.main;
+        this.element.querySelector('#description').textContent = this.geocoding.description;
+        this.element.querySelector('#temp').textContent = this.geocoding.temp.toString();
+        this.element.querySelector('#humidity').textContent = this.geocoding.humidity.toString();
+        this.element.querySelector('#speed').textContent = this.geocoding.speed.toString();
+    }
+}
 class GeocodingList extends Component {
     constructor(type) {
         super('geocoding-list', 'app', false, `${type}-geocodings`);
@@ -119,9 +137,7 @@ class GeocodingList extends Component {
         const listEl = document.getElementById(`${this.type}-geocoding-list`);
         listEl.innerHTML = '';
         for (const geoItem of this.assignedGeocodings) {
-            const listItem = document.createElement('li');
-            listItem.textContent = geoItem.city;
-            listEl.appendChild(listItem);
+            new GeocodingItem(listEl.id, geoItem);
         }
     }
 }
