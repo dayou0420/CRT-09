@@ -35,9 +35,17 @@ class Geocoding {
         this.status = status;
     }
 }
-class GeocodingState {
+class State {
     constructor() {
         this.listeners = [];
+    }
+    addListener(listenerFn) {
+        this.listeners.push(listenerFn);
+    }
+}
+class GeocodingState extends State {
+    constructor() {
+        super();
         this.geocodings = [];
     }
     static getInstance() {
@@ -46,9 +54,6 @@ class GeocodingState {
         }
         this.instance = new GeocodingState();
         return this.instance;
-    }
-    addListener(listenerFn) {
-        this.listeners.push(listenerFn);
     }
     addGeocoding(city, main, description, temp, humidity, speed) {
         const newGeocoding = new Geocoding(Math.random().toString(), city, main, description, temp, humidity, speed, GeocodingStatus.Active);
@@ -69,15 +74,30 @@ function validate(validatableInput) {
     }
     return isValid;
 }
-class GeocodingList {
-    constructor(type) {
-        this.type = type;
-        this.templateElement = document.getElementById('geocoding-list');
-        this.hostElement = document.getElementById('app');
-        this.assignedGeocodings = [];
+class Component {
+    constructor(templateId, hostElementId, insertAtStart, newElementId) {
+        this.templateElement = document.getElementById(templateId);
+        this.hostElement = document.getElementById(hostElementId);
         const importedNode = document.importNode(this.templateElement.content, true);
         this.element = importedNode.firstElementChild;
-        this.element.id = `${this.type}-geocodings`;
+        if (newElementId) {
+            this.element.id = newElementId;
+        }
+        this.attach(insertAtStart);
+    }
+    attach(insertAtBeginning) {
+        this.hostElement.insertAdjacentElement(insertAtBeginning ? 'afterbegin' : 'beforeend', this.element);
+    }
+}
+class GeocodingList extends Component {
+    constructor(type) {
+        super('geocoding-list', 'app', false, `${type}-geocodings`);
+        this.type = type;
+        this.assignedGeocodings = [];
+        this.configure();
+        this.renderContent();
+    }
+    configure() {
         geocodingState.addListener((geocodings) => {
             const relevantGeocodings = geocodings.filter(geo => {
                 if (this.type === 'active') {
@@ -88,8 +108,12 @@ class GeocodingList {
             this.assignedGeocodings = relevantGeocodings;
             this.renderGeocodings();
         });
-        this.attach();
-        this.renderContent();
+    }
+    renderContent() {
+        const listId = `${this.type}-geocoding-list`;
+        this.element.querySelector('ul').id = listId;
+        this.element.querySelector('h2').textContent =
+            this.type === 'active' ? 'Active Address' : 'Finished Address';
     }
     renderGeocodings() {
         const listEl = document.getElementById(`${this.type}-geocoding-list`);
@@ -100,27 +124,18 @@ class GeocodingList {
             listEl.appendChild(listItem);
         }
     }
-    renderContent() {
-        const listId = `${this.type}-geocoding-list`;
-        this.element.querySelector('ul').id = listId;
-        this.element.querySelector('h2').textContent =
-            this.type === 'active' ? 'Active Address' : 'Finished Address';
-    }
-    attach() {
-        this.hostElement.insertAdjacentElement('beforeend', this.element);
-    }
 }
-class GeocodingInput {
+class GeocodingInput extends Component {
     constructor(apiKey) {
+        super('geocoding-input', 'app', true, 'user-input');
         this.apiKey = apiKey;
-        this.templateElement = document.getElementById('geocoding-input');
-        this.hostElement = document.getElementById('app');
-        const importedNode = document.importNode(this.templateElement.content, true);
-        this.element = importedNode.firstElementChild;
-        this.element.id = 'user-input';
         this.addressInputElement = this.element.querySelector('#address');
         this.configure();
-        this.attach();
+    }
+    configure() {
+        this.element.addEventListener('submit', this.submitHandler.bind(this));
+    }
+    renderContent() {
     }
     getherUserInput() {
         const enterdAddress = this.addressInputElement.value;
@@ -165,12 +180,6 @@ class GeocodingInput {
             console.log(err.message);
         });
         this.clearInputs();
-    }
-    configure() {
-        this.element.addEventListener('submit', this.submitHandler.bind(this));
-    }
-    attach() {
-        this.hostElement.insertAdjacentElement('afterbegin', this.element);
     }
     getGeocoding(address) {
         return __awaiter(this, void 0, void 0, function* () {
