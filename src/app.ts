@@ -84,7 +84,13 @@ class GeocodingList {
         this.element = <HTMLElement>importedNode.firstElementChild;
         this.element.id = `${this.type}-geocodings`;
         geocodingState.addListener((geocodings: Geocoding[]) => {
-            this.assignedGeocodings = geocodings;
+            const relevantGeocodings = geocodings.filter(geo => {
+                if (this.type === 'active') {
+                    return geo.status === GeocodingStatus.Active;
+                }
+                return geo.status === GeocodingStatus.Finished;
+            });
+            this.assignedGeocodings = relevantGeocodings;
             this.renderGeocodings();
         });
         this.attach();
@@ -92,6 +98,7 @@ class GeocodingList {
     }
     private renderGeocodings() {
         const listEl = <HTMLUListElement>document.getElementById(`${this.type}-geocoding-list`)!;
+        listEl.innerHTML = '';
         for (const geoItem of this.assignedGeocodings) {
             const listItem = document.createElement('li');
             listItem.textContent = geoItem.city;
