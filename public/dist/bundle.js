@@ -18,6 +18,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+class GeocodingState {
+    constructor() {
+        this.listeners = [];
+        this.geocodings = [];
+    }
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new GeocodingState();
+        return this.instance;
+    }
+    addListener(listenerFn) {
+        this.listeners.push(listenerFn);
+    }
+    addGeocoding(address) {
+        const newGeocoding = {
+            id: Math.random().toString(),
+            address: address,
+        };
+        this.geocodings.push(newGeocoding);
+        for (const listenerFn of this.listeners) {
+            listenerFn(this.geocodings.slice());
+        }
+    }
+}
+const geocodingState = GeocodingState.getInstance();
 function validate(validatableInput) {
     let isValid = true;
     if (validatableInput.required) {
@@ -33,11 +60,24 @@ class GeocodingList {
         this.type = type;
         this.templateElement = document.getElementById('geocoding-list');
         this.hostElement = document.getElementById('app');
+        this.assignedGeocodings = [];
         const importedNode = document.importNode(this.templateElement.content, true);
         this.element = importedNode.firstElementChild;
         this.element.id = `${this.type}-geocodings`;
+        geocodingState.addListener((geocodings) => {
+            this.assignedGeocodings = geocodings;
+            this.renderGeocodings();
+        });
         this.attach();
         this.renderContent();
+    }
+    renderGeocodings() {
+        const listEl = document.getElementById(`${this.type}-geocoding-list`);
+        for (const geoItem of this.assignedGeocodings) {
+            const listItem = document.createElement('li');
+            listItem.textContent = geoItem.address;
+            listEl.appendChild(listItem);
+        }
     }
     renderContent() {
         const listId = `${this.type}-geocoding-list`;
@@ -84,6 +124,7 @@ class GeocodingInput {
         const userInput = this.getherUserInput();
         if (Array.isArray(userInput)) {
             const [address] = userInput;
+            geocodingState.addGeocoding(address);
         }
         this.getGeocoding(this.addressInputElement.value)
             .then(data => {
