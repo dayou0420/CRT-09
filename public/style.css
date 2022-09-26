@@ -9,24 +9,21 @@ body {
   margin: 0;
 }
 label,
-input,
-textarea {
+input {
   display: block;
   margin: 0.5rem 0;
 }
 label {
   font-weight: bold;
 }
-input,
-textarea {
+input {
   font: inherit;
   padding: 0.2rem 0.4rem;
   width: 100%;
   max-width: 30rem;
   border: 1px solid #ccc;
 }
-input:focus,
-textarea:focus {
+input:focus {
   outline: none;
   background: #fff5f9;
 }
@@ -46,56 +43,56 @@ button:active {
   background: #a80041;
   border-color: #a80041;
 }
-.projects {
+.geocodings {
   margin: 1rem;
   border: 1px solid #ff0062;
 }
-.projects header {
+.geocodings header {
   background: #ff0062;
   height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-#finished-projects {
+#finished-geocodings {
   border-color: #0044ff;
 }
-#finished-projects header {
+#finished-geocodings header {
   background: #0044ff;
 }
-.projects h2 {
+.geocodings h2 {
   margin: 0;
   color: white;
 }
-.projects ul {
+.geocodings ul {
   list-style: none;
   margin: 0;
   padding: 1rem;
 }
-.projects li {
+.geocodings li {
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.26);
   padding: 1rem;
   margin: 1rem;
   background-color: white;
 }
-.projects li h2 {
+.geocodings li h2 {
   color: #ff0062;
   margin: 0.5rem 0;
 }
-#finished-projects li h2 {
+#finished-geocodings li h2 {
   color: #0044ff;
 }
-.projects li h3 {
+.geocodings li h3 {
   color: #575757;
   font-size: 1rem;
 }
-.project li p {
+.geocoding li p {
   margin: 0;
 }
 .droppable {
   background: #ffe3ee;
 }
-#finished-projects .droppable {
+#finished-geocodings .droppable {
   background: #d6e1ff;
 }
 #user-input {
