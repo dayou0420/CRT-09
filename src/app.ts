@@ -1,7 +1,23 @@
 declare var Chart: any;
+enum GeocodingStatus {
+    Active, Finished
+}
+class Geocoding {
+    constructor(
+        public id: string,
+        public city: string,
+        public main: string,
+        public description: string,
+        public temp: number,
+        public humidity: number,
+        public speed: number,
+        public status: GeocodingStatus
+    ) {}
+}
+type Listener = (items: Geocoding[]) => void;
 class GeocodingState {
-    private listeners: any[] = [];
-    private geocodings: any[] = [];
+    private listeners: Listener[] = [];
+    private geocodings: Geocoding[] = [];
     private static instance: GeocodingState;
     private constructor() {
     }
@@ -12,7 +28,7 @@ class GeocodingState {
         this.instance = new GeocodingState();
         return this.instance;
     }
-    addListener(listenerFn: Function) {
+    addListener(listenerFn: Listener) {
         this.listeners.push(listenerFn);
     }
     addGeocoding(
@@ -23,15 +39,16 @@ class GeocodingState {
         humidity: number,
         speed: number
     ) {
-        const newGeocoding = {
-            id: Math.random().toString(),
-            city: city,
-            main: main,
-            description: description,
-            temp: temp,
-            humidity: humidity,
-            speed: speed
-        }
+        const newGeocoding = new Geocoding(
+            Math.random().toString(),
+            city,
+            main,
+            description,
+            temp,
+            humidity,
+            speed,
+            GeocodingStatus.Active
+        );
         this.geocodings.push(newGeocoding);
         for (const listenerFn of this.listeners) {
             listenerFn(this.geocodings.slice());
@@ -58,7 +75,7 @@ class GeocodingList {
     templateElement: HTMLTemplateElement;
     hostElement: HTMLDivElement;
     element: HTMLElement;
-    assignedGeocodings: any[];
+    assignedGeocodings: Geocoding[];
     constructor(private type: 'active' | 'finished') {
         this.templateElement = <HTMLTemplateElement>document.getElementById('geocoding-list')!;
         this.hostElement = <HTMLDivElement>document.getElementById('app')!;
@@ -66,7 +83,7 @@ class GeocodingList {
         const importedNode = document.importNode(this.templateElement.content, true);
         this.element = <HTMLElement>importedNode.firstElementChild;
         this.element.id = `${this.type}-geocodings`;
-        geocodingState.addListener((geocodings: any[]) => {
+        geocodingState.addListener((geocodings: Geocoding[]) => {
             this.assignedGeocodings = geocodings;
             this.renderGeocodings();
         });

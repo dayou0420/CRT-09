@@ -18,6 +18,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var GeocodingStatus;
+(function (GeocodingStatus) {
+    GeocodingStatus[GeocodingStatus["Active"] = 0] = "Active";
+    GeocodingStatus[GeocodingStatus["Finished"] = 1] = "Finished";
+})(GeocodingStatus || (GeocodingStatus = {}));
+class Geocoding {
+    constructor(id, city, main, description, temp, humidity, speed, status) {
+        this.id = id;
+        this.city = city;
+        this.main = main;
+        this.description = description;
+        this.temp = temp;
+        this.humidity = humidity;
+        this.speed = speed;
+        this.status = status;
+    }
+}
 class GeocodingState {
     constructor() {
         this.listeners = [];
@@ -34,15 +51,7 @@ class GeocodingState {
         this.listeners.push(listenerFn);
     }
     addGeocoding(city, main, description, temp, humidity, speed) {
-        const newGeocoding = {
-            id: Math.random().toString(),
-            city: city,
-            main: main,
-            description: description,
-            temp: temp,
-            humidity: humidity,
-            speed: speed
-        };
+        const newGeocoding = new Geocoding(Math.random().toString(), city, main, description, temp, humidity, speed, GeocodingStatus.Active);
         this.geocodings.push(newGeocoding);
         for (const listenerFn of this.listeners) {
             listenerFn(this.geocodings.slice());
