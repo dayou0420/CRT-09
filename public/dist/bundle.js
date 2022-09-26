@@ -28,6 +28,27 @@ function validate(validatableInput) {
     }
     return isValid;
 }
+class GeocodingList {
+    constructor(type) {
+        this.type = type;
+        this.templateElement = document.getElementById('geocoding-list');
+        this.hostElement = document.getElementById('app');
+        const importedNode = document.importNode(this.templateElement.content, true);
+        this.element = importedNode.firstElementChild;
+        this.element.id = `${this.type}-geocodings`;
+        this.attach();
+        this.renderContent();
+    }
+    renderContent() {
+        const listId = `${this.type}-geocoding-list`;
+        this.element.querySelector('ul').id = listId;
+        this.element.querySelector('h2').textContent =
+            this.type === 'active' ? 'Active Address' : 'Finished Address';
+    }
+    attach() {
+        this.hostElement.insertAdjacentElement('beforeend', this.element);
+    }
+}
 class GeocodingInput {
     constructor(apiKey) {
         this.apiKey = apiKey;
@@ -164,6 +185,8 @@ class GeocodingInput {
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
 const geoInput = new GeocodingInput(API_KEY);
+const activeGeo = new GeocodingList('active');
+const finishedGeo = new GeocodingList('finished');
 
 
 /***/ })
