@@ -158,6 +158,9 @@ class GeocodingItem extends Component {
 __decorate([
     autobind
 ], GeocodingItem.prototype, "dragStartHandler", null);
+__decorate([
+    autobind
+], GeocodingItem.prototype, "dragEndHandler", null);
 class GeocodingList extends Component {
     constructor(type) {
         super('geocoding-list', 'app', false, `${type}-geocodings`);

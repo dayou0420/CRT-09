@@ -1,40 +1,5 @@
 declare var Chart: any;
 declare var myChart: any;
-type GeocodingType = [
-    data: {
-        lat: number,
-        lon: number
-    }
-];
-type WeatherType = {
-    name: string,
-    weather: [{
-        main: string,
-        description: string
-    }],
-    main: {
-        temp: number,
-        feels_like: number,
-        humidity: number,
-        temp_max: number,
-        temp_min: number
-    },
-    wind: {
-        speed: number
-    }
-}
-type WeatherForecastType = {
-    list: [
-        dt_txt: string,
-        main: {
-            temp: number,
-            temp_max: number,
-            temp_min: number,
-            feels_like: number,
-            humidity: number
-        }
-    ]
-}
 interface Draggable {
     dragStartHandler(event: DragEvent): void;
     dragEndHandler(event: DragEvent): void;
@@ -196,7 +161,6 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
         event.dataTransfer!.setData('text/plain', this.geocoding.id);
         event.dataTransfer!.effectAllowed = 'move';
     }
-    @autobind
     dragEndHandler(_: DragEvent) {
         this.element.addEventListener('dragstart', this.dragStartHandler);
         this.element.addEventListener('dragend', this.dragEndHandler);
@@ -332,7 +296,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 this.apiKey
             }`
         );
-        const data: GeocodingType = await body.json();
+        const data = await body.json();
         return {
             lat: data[0].lat,
             lon: data[0].lon
@@ -344,7 +308,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 this.apiKey
             }`
         );
-        const data: WeatherType = await body.json();
+        const data = await body.json();
         return {
             city: data.name,
             main: data.weather[0].main,
@@ -360,7 +324,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 this.apiKey
             }`
         );
-        const data: WeatherForecastType = await body.json();
+        const data = await body.json();
         const time: string[] = data.list.map((m: any) => m.dt_txt);
         const temp: number[] = data.list.map((m: any) => m.main.temp);
         const temp_max: number[] = data.list.map((m: any) => m.main.temp_max);
