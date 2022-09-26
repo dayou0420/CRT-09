@@ -33,10 +33,15 @@ class GeocodingState {
     addListener(listenerFn) {
         this.listeners.push(listenerFn);
     }
-    addGeocoding(address) {
+    addGeocoding(city, main, description, temp, humidity, speed) {
         const newGeocoding = {
             id: Math.random().toString(),
-            address: address,
+            city: city,
+            main: main,
+            description: description,
+            temp: temp,
+            humidity: humidity,
+            speed: speed
         };
         this.geocodings.push(newGeocoding);
         for (const listenerFn of this.listeners) {
@@ -75,7 +80,7 @@ class GeocodingList {
         const listEl = document.getElementById(`${this.type}-geocoding-list`);
         for (const geoItem of this.assignedGeocodings) {
             const listItem = document.createElement('li');
-            listItem.textContent = geoItem.address;
+            listItem.textContent = geoItem.city;
             listEl.appendChild(listItem);
         }
     }
@@ -124,12 +129,12 @@ class GeocodingInput {
         const userInput = this.getherUserInput();
         if (Array.isArray(userInput)) {
             const [address] = userInput;
-            geocodingState.addGeocoding(address);
         }
         this.getGeocoding(this.addressInputElement.value)
             .then(data => {
             this.getWeather(data.lat, data.lon)
                 .then(d => {
+                geocodingState.addGeocoding(d.city, d.main, d.description, d.temp, d.humidity, d.speed);
                 console.log(d);
             })
                 .catch(e => {
