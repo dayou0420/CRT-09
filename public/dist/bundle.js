@@ -41,6 +41,7 @@ class GeocodingInput {
                 .catch(e => {
                 console.log(e.message);
             });
+            this.getWeatherForecast(data.lat, data.lon);
         })
             .catch(err => {
             console.log(err.message);
@@ -74,6 +75,57 @@ class GeocodingInput {
                 humidity: data.main.humidity,
                 speed: data.wind.speed
             };
+        });
+    }
+    getWeatherForecast(latitude, longitude) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const body = yield fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`);
+            const data = yield body.json();
+            const time = data.list.map((m) => m.dt_txt);
+            const temp = data.list.map((m) => m.main.temp);
+            const temp_max = data.list.map((m) => m.main.temp_max);
+            const temp_min = data.list.map((m) => m.main.temp_min);
+            const feels_like = data.list.map((m) => m.main.feels_like);
+            const humidity = data.list.map((m) => m.main.humidity);
+            const daily = {
+                labels: time,
+                datasets: [
+                    {
+                        label: 'Temperature',
+                        data: temp,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Temp Max',
+                        data: temp_max,
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Temp Min',
+                        data: temp_min,
+                        borderColor: 'rgb(54, 162, 235)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Feels Like',
+                        data: feels_like,
+                        borderColor: 'rgb(255, 159, 64)',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Humidity',
+                        data: humidity,
+                        borderColor: 'rgb(153, 102, 255)',
+                        tension: 0.2
+                    }
+                ]
+            };
+            new Chart(document.getElementById('daily'), {
+                type: 'line',
+                data: daily
+            });
         });
     }
 }

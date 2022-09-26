@@ -1,3 +1,4 @@
+declare var Chart: any;
 class GeocodingInput {
     templateElement: HTMLTemplateElement;
     hostElement: HTMLDivElement;
@@ -23,11 +24,12 @@ class GeocodingInput {
             })
             .catch(e => {
                 console.log(e.message);
-            })
+            });
+            this.getWeatherForecast(data.lat, data.lon);
         })
         .catch(err => {
             console.log(err.message);
-        })
+        });
     }
     private configure() {
         this.element.addEventListener('submit', this.submitHandler.bind(this));
@@ -62,6 +64,61 @@ class GeocodingInput {
             humidity: data.main.humidity,
             speed: data.wind.speed
         }
+    }
+
+    private async getWeatherForecast(latitude: number, longitude: number) {
+        const body = await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${
+                this.apiKey
+            }`
+        );
+        const data = await body.json();
+        const time: string[] = data.list.map((m: any) => m.dt_txt);
+        const temp: number[] = data.list.map((m: any) => m.main.temp);
+        const temp_max: number[] = data.list.map((m: any) => m.main.temp_max);
+        const temp_min: number[] = data.list.map((m: any) => m.main.temp_min);
+        const feels_like: number[] = data.list.map((m: any) => m.main.feels_like);
+        const humidity: number[] = data.list.map((m: any) => m.main.humidity);
+        const daily = {
+            labels: time,
+            datasets:
+            [
+                {
+                    label: 'Temperature',
+                    data: temp,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Temp Max',
+                    data: temp_max,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Temp Min',
+                    data: temp_min,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Feels Like',
+                    data: feels_like,
+                    borderColor: 'rgb(255, 159, 64)',
+                    tension: 0.2
+                },
+                {
+                    label: 'Humidity',
+                    data: humidity,
+                    borderColor: 'rgb(153, 102, 255)',
+                    tension: 0.2
+                }
+            ]
+        };
+        new Chart(document.getElementById('daily'), {
+            type: 'line',
+            data: daily
+        });
     }
 }
 const API_KEY = '219228b2383f8240a93b11492d102a52';
