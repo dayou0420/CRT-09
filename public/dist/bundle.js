@@ -18,6 +18,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+function validate(validatableInput) {
+    let isValid = true;
+    if (validatableInput.required) {
+        isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (validatableInput.minLength != null && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    return isValid;
+}
 class GeocodingInput {
     constructor(apiKey) {
         this.apiKey = apiKey;
@@ -32,7 +42,12 @@ class GeocodingInput {
     }
     getherUserInput() {
         const enterdAddress = this.addressInputElement.value;
-        if (enterdAddress.trim().length === 0) {
+        const addressValidatable = {
+            value: enterdAddress,
+            required: true,
+            minLength: 1
+        };
+        if (!validate(addressValidatable)) {
             alert('Input value is not valid. Please retry.');
             return;
         }
@@ -48,7 +63,6 @@ class GeocodingInput {
         const userInput = this.getherUserInput();
         if (Array.isArray(userInput)) {
             const [address] = userInput;
-            console.log(address);
         }
         this.getGeocoding(this.addressInputElement.value)
             .then(data => {

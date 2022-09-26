@@ -1,4 +1,19 @@
 declare var Chart: any;
+interface Validatable {
+    value: string;
+    required: boolean;
+    minLength?: number;
+}
+function validate(validatableInput: Validatable) {
+    let isValid = true;
+    if (validatableInput.required) {
+        isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (validatableInput.minLength != null && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    return isValid;
+}
 class GeocodingInput {
     templateElement: HTMLTemplateElement;
     hostElement: HTMLDivElement;
@@ -16,7 +31,12 @@ class GeocodingInput {
     }
     private getherUserInput(): [string] | void {
         const enterdAddress = this.addressInputElement.value;
-        if (enterdAddress.trim().length === 0) {
+        const addressValidatable: Validatable = {
+            value: enterdAddress,
+            required: true,
+            minLength: 1
+        }
+        if (!validate(addressValidatable)) {
             alert('Input value is not valid. Please retry.');
             return;
         } else {
@@ -31,7 +51,6 @@ class GeocodingInput {
         const userInput = this.getherUserInput();
         if (Array.isArray(userInput)) {
             const [address] = userInput;
-            console.log(address);
         }
         this.getGeocoding(this.addressInputElement.value)
             .then(data => {
