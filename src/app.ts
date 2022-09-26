@@ -1,4 +1,5 @@
 declare var Chart: any;
+declare var myChart: any;
 enum GeocodingStatus {
     Active, Finished
 }
@@ -163,6 +164,9 @@ class GeocodingInput {
                     .catch(e => {
                         console.log(e.message);
                     });
+                if (typeof myChart !== 'undefined' && myChart) {
+                    myChart.destroy();
+                }
                 this.getWeatherForecast(data.lat, data.lon);
             })
             .catch(err => {
@@ -253,7 +257,7 @@ class GeocodingInput {
                 }
             ]
         };
-        new Chart(document.getElementById('daily'), {
+        window.myChart = new Chart(document.getElementById('daily'), {
             type: 'line',
             data: daily
         });
