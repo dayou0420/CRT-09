@@ -96,15 +96,25 @@ class GeocodingItem extends Component {
         this.configure();
         this.renderContent();
     }
+    get temp() {
+        return this.geocoding.temp.toString() + ' °';
+    }
+    get humidity() {
+        return this.geocoding.humidity.toString() + ' %';
+    }
+    get speed() {
+        return this.geocoding.speed.toString() + ' km/h';
+    }
     configure() {
     }
     renderContent() {
         this.element.querySelector('#city').textContent = this.geocoding.city;
         this.element.querySelector('#main').textContent = this.geocoding.main;
-        this.element.querySelector('#description').textContent = this.geocoding.description;
-        this.element.querySelector('#temp').textContent = this.geocoding.temp.toString();
-        this.element.querySelector('#humidity').textContent = this.geocoding.humidity.toString();
-        this.element.querySelector('#speed').textContent = this.geocoding.speed.toString();
+        this.element.querySelector('#description').textContent =
+            this.geocoding.description.slice(0, 1).toUpperCase() + this.geocoding.description.slice(1);
+        this.element.querySelector('#temp').textContent = this.temp;
+        this.element.querySelector('#humidity').textContent = this.humidity;
+        this.element.querySelector('#speed').textContent = this.speed;
     }
 }
 class GeocodingList extends Component {
@@ -131,7 +141,7 @@ class GeocodingList extends Component {
         const listId = `${this.type}-geocoding-list`;
         this.element.querySelector('ul').id = listId;
         this.element.querySelector('h2').textContent =
-            this.type === 'active' ? 'Active Address' : 'Finished Address';
+            this.type === 'active' ? 'Searching Address' : 'Searched Address';
     }
     renderGeocodings() {
         const listEl = document.getElementById(`${this.type}-geocoding-list`);
@@ -173,16 +183,12 @@ class GeocodingInput extends Component {
     }
     submitHandler(event) {
         event.preventDefault();
-        const userInput = this.getherUserInput();
-        if (Array.isArray(userInput)) {
-            const [address] = userInput;
-        }
+        this.getherUserInput();
         this.getGeocoding(this.addressInputElement.value)
             .then(data => {
             this.getWeather(data.lat, data.lon)
                 .then(d => {
                 geocodingState.addGeocoding(d.city, d.main, d.description, d.temp, d.humidity, d.speed);
-                console.log(d);
             })
                 .catch(e => {
                 console.log(e.message);
