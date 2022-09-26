@@ -54,7 +54,7 @@ class GeocodingInput {
     }
     getGeocoding(address) {
         return __awaiter(this, void 0, void 0, function* () {
-            const body = yield fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${address}&limit=5&appid=${this.apiKey}`);
+            const body = yield fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${address}&limit=5&appid=${this.apiKey}`);
             const data = yield body.json();
             return {
                 lat: data[0].lat,

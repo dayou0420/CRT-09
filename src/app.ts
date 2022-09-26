@@ -37,7 +37,7 @@ class GeocodingInput {
     }
     private async getGeocoding(address: string) {
         const body = await fetch(
-            `http://api.openweathermap.org/geo/1.0/direct?q=${address}&limit=5&appid=${
+            `https://api.openweathermap.org/geo/1.0/direct?q=${address}&limit=5&appid=${
                 this.apiKey
             }`
         );
