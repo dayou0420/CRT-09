@@ -9,6 +9,12 @@
 /***/ (function() {
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58,12 +64,34 @@ class GeocodingState extends State {
     addGeocoding(city, main, description, temp, humidity, speed) {
         const newGeocoding = new Geocoding(Math.random().toString(), city, main, description, temp, humidity, speed, GeocodingStatus.Active);
         this.geocodings.push(newGeocoding);
+        this.updateListeners();
+    }
+    moveGeocoding(geocodingId, newStatus) {
+        const geocoding = this.geocodings.find(geo => geo.id === geocodingId);
+        if (geocoding && geocoding.status !== newStatus) {
+            geocoding.status = newStatus;
+            this.updateListeners();
+        }
+    }
+    updateListeners() {
         for (const listenerFn of this.listeners) {
             listenerFn(this.geocodings.slice());
         }
     }
 }
 const geocodingState = GeocodingState.getInstance();
+function autobind(_, _2, descriptor) {
+    const originalMethod = descriptor.value;
+    const adjDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFn = originalMethod.bind(this);
+            return boundFn;
+        },
+    };
+    return adjDescriptor;
+}
 function validate(validatableInput) {
     let isValid = true;
     if (validatableInput.required) {
@@ -105,7 +133,17 @@ class GeocodingItem extends Component {
     get speed() {
         return this.geocoding.speed.toString() + ' km/h';
     }
+    dragStartHandler(event) {
+        event.dataTransfer.setData('text/plain', this.geocoding.id);
+        event.dataTransfer.effectAllowed = 'move';
+    }
+    dragEndHandler(_) {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
+    }
     configure() {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
     }
     renderContent() {
         this.element.querySelector('#city').textContent = this.geocoding.city;
@@ -117,6 +155,9 @@ class GeocodingItem extends Component {
         this.element.querySelector('#speed').textContent = this.speed;
     }
 }
+__decorate([
+    autobind
+], GeocodingItem.prototype, "dragStartHandler", null);
 class GeocodingList extends Component {
     constructor(type) {
         super('geocoding-list', 'app', false, `${type}-geocodings`);
@@ -125,7 +166,25 @@ class GeocodingList extends Component {
         this.configure();
         this.renderContent();
     }
+    dragOverHandler(event) {
+        if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault();
+            const listEl = this.element.querySelector('ul');
+            listEl.classList.add('droppable');
+        }
+    }
+    dropHandler(event) {
+        const geoId = event.dataTransfer.getData('text/plain');
+        geocodingState.moveGeocoding(geoId, this.type === 'active' ? GeocodingStatus.Active : GeocodingStatus.Finished);
+    }
+    dragLeaveHandler(_) {
+        const listEl = this.element.querySelector('ul');
+        listEl.classList.remove('droppable');
+    }
     configure() {
+        this.element.addEventListener('dragover', this.dragOverHandler);
+        this.element.addEventListener('drop', this.dropHandler);
+        this.element.addEventListener('dragleave', this.dragLeaveHandler);
         geocodingState.addListener((geocodings) => {
             const relevantGeocodings = geocodings.filter(geo => {
                 if (this.type === 'active') {
@@ -141,7 +200,7 @@ class GeocodingList extends Component {
         const listId = `${this.type}-geocoding-list`;
         this.element.querySelector('ul').id = listId;
         this.element.querySelector('h2').textContent =
-            this.type === 'active' ? 'Searching Address' : 'Searched Address';
+            this.type === 'active' ? 'Searching Weather' : 'Searched Weather';
     }
     renderGeocodings() {
         const listEl = document.getElementById(`${this.type}-geocoding-list`);
@@ -151,6 +210,15 @@ class GeocodingList extends Component {
         }
     }
 }
+__decorate([
+    autobind
+], GeocodingList.prototype, "dragOverHandler", null);
+__decorate([
+    autobind
+], GeocodingList.prototype, "dropHandler", null);
+__decorate([
+    autobind
+], GeocodingList.prototype, "dragLeaveHandler", null);
 class GeocodingInput extends Component {
     constructor(apiKey) {
         super('geocoding-input', 'app', true, 'user-input');
@@ -159,7 +227,7 @@ class GeocodingInput extends Component {
         this.configure();
     }
     configure() {
-        this.element.addEventListener('submit', this.submitHandler.bind(this));
+        this.element.addEventListener('submit', this.submitHandler);
     }
     renderContent() {
     }
@@ -279,6 +347,9 @@ class GeocodingInput extends Component {
         });
     }
 }
+__decorate([
+    autobind
+], GeocodingInput.prototype, "submitHandler", null);
 const API_KEY = '219228b2383f8240a93b11492d102a52';
 const geoInput = new GeocodingInput(API_KEY);
 const activeGeo = new GeocodingList('active');

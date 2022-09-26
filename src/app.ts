@@ -1,5 +1,14 @@
 declare var Chart: any;
 declare var myChart: any;
+interface Draggable {
+    dragStartHandler(event: DragEvent): void;
+    dragEndHandler(event: DragEvent): void;
+}
+interface DragTarget {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dragLeaveHandler(event: DragEvent): void;
+}
 enum GeocodingStatus {
     Active, Finished
 }
@@ -54,6 +63,16 @@ class GeocodingState extends State<Geocoding> {
             GeocodingStatus.Active
         );
         this.geocodings.push(newGeocoding);
+        this.updateListeners();
+    }
+    moveGeocoding(geocodingId: string, newStatus: GeocodingStatus) {
+        const geocoding = this.geocodings.find(geo => geo.id === geocodingId);
+        if (geocoding && geocoding.status !== newStatus) {
+            geocoding.status = newStatus;
+            this.updateListeners();
+        }
+    }
+    private updateListeners() {
         for (const listenerFn of this.listeners) {
             listenerFn(this.geocodings.slice());
         }
@@ -64,6 +83,22 @@ interface Validatable {
     value: string;
     required: boolean;
     minLength?: number;
+}
+function autobind(
+    _: any,
+    _2: string,
+    descriptor: PropertyDescriptor
+) {
+    const originalMethod = descriptor.value;
+    const adjDescriptor: PropertyDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFn = originalMethod.bind(this);
+            return boundFn;
+        },
+    };
+    return adjDescriptor;
 }
 function validate(validatableInput: Validatable) {
     let isValid = true;
@@ -103,7 +138,8 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
         );
     }
 }
-class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement> {
+class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
+    implements Draggable {
     private geocoding: Geocoding;
     get temp() {
         return this.geocoding.temp.toString() + ' °';
@@ -120,7 +156,18 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement> {
         this.configure();
         this.renderContent();
     }
+    @autobind
+    dragStartHandler(event: DragEvent) {
+        event.dataTransfer!.setData('text/plain', this.geocoding.id);
+        event.dataTransfer!.effectAllowed = 'move';
+    }
+    dragEndHandler(_: DragEvent) {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
+    }
     configure() {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
     }
     renderContent() {
         this.element.querySelector('#city')!.textContent = this.geocoding.city;
@@ -132,7 +179,8 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement> {
         this.element.querySelector('#speed')!.textContent = this.speed;
     }
 }
-class GeocodingList extends Component<HTMLDivElement, HTMLElement> {
+class GeocodingList extends Component<HTMLDivElement, HTMLElement>
+    implements DragTarget {
     assignedGeocodings: Geocoding[];
     constructor(private type: 'active' | 'finished') {
         super('geocoding-list', 'app', false, `${type}-geocodings`);
@@ -140,7 +188,31 @@ class GeocodingList extends Component<HTMLDivElement, HTMLElement> {
         this.configure();
         this.renderContent();
     }
+    @autobind
+    dragOverHandler(event: DragEvent) {
+        if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault();
+            const listEl = this.element.querySelector('ul')!;
+            listEl.classList.add('droppable');
+        }
+    }
+    @autobind
+    dropHandler(event: DragEvent) {
+        const geoId = event.dataTransfer!.getData('text/plain');
+        geocodingState.moveGeocoding(
+            geoId,
+            this.type === 'active' ? GeocodingStatus.Active : GeocodingStatus.Finished
+        );
+    }
+    @autobind
+    dragLeaveHandler(_: DragEvent) {
+        const listEl = this.element.querySelector('ul')!;
+        listEl.classList.remove('droppable');
+    }
     configure() {
+        this.element.addEventListener('dragover', this.dragOverHandler);
+        this.element.addEventListener('drop', this.dropHandler);
+        this.element.addEventListener('dragleave', this.dragLeaveHandler);
         geocodingState.addListener((geocodings: Geocoding[]) => {
             const relevantGeocodings = geocodings.filter(geo => {
                 if (this.type === 'active') {
@@ -156,7 +228,7 @@ class GeocodingList extends Component<HTMLDivElement, HTMLElement> {
         const listId = `${this.type}-geocoding-list`;
         this.element.querySelector('ul')!.id = listId;
         this.element.querySelector('h2')!.textContent =
-            this.type === 'active' ? 'Searching Address' : 'Searched Address';
+            this.type === 'active' ? 'Searching Weather' : 'Searched Weather';
     }
     private renderGeocodings() {
         const listEl = <HTMLUListElement>document.getElementById(`${this.type}-geocoding-list`)!;
@@ -174,7 +246,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
         this.configure();
     }
     configure() {
-        this.element.addEventListener('submit', this.submitHandler.bind(this));
+        this.element.addEventListener('submit', this.submitHandler);
     }
     renderContent() {
     }
@@ -195,6 +267,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
     private clearInputs() {
         this.addressInputElement.value = '';
     }
+    @autobind
     private submitHandler(event: Event) {
         event.preventDefault();
         this.getherUserInput();
