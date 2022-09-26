@@ -30,8 +30,26 @@ class GeocodingInput {
         this.configure();
         this.attach();
     }
+    getherUserInput() {
+        const enterdAddress = this.addressInputElement.value;
+        if (enterdAddress.trim().length === 0) {
+            alert('Input value is not valid. Please retry.');
+            return;
+        }
+        else {
+            return [enterdAddress];
+        }
+    }
+    clearInputs() {
+        this.addressInputElement.value = '';
+    }
     submitHandler(event) {
         event.preventDefault();
+        const userInput = this.getherUserInput();
+        if (Array.isArray(userInput)) {
+            const [address] = userInput;
+            console.log(address);
+        }
         this.getGeocoding(this.addressInputElement.value)
             .then(data => {
             this.getWeather(data.lat, data.lon)
@@ -46,6 +64,7 @@ class GeocodingInput {
             .catch(err => {
             console.log(err.message);
         });
+        this.clearInputs();
     }
     configure() {
         this.element.addEventListener('submit', this.submitHandler.bind(this));

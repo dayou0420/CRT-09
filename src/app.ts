@@ -14,22 +14,40 @@ class GeocodingInput {
         this.configure();
         this.attach();
     }
+    private getherUserInput(): [string] | void {
+        const enterdAddress = this.addressInputElement.value;
+        if (enterdAddress.trim().length === 0) {
+            alert('Input value is not valid. Please retry.');
+            return;
+        } else {
+            return [enterdAddress];
+        }
+    }
+    private clearInputs() {
+        this.addressInputElement.value = '';
+    }
     private submitHandler(event: Event) {
         event.preventDefault();
+        const userInput = this.getherUserInput();
+        if (Array.isArray(userInput)) {
+            const [address] = userInput;
+            console.log(address);
+        }
         this.getGeocoding(this.addressInputElement.value)
-        .then(data => {
-            this.getWeather(data.lat, data.lon)
-            .then(d => {
-                console.log(d);
+            .then(data => {
+                this.getWeather(data.lat, data.lon)
+                    .then(d => {
+                        console.log(d);
+                    })
+                    .catch(e => {
+                        console.log(e.message);
+                    });
+                this.getWeatherForecast(data.lat, data.lon);
             })
-            .catch(e => {
-                console.log(e.message);
+            .catch(err => {
+                console.log(err.message);
             });
-            this.getWeatherForecast(data.lat, data.lon);
-        })
-        .catch(err => {
-            console.log(err.message);
-        });
+        this.clearInputs();
     }
     private configure() {
         this.element.addEventListener('submit', this.submitHandler.bind(this));
@@ -65,7 +83,6 @@ class GeocodingInput {
             speed: data.wind.speed
         }
     }
-
     private async getWeatherForecast(latitude: number, longitude: number) {
         const body = await fetch(
             `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${
