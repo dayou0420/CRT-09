@@ -11,6 +11,7 @@
 }
 html {
   font-family: "Sora", sans-serif;
+  background-color: var(--typescript);
 }
 body {
   margin: 0;
@@ -29,7 +30,7 @@ input {
   padding: 0.2rem 0.4rem;
   width: 100%;
   max-width: 30rem;
-  border: 1px solid #ccc;
+  border: 1.5px solid #ccc;
 }
 input:focus {
   outline: none;
@@ -37,8 +38,8 @@ input:focus {
 }
 button {
   font: inherit;
-  background: var(--primary);
-  border: 1px solid var(--primary);
+  background: var(--typescript);
+  border: 1px solid var(--typescript);
   cursor: pointer;
   color: #ffff;
   padding: 0.75rem 1rem;
@@ -49,7 +50,6 @@ button:focus {
 }
 .geocodings {
   margin: 1rem;
-  border: 1px solid var(--success);
   background: #f8f9fa;
 }
 .geocodings header {
@@ -59,11 +59,11 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-#finished-geocodings {
+/* #finished-geocodings {
   border-color: var(--primary);
-}
+} */
 #finished-geocodings header {
-  background: var(--primary);
+  background: var(--danger);
 }
 .geocodings h2 {
   margin: 0;
@@ -85,7 +85,7 @@ button:focus {
   margin: 0.5rem 0;
 }
 #finished-geocodings li h2 {
-  color: var(--primary);
+  color: var(--danger);
 }
 .geocodings li h3 {
   color: var(--dark);
@@ -98,13 +98,12 @@ button:focus {
   background: #f0fff0;
 }
 #finished-geocodings .droppable {
-  background: #d6e1ff;
+  background: #fff0f5;
 }
 #user-input {
   margin: 1rem;
   padding: 1rem;
   background: #f8f9fa;
-  border: 1px solid #ccc;
 }
 #daily {
   margin-top: 1rem;
@@ -112,5 +111,4 @@ button:focus {
   margin-left: 1rem;
   padding: 1rem;
   background: #f8f9fa;
-  border: 1px solid #ccc;
 }
