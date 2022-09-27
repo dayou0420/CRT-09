@@ -30,11 +30,12 @@ var GeocodingStatus;
     GeocodingStatus[GeocodingStatus["Finished"] = 1] = "Finished";
 })(GeocodingStatus || (GeocodingStatus = {}));
 class Geocoding {
-    constructor(id, city, main, description, temp, humidity, speed, status) {
+    constructor(id, city, main, description, icon, temp, humidity, speed, status) {
         this.id = id;
         this.city = city;
         this.main = main;
         this.description = description;
+        this.icon = icon;
         this.temp = temp;
         this.humidity = humidity;
         this.speed = speed;
@@ -61,8 +62,8 @@ class GeocodingState extends State {
         this.instance = new GeocodingState();
         return this.instance;
     }
-    addGeocoding(city, main, description, temp, humidity, speed) {
-        const newGeocoding = new Geocoding(Math.random().toString(), city, main, description, temp, humidity, speed, GeocodingStatus.Active);
+    addGeocoding(city, main, description, icon, temp, humidity, speed) {
+        const newGeocoding = new Geocoding(Math.random().toString(), city, main, description, icon, temp, humidity, speed, GeocodingStatus.Active);
         this.geocodings.push(newGeocoding);
         this.updateListeners();
     }
@@ -150,6 +151,7 @@ class GeocodingItem extends Component {
         this.element.querySelector('#main').textContent = this.geocoding.main;
         this.element.querySelector('#description').textContent =
             this.geocoding.description.slice(0, 1).toUpperCase() + this.geocoding.description.slice(1);
+        this.element.querySelector('#icon').innerHTML = `<img src="https://openweathermap.org/img/w/${this.geocoding.icon}.png">`;
         this.element.querySelector('#temp').textContent = this.temp;
         this.element.querySelector('#humidity').textContent = this.humidity;
         this.element.querySelector('#speed').textContent = this.speed;
@@ -259,7 +261,7 @@ class GeocodingInput extends Component {
             .then(data => {
             this.getWeather(data.lat, data.lon)
                 .then(d => {
-                geocodingState.addGeocoding(d.city, d.main, d.description, d.temp, d.humidity, d.speed);
+                geocodingState.addGeocoding(d.city, d.main, d.description, d.icon, d.temp, d.humidity, d.speed);
             })
                 .catch(e => {
                 console.log(e.message);
@@ -292,6 +294,7 @@ class GeocodingInput extends Component {
                 city: data.name,
                 main: data.weather[0].main,
                 description: data.weather[0].description,
+                icon: data.weather[0].icon,
                 temp: data.main.temp,
                 humidity: data.main.humidity,
                 speed: data.wind.speed

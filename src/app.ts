@@ -10,7 +10,8 @@ type WeatherType = {
     name: string,
     weather: [{
         main: string,
-        description: string
+        description: string,
+        icon: string
     }],
     main: {
         temp: number,
@@ -53,6 +54,7 @@ class Geocoding {
         public city: string,
         public main: string,
         public description: string,
+        public icon: string,
         public temp: number,
         public humidity: number,
         public speed: number,
@@ -83,6 +85,7 @@ class GeocodingState extends State<Geocoding> {
         city: string,
         main: string,
         description: string,
+        icon: string,
         temp: number,
         humidity: number,
         speed: number
@@ -92,6 +95,7 @@ class GeocodingState extends State<Geocoding> {
             city,
             main,
             description,
+            icon,
             temp,
             humidity,
             speed,
@@ -210,6 +214,7 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
         this.element.querySelector('#main')!.textContent = this.geocoding.main;
         this.element.querySelector('#description')!.textContent =
             this.geocoding.description.slice(0, 1).toUpperCase() + this.geocoding.description.slice(1);
+        this.element.querySelector('#icon')!.innerHTML = `<img src="https://openweathermap.org/img/w/${this.geocoding.icon}.png">`;
         this.element.querySelector('#temp')!.textContent = this.temp;
         this.element.querySelector('#humidity')!.textContent = this.humidity;
         this.element.querySelector('#speed')!.textContent = this.speed;
@@ -311,7 +316,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
             .then(data => {
                 this.getWeather(data.lat, data.lon)
                     .then(d => {
-                        geocodingState.addGeocoding(d.city, d.main, d.description, d.temp, d.humidity, d.speed);
+                        geocodingState.addGeocoding(d.city, d.main, d.description, d.icon, d.temp, d.humidity, d.speed);
                     })
                     .catch(e => {
                         console.log(e.message);
@@ -349,6 +354,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
             city: data.name,
             main: data.weather[0].main,
             description: data.weather[0].description,
+            icon: data.weather[0].icon,
             temp: data.main.temp,
             humidity: data.main.humidity,
             speed: data.wind.speed

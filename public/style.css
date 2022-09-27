@@ -4,13 +4,13 @@
   --dark: #21252f;
   --danger: #dc3545;
   --typescript: rgb(49, 120, 198);
+  --body: #888;
 }
 * {
   box-sizing: border-box;
 }
 html {
   font-family: "Sora", sans-serif;
-  background-color: var(--typescript);
 }
 body {
   margin: 0;
@@ -107,5 +107,10 @@ button:focus {
 #daily {
   margin: 1rem;
   padding: 1rem;
-  background: #f8f9fa;
+}
+#description,
+#temp,
+#humidity,
+#speed {
+  color: var(--body);
 }
