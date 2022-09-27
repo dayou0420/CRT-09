@@ -302,12 +302,12 @@ class GeocodingInput extends Component {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`);
             const data = yield body.json();
-            const time = data.list.map((m) => m.dt_txt);
-            const temp = data.list.map((m) => m.main.temp);
-            const temp_max = data.list.map((m) => m.main.temp_max);
-            const temp_min = data.list.map((m) => m.main.temp_min);
-            const feels_like = data.list.map((m) => m.main.feels_like);
-            const humidity = data.list.map((m) => m.main.humidity);
+            const time = data.list.map(m => m.dt_txt);
+            const temp = data.list.map(m => m.main.temp);
+            const temp_max = data.list.map(m => m.main.temp_max);
+            const temp_min = data.list.map(m => m.main.temp_min);
+            const feels_like = data.list.map(m => m.main.feels_like);
+            const humidity = data.list.map(m => m.main.humidity);
             const daily = {
                 labels: time,
                 datasets: [

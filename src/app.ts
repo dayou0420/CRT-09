@@ -35,34 +35,6 @@ type WeatherForecastType = {
         }
     }]
 };
-type Time = {
-    dt_txt: string;
-};
-type Temp = {
-    main: {
-        temp: number;
-    }
-};
-type TempMax = {
-    main: {
-        temp_max: number;
-    }
-};
-type TempMin = {
-    main: {
-        temp_min: number;
-    }
-};
-type FeelsLike = {
-    main: {
-        feels_like: number;
-    }
-};
-type Humidity = {
-    main: {
-        humidity: number;
-    }
-};
 interface Draggable {
     dragStartHandler(event: DragEvent): void;
     dragEndHandler(event: DragEvent): void;
@@ -389,12 +361,12 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
             }`
         );
         const data: WeatherForecastType = await body.json();
-        const time = data.list.map((m: Time) => m.dt_txt);
-        const temp = data.list.map((m: Temp) => m.main.temp);
-        const temp_max = data.list.map((m: TempMax) => m.main.temp_max);
-        const temp_min = data.list.map((m: TempMin) => m.main.temp_min);
-        const feels_like = data.list.map((m: FeelsLike) => m.main.feels_like);
-        const humidity = data.list.map((m: Humidity) => m.main.humidity);
+        const time = data.list.map(m => m.dt_txt);
+        const temp = data.list.map(m => m.main.temp);
+        const temp_max = data.list.map(m => m.main.temp_max);
+        const temp_min = data.list.map(m => m.main.temp_min);
+        const feels_like = data.list.map(m => m.main.feels_like);
+        const humidity = data.list.map(m => m.main.humidity);
         const daily = {
             labels: time,
             datasets:
