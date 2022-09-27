@@ -183,7 +183,7 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
         return this.geocoding.humidity.toString() + ' %';
     }
     get speed() {
-        return this.geocoding.speed.toString() + ' km/h';
+        return this.geocoding.speed.toString() + ' m/h';
     }
     constructor(hostId: string, geocoding: Geocoding) {
         super('single-geocoding', hostId, false, geocoding.id);

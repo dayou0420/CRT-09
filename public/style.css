@@ -1,4 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap");
+:root {
+  --primary: #0d6efd;
+  --success: #198754;
+  --dark: #21252f;
+  --danger: #dc3545;
+  --typescript: rgb(49, 120, 198);
+}
 * {
   box-sizing: border-box;
 }
@@ -15,6 +22,7 @@ input {
 }
 label {
   font-weight: bold;
+  color: var(--dark);
 }
 input {
   font: inherit;
@@ -25,44 +33,41 @@ input {
 }
 input:focus {
   outline: none;
-  background: #fff5f9;
+  background: #f0f8ff;
 }
 button {
   font: inherit;
-  background: #ff0062;
-  border: 1px solid #ff0062;
+  background: var(--primary);
+  border: 1px solid var(--primary);
   cursor: pointer;
-  color: white;
+  color: #ffff;
   padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
 }
 button:focus {
   outline: none;
 }
-button:hover,
-button:active {
-  background: #a80041;
-  border-color: #a80041;
-}
 .geocodings {
   margin: 1rem;
-  border: 1px solid #ff0062;
+  border: 1px solid var(--success);
+  background: #f8f9fa;
 }
 .geocodings header {
-  background: #ff0062;
+  background: var(--success);
   height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 #finished-geocodings {
-  border-color: #0044ff;
+  border-color: var(--primary);
 }
 #finished-geocodings header {
-  background: #0044ff;
+  background: var(--primary);
 }
 .geocodings h2 {
   margin: 0;
-  color: white;
+  color: #ffff;
 }
 .geocodings ul {
   list-style: none;
@@ -73,24 +78,24 @@ button:active {
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.26);
   padding: 1rem;
   margin: 1rem;
-  background-color: white;
+  background-color: #ffff;
 }
 .geocodings li h2 {
-  color: #ff0062;
+  color: var(--success);
   margin: 0.5rem 0;
 }
 #finished-geocodings li h2 {
-  color: #0044ff;
+  color: var(--primary);
 }
 .geocodings li h3 {
-  color: #575757;
+  color: var(--dark);
   font-size: 1rem;
 }
 .geocoding li p {
   margin: 0;
 }
 .droppable {
-  background: #ffe3ee;
+  background: #f0fff0;
 }
 #finished-geocodings .droppable {
   background: #d6e1ff;
@@ -98,14 +103,14 @@ button:active {
 #user-input {
   margin: 1rem;
   padding: 1rem;
-  border: 1px solid #ff0062;
-  background: #f7f7f7;
+  background: #f8f9fa;
+  border: 1px solid #ccc;
 }
 #daily {
   margin-top: 1rem;
   margin-right: 1rem;
   margin-left: 1rem;
   padding: 1rem;
-  border: 1px solid #0044ff;
-  background: #f7f7f7;
+  background: #f8f9fa;
+  border: 1px solid #ccc;
 }

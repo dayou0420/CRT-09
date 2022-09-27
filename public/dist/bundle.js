@@ -131,7 +131,7 @@ class GeocodingItem extends Component {
         return this.geocoding.humidity.toString() + ' %';
     }
     get speed() {
-        return this.geocoding.speed.toString() + ' km/h';
+        return this.geocoding.speed.toString() + ' m/h';
     }
     dragStartHandler(event) {
         event.dataTransfer.setData('text/plain', this.geocoding.id);
