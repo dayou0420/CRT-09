@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap");
 :root {
-  --primary: #0d6efd;
   --success: #198754;
   --dark: #21252f;
   --danger: #dc3545;
@@ -106,9 +105,7 @@ button:focus {
   background: #f8f9fa;
 }
 #daily {
-  margin-top: 1rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
+  margin: 1rem;
   padding: 1rem;
   background: #f8f9fa;
 }
