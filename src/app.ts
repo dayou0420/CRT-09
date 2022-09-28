@@ -5,10 +5,9 @@ const observable$ = new Observable<string>(subscriber => {
     setTimeout(() => subscriber.next('Ben'), 2000);
     setTimeout(() => subscriber.next('Charlie'), 4000);
 });
-const subscription = observable$.subscribe({
-    next: (value: string) => console.log(value)
-});
+console.log('Subscription 1 starts');
+observable$.subscribe((value: string) => console.log('Subscription 1:', value));
 setTimeout(() => {
-    console.log('Unsubscribe');
-    subscription.unsubscribe();
-}, 3000);
+    console.log('Subscription 2 starts');
+    observable$.subscribe((value: string) => console.log('Subscription 2:', value));
+}, 1000)
