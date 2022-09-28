@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TypeScript is JavaScript with syntax for types.</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="./dist/bundle.js" defer></script>
+    </head>
+    <body>
+        <canvas id="forecast"></canvas>
+        <template id="geocoding-input">
+            <form>
+                <div class="form-control">
+                    <label for="address">City Name</label>
+                    <input type="text" id="address" />
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </template>
+        <template id="single-geocoding">
+            <li draggable="true">
+                <h2 id="city"></h2>
+                <h2 id="icon"></h2>
+                <h3 id="main"></h3>
+                <p id="description"></p>
+                <p id="temp"></p>
+                <p id="humidity"></p>
+                <p id="speed"></p>
+            </li>
+        </template>
+        <template id="geocoding-list">
+            <section class="geocodings">
+                <header>
+                    <h2></h2>
+                </header>
+                <ul></ul>
+            </section>
+        </template>
+        <div id="app"></div>
+    </body>
+</html>

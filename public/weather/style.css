@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap");
+:root {
+  --success: #198754;
+  --dark: #21252f;
+  --danger: #dc3545;
+  --typescript: rgb(49, 120, 198);
+  --body: #888;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: "Sora", sans-serif;
+}
+body {
+  margin: 0;
+}
+label,
+input {
+  display: block;
+  margin: 0.5rem 0;
+}
+label {
+  font-weight: bold;
+  color: var(--dark);
+}
+input {
+  font: inherit;
+  padding: 0.2rem 0.4rem;
+  width: 100%;
+  max-width: 30rem;
+  border: 1.5px solid #ccc;
+}
+input:focus {
+  outline: none;
+  background: #f0f8ff;
+}
+button {
+  font: inherit;
+  background: var(--typescript);
+  border: 1px solid var(--typescript);
+  cursor: pointer;
+  color: #ffff;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+}
+button:focus {
+  outline: none;
+}
+.geocodings {
+  margin: 1rem;
+  background: #f8f9fa;
+}
+.geocodings header {
+  background: var(--success);
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* #finished-geocodings {
+  border-color: var(--primary);
+} */
+#finished-geocodings header {
+  background: var(--danger);
+}
+.geocodings h2 {
+  margin: 0;
+  color: #ffff;
+}
+.geocodings ul {
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+}
+.geocodings li {
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  margin: 1rem;
+  background-color: #ffff;
+}
+.geocodings li h2 {
+  color: var(--success);
+  margin: 0.5rem 0;
+}
+#finished-geocodings li h2 {
+  color: var(--danger);
+}
+.geocodings li h3 {
+  color: var(--dark);
+  font-size: 1rem;
+}
+.geocoding li p {
+  margin: 0;
+}
+.droppable {
+  background: #f0fff0;
+}
+#finished-geocodings .droppable {
+  background: #fff0f5;
+}
+#user-input {
+  margin: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+}
+#forecast {
+  margin: 1rem;
+  padding: 1rem;
+}
+#description,
+#temp,
+#humidity,
+#speed {
+  color: var(--body);
+}

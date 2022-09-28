@@ -9,4 +9,7 @@ app.get('/food', (_, res) => {
 app.get('/project', (_, res) => {
     res.sendFile(__dirname + '/public/project/index.html');
 });
+app.get('/weather', (_, res) => {
+    res.sendFile(__dirname + '/public/weather/index.html');
+});
 app.listen(port);
