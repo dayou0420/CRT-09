@@ -373,7 +373,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
         const temp_min = data.list.map(m => m.main.temp_min);
         const feels_like = data.list.map(m => m.main.feels_like);
         const humidity = data.list.map(m => m.main.humidity);
-        const daily = {
+        const forecast = {
             labels: time,
             datasets:
             [
@@ -409,9 +409,9 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 }
             ]
         };
-        window.myChart = new Chart(document.getElementById('daily'), {
+        window.myChart = new Chart(document.getElementById('forecast'), {
             type: 'line',
-            data: daily
+            data: forecast
         });
     }
 }
