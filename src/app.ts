@@ -10,4 +10,4 @@ observable$.subscribe((value: string) => console.log('Subscription 1:', value));
 setTimeout(() => {
     console.log('Subscription 2 starts');
     observable$.subscribe((value: string) => console.log('Subscription 2:', value));
-}, 1000)
+}, 1000);
