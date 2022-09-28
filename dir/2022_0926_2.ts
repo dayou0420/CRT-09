@@ -1,41 +1,5 @@
 declare var Chart: any;
 declare var myChart: any;
-type GeocodingType = [
-    data: {
-        lat: number,
-        lon: number
-    }
-];
-type WeatherType = {
-    name: string,
-    weather: [{
-        main: string,
-        description: string,
-        icon: string
-    }],
-    main: {
-        temp: number,
-        feels_like: number,
-        humidity: number,
-        temp_max: number,
-        temp_min: number
-    },
-    wind: {
-        speed: number
-    }
-};
-type WeatherForecastType = {
-    list: [{
-        dt_txt: string,
-        main: {
-            temp: number,
-            temp_max: number,
-            temp_min: number,
-            feels_like: number,
-            humidity: number
-        }
-    }]
-};
 interface Draggable {
     dragStartHandler(event: DragEvent): void;
     dragEndHandler(event: DragEvent): void;
@@ -54,7 +18,6 @@ class Geocoding {
         public city: string,
         public main: string,
         public description: string,
-        public icon: string,
         public temp: number,
         public humidity: number,
         public speed: number,
@@ -85,7 +48,6 @@ class GeocodingState extends State<Geocoding> {
         city: string,
         main: string,
         description: string,
-        icon: string,
         temp: number,
         humidity: number,
         speed: number
@@ -95,7 +57,6 @@ class GeocodingState extends State<Geocoding> {
             city,
             main,
             description,
-            icon,
             temp,
             humidity,
             speed,
@@ -187,7 +148,7 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
         return this.geocoding.humidity.toString() + ' %';
     }
     get speed() {
-        return this.geocoding.speed.toString() + ' m/h';
+        return this.geocoding.speed.toString() + ' km/h';
     }
     constructor(hostId: string, geocoding: Geocoding) {
         super('single-geocoding', hostId, false, geocoding.id);
@@ -200,7 +161,6 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
         event.dataTransfer!.setData('text/plain', this.geocoding.id);
         event.dataTransfer!.effectAllowed = 'move';
     }
-    @autobind
     dragEndHandler(_: DragEvent) {
         this.element.addEventListener('dragstart', this.dragStartHandler);
         this.element.addEventListener('dragend', this.dragEndHandler);
@@ -214,7 +174,6 @@ class GeocodingItem extends Component<HTMLUListElement, HTMLLIElement>
         this.element.querySelector('#main')!.textContent = this.geocoding.main;
         this.element.querySelector('#description')!.textContent =
             this.geocoding.description.slice(0, 1).toUpperCase() + this.geocoding.description.slice(1);
-        this.element.querySelector('#icon')!.innerHTML = `<img src="https://openweathermap.org/img/w/${this.geocoding.icon}.png">`;
         this.element.querySelector('#temp')!.textContent = this.temp;
         this.element.querySelector('#humidity')!.textContent = this.humidity;
         this.element.querySelector('#speed')!.textContent = this.speed;
@@ -316,7 +275,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
             .then(data => {
                 this.getWeather(data.lat, data.lon)
                     .then(d => {
-                        geocodingState.addGeocoding(d.city, d.main, d.description, d.icon, d.temp, d.humidity, d.speed);
+                        geocodingState.addGeocoding(d.city, d.main, d.description, d.temp, d.humidity, d.speed);
                     })
                     .catch(e => {
                         console.log(e.message);
@@ -337,7 +296,7 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 this.apiKey
             }`
         );
-        const data: GeocodingType = await body.json();
+        const data = await body.json();
         return {
             lat: data[0].lat,
             lon: data[0].lon
@@ -349,12 +308,11 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 this.apiKey
             }`
         );
-        const data: WeatherType = await body.json();
+        const data = await body.json();
         return {
             city: data.name,
             main: data.weather[0].main,
             description: data.weather[0].description,
-            icon: data.weather[0].icon,
             temp: data.main.temp,
             humidity: data.main.humidity,
             speed: data.wind.speed
@@ -366,14 +324,14 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 this.apiKey
             }`
         );
-        const data: WeatherForecastType = await body.json();
-        const time = data.list.map(m => m.dt_txt);
-        const temp = data.list.map(m => m.main.temp);
-        const temp_max = data.list.map(m => m.main.temp_max);
-        const temp_min = data.list.map(m => m.main.temp_min);
-        const feels_like = data.list.map(m => m.main.feels_like);
-        const humidity = data.list.map(m => m.main.humidity);
-        const forecast = {
+        const data = await body.json();
+        const time: string[] = data.list.map((m: any) => m.dt_txt);
+        const temp: number[] = data.list.map((m: any) => m.main.temp);
+        const temp_max: number[] = data.list.map((m: any) => m.main.temp_max);
+        const temp_min: number[] = data.list.map((m: any) => m.main.temp_min);
+        const feels_like: number[] = data.list.map((m: any) => m.main.feels_like);
+        const humidity: number[] = data.list.map((m: any) => m.main.humidity);
+        const daily = {
             labels: time,
             datasets:
             [
@@ -409,9 +367,9 @@ class GeocodingInput extends Component<HTMLDivElement, HTMLFormElement> {
                 }
             ]
         };
-        window.myChart = new Chart(document.getElementById('forecast'), {
+        window.myChart = new Chart(document.getElementById('daily'), {
             type: 'line',
-            data: forecast
+            data: daily
         });
     }
 }
