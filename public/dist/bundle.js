@@ -9626,7 +9626,12 @@ class WeightClient {
                 };
                 new Chart(document.getElementById('weight'), {
                     type: 'line',
-                    data: weights
+                    data: weights,
+                    options: {
+                        layout: {
+                            padding: 20
+                        }
+                    }
                 });
             }
         });
