@@ -9574,49 +9574,65 @@ setTimeout(() => {
     console.log('Subscription 2 starts');
     observable$.subscribe((value) => console.log('Subscription 2:', value));
 }, 1000);
-const data$ = (0, fetch_1.fromFetch)('https://webapi-695u.onrender.com/weights').pipe((0, rxjs_1.switchMap)(response => {
-    if (response.ok) {
-        return response.json();
+class WeightClient {
+    constructor() {
+        this.fetch();
+        this.subscribe();
     }
-    else {
-        return (0, rxjs_1.of)({ error: true, message: `Error ${response.status}` });
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new WeightClient();
+        return this.instance;
     }
-}), (0, rxjs_1.catchError)(err => {
-    console.error(err);
-    return (0, rxjs_1.of)({ error: true, message: err.message });
-}));
-data$.subscribe({
-    next: (result) => {
-        const date = result.map(m => m.date);
-        const weight = result.map(m => m.weight);
-        const body_mass_index = result.map(m => m.body_mass_index);
-        const body_fat_percentage = result.map(m => m.body_fat_percentage);
-        const weights = {
-            labels: date,
-            datasets: [
-                {
-                    label: 'Weight',
-                    data: weight,
-                    borderColor: 'rgb(75, 192, 192)'
-                },
-                {
-                    label: 'BMI',
-                    data: body_mass_index,
-                    borderColor: 'rgb(255, 99, 132)',
-                },
-                {
-                    label: 'Body Fat Percentage',
-                    data: body_fat_percentage,
-                    borderColor: 'rgb(54, 162, 235)',
-                }
-            ]
-        };
-        new Chart(document.getElementById('weight'), {
-            type: 'line',
-            data: weights
+    fetch() {
+        this.data$ = (0, fetch_1.fromFetch)('https://webapi-695u.onrender.com/weights').pipe((0, rxjs_1.switchMap)(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                return (0, rxjs_1.of)({ error: true, message: `Error ${response.status}` });
+            }
+        }), (0, rxjs_1.catchError)(err => {
+            console.error(err);
+            return (0, rxjs_1.of)({ error: true, message: err.message });
+        }));
+    }
+    subscribe() {
+        this.data$.subscribe({
+            next: (result) => {
+                const date = result.map(m => m.date);
+                const weight = result.map(m => m.weight);
+                const body_mass_index = result.map(m => m.body_mass_index);
+                const body_fat_percentage = result.map(m => m.body_fat_percentage);
+                const weights = {
+                    labels: date,
+                    datasets: [{
+                            label: 'Weight',
+                            data: weight,
+                            borderColor: 'rgb(75, 192, 192)'
+                        },
+                        {
+                            label: 'BMI',
+                            data: body_mass_index,
+                            borderColor: 'rgb(255, 99, 132)',
+                        },
+                        {
+                            label: 'Body Fat Percentage',
+                            data: body_fat_percentage,
+                            borderColor: 'rgb(54, 162, 235)',
+                        }]
+                };
+                new Chart(document.getElementById('weight'), {
+                    type: 'line',
+                    data: weights
+                });
+            }
         });
     }
-});
+}
+WeightClient.getInstance();
 
 })();
 
