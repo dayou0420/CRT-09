@@ -1,17 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap");
 body {
   font-family: "Sora", sans-serif;
-  background-color: rgb(50, 120, 199);
+  background-color: rgb(216, 26, 97);
 }
 body .container {
   display: flex;
   justify-content: center;
 }
-body .title {
+body #weight {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #ffff;
-  font-size: 3em;
+  background-color: #f8f9fa;
+  border-radius: 1rem;
 }
